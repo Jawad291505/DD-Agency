@@ -1,4 +1,6 @@
 // Web app manifest for PWA-style metadata.
+export const dynamic = 'force-static'
+
 export default function manifest() {
     return {
         name: 'Diversify Digital — Digital Marketing',
