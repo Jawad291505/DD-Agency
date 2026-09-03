@@ -1,87 +1,50 @@
 'use client'
 
 /**
- * Placeholder brand mark for Diversify Digital.
- * A "DD" monogram built from concentric arcs on the brand violet gradient,
- * with warm sand/clay accents. Pure SVG so it scales crisply at any size.
- * Swap this out for the real logo when it's ready.
+ * Brand mark for Diversify Digital — the real logo image.
+ * The logo is a bold, minimalist deep-violet (#481878) mark; it is the
+ * visual anchor the whole palette is built around.
+ *
+ * Variants:
+ *  - mark only (default): just the logo image, scales to its container.
+ *  - wordmark: logo image + "DiversifyDigital" lockup, used in the navbar/footer.
  */
-export default function Logo({ className = '', showWordmark = true }) {
+
+export const LOGO_SRC = '/.well-known/appspecific/logo.png'
+
+export default function Logo({ className = '', imgClassName = '' }) {
     return (
-        <svg
-            viewBox="0 0 400 500"
-            role="img"
-            aria-label="Diversify Digital"
-            className={className}
-            preserveAspectRatio="xMidYMid slice"
-        >
-            <defs>
-                <linearGradient id="dd-bg" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#704399" />
-                    <stop offset="34%" stopColor="#4b236d" />
-                    <stop offset="78%" stopColor="#35184f" />
-                    <stop offset="100%" stopColor="#21102f" />
-                </linearGradient>
-                <linearGradient id="dd-accent" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#f5c979" />
-                    <stop offset="100%" stopColor="#e4b96b" />
-                </linearGradient>
-                <radialGradient id="dd-glow" cx="50%" cy="38%" r="60%">
-                    <stop offset="0%" stopColor="#b06ad1" stopOpacity="0.55" />
-                    <stop offset="100%" stopColor="#b06ad1" stopOpacity="0" />
-                </radialGradient>
-            </defs>
+        <span className={`inline-flex items-center ${className}`}>
+            <img
+                src={LOGO_SRC}
+                alt="Diversify Digital"
+                className={imgClassName || 'h-full w-auto'}
+                draggable={false}
+            />
+        </span>
+    )
+}
 
-            {/* Backdrop */}
-            <rect width="400" height="500" fill="url(#dd-bg)" />
-            <rect width="400" height="500" fill="url(#dd-glow)" />
-
-            {/* Monogram — two interlocking "D" arcs */}
-            <g fill="none" strokeLinecap="round">
-                {/* Outer D — sand accent */}
-                <path
-                    d="M150 140 L150 360 L210 360 A110 110 0 0 0 210 140 Z"
-                    stroke="url(#dd-accent)"
-                    strokeWidth="16"
-                />
-                {/* Inner D — clay/light violet, offset for depth */}
-                <path
-                    d="M120 175 L120 325 L165 325 A75 75 0 0 0 165 175 Z"
-                    stroke="#b06ad1"
-                    strokeWidth="12"
-                    opacity="0.9"
-                />
-                {/* Accent dot */}
-                <circle cx="262" cy="250" r="9" fill="url(#dd-accent)" stroke="none" />
-            </g>
-
-            {showWordmark && (
-                <g>
-                    <text
-                        x="200"
-                        y="420"
-                        textAnchor="middle"
-                        fill="#f4f0e8"
-                        fontFamily="Georgia, 'Times New Roman', serif"
-                        fontSize="34"
-                        letterSpacing="1"
-                    >
-                        Diversify
-                    </text>
-                    <text
-                        x="200"
-                        y="452"
-                        textAnchor="middle"
-                        fill="#e4b96b"
-                        fontFamily="Georgia, 'Times New Roman', serif"
-                        fontSize="34"
-                        fontStyle="italic"
-                        letterSpacing="1"
-                    >
-                        Digital
-                    </text>
-                </g>
+/**
+ * Horizontal lockup: mark + wordmark. Used in the navbar, footer and preloader
+ * so the brand identity stays consistent everywhere.
+ */
+export function LogoLockup({ className = '', markSize = 'h-9 w-9', text = true, tone = 'ink' }) {
+    const wordColor = tone === 'paper' ? 'text-paper' : 'text-ink'
+    return (
+        <span className={`inline-flex items-center gap-2.5 ${className}`}>
+            <img
+                src={LOGO_SRC}
+                alt=""
+                aria-hidden="true"
+                className={`${markSize} shrink-0 object-contain`}
+                draggable={false}
+            />
+            {text && (
+                <span className={`font-serif text-[1.45rem] font-normal leading-none tracking-[-0.02em] ${wordColor}`}>
+                    Diversify<span className="italic">Digital</span>
+                </span>
             )}
-        </svg>
+        </span>
     )
 }

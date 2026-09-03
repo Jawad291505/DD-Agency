@@ -87,7 +87,7 @@ export default function Cursor() {
             <div
                 ref={dotRef}
                 aria-hidden="true"
-                className="pointer-events-none fixed left-0 top-0 z-[9999] -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-clay mix-blend-difference"
+                className="pointer-events-none fixed left-0 top-0 z-[9999] -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-ink mix-blend-difference"
             />
             <div
                 ref={ringRef}
@@ -98,16 +98,16 @@ export default function Cursor() {
                     marginTop: isLabel ? -44 : -18,
                     width: isLabel ? 88 : 36,
                     height: isLabel ? 88 : 36,
-                    border: isLabel ? 'none' : '1px solid rgba(176,106,209,0.6)',
+                    border: isLabel ? 'none' : '1px solid rgba(124,58,237,0.55)',
                     background: isLabel
-                        ? '#4b236d'
+                        ? '#7C3AED'
                         : isLink
-                            ? 'rgba(176,106,209,0.12)'
+                            ? 'rgba(124,58,237,0.18)'
                             : 'transparent',
                 }}
             >
                 {isLabel && (
-                    <span className="font-sans text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-ivory">
+                    <span className="font-mono text-[0.6rem] font-semibold uppercase tracking-wide text-paper">
                         {label}
                     </span>
                 )}

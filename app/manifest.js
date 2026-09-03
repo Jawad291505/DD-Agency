@@ -6,7 +6,7 @@ export default function manifest() {
         description: 'SEO, web development, digital solutions and Meta ads for ambitious brands.',
         start_url: '/',
         display: 'standalone',
-        background_color: '#f4f0e8',
-        theme_color: '#4b236d',
+        background_color: '#F5F2FB',
+        theme_color: '#2A1263',
     }
 }

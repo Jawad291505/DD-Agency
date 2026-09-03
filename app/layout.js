@@ -1,5 +1,5 @@
 import './globals.css'
-import { Inter, Fraunces } from 'next/font/google'
+import { Inter, Fraunces, JetBrains_Mono } from 'next/font/google'
 import SmoothScroll from './components/SmoothScroll'
 import Cursor from './components/Cursor'
 import ScrollProgress from './components/ScrollProgress'
@@ -18,6 +18,13 @@ const fraunces = Fraunces({
     variable: '--font-fraunces',
     style: ['normal', 'italic'],
     axes: ['opsz'],
+})
+
+const jetbrains = JetBrains_Mono({
+    subsets: ['latin'],
+    display: 'swap',
+    variable: '--font-mono',
+    weight: ['400', '500'],
 })
 
 const SITE_URL = 'https://diversify.digital'
@@ -69,7 +76,7 @@ export const metadata = {
 }
 
 export const viewport = {
-    themeColor: '#4b236d',
+    themeColor: '#2A1263',
     width: 'device-width',
     initialScale: 1,
 }
@@ -86,7 +93,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
+        <html lang="en" className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable}`}>
             <head>
                 <script
                     type="application/ld+json"

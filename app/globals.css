@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 /* =====================================================================
-    Diversify Digital — editorial art direction on top of Tailwind.
-    Violet anchor + warm neutrals. Palette lives in tailwind.config.js.
+    Diversify Digital — warm editorial art direction.
+    Bone canvas + warm ink neutrals. Lime is the signature accent,
+    violet a rare secondary. Palette lives in tailwind.config.js.
    ===================================================================== */
 
 @layer base {
@@ -13,8 +14,7 @@
     }
 
     body {
-        /* Warm ivory editorial canvas. Violet is used deliberately per-section. */
-        @apply bg-ivory font-sans text-ink antialiased;
+        @apply bg-paper font-sans text-ink antialiased;
         margin: 0;
         line-height: 1.55;
         -webkit-font-smoothing: antialiased;
@@ -22,11 +22,10 @@
     }
 
     ::selection {
-        background: #4b236d;
-        color: #f4f0e8;
+        background: #7C3AED;
+        color: #F5F2FB;
     }
 
-    /* Hand off to the custom cursor on real pointer devices */
     @media (pointer: fine) {
 
         html.has-custom-cursor,
@@ -66,9 +65,9 @@
         font-optical-sizing: auto;
     }
 
-    /* Small metadata label — the connective tissue of the layout */
+    /* Small metadata label — connective tissue of the layout */
     .label {
-        @apply inline-flex items-center gap-2.5 font-sans text-[0.72rem] font-semibold uppercase tracking-editorial;
+        @apply inline-flex items-center gap-2.5 font-mono text-[0.72rem] font-medium uppercase tracking-editorial;
     }
 
     .label-line::before {
@@ -78,48 +77,59 @@
 
     /* Buttons -------------------------------------------------------- */
     .btn {
-        @apply relative inline-flex items-center justify-center gap-2 whitespace-nowrap px-7 py-3.5 font-sans text-[0.82rem] font-semibold uppercase tracking-[0.14em] transition-all duration-300 ease-editorial;
+        @apply relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-7 py-3.5 font-sans text-[0.82rem] font-semibold uppercase tracking-wide transition-all duration-300 ease-editorial;
     }
 
+    /* Violet pill — the primary action on light */
     .btn-primary {
-        @apply rounded-full bg-primary text-ivory;
+        @apply bg-violet text-paper;
     }
 
     .btn-primary:hover {
-        @apply bg-primary-light;
+        @apply bg-violet-deep;
     }
 
-    .btn-ivory {
-        @apply rounded-full bg-ivory text-primary;
+    /* Alias kept for the highest-emphasis conversion action (now violet) */
+    .btn-lime {
+        @apply bg-violet text-paper;
     }
 
-    .btn-ivory:hover {
-        @apply bg-white;
+    .btn-lime:hover {
+        @apply bg-violet-deep;
     }
 
-    /* Outline on the light editorial canvas — for the secondary role CTA */
+    /* Light pill on dark surfaces */
+    .btn-paper {
+        @apply bg-paper text-ink;
+    }
+
+    .btn-paper:hover {
+        @apply bg-surface;
+    }
+
+    /* Outline on light canvas */
     .btn-outline-ink {
-        @apply rounded-full border border-ink/25 bg-transparent text-primary;
+        @apply border border-violet/30 bg-transparent text-violet;
     }
 
     .btn-outline-ink:hover {
-        @apply border-primary bg-primary text-ivory;
+        @apply border-violet bg-violet text-paper;
     }
 
-    /* Outline on dark violet sections */
-    .btn-outline-ivory {
-        @apply rounded-full border text-ivory;
-        border-color: rgba(255, 255, 255, 0.3);
+    /* Outline on dark sections */
+    .btn-outline-paper {
+        @apply border text-paper;
+        border-color: rgba(245, 242, 234, 0.28);
     }
 
-    .btn-outline-ivory:hover {
-        @apply bg-ivory text-primary;
+    .btn-outline-paper:hover {
+        @apply bg-paper text-ink;
         border-color: transparent;
     }
 
     /* Underline / link treatment ------------------------------------ */
     .link-underline {
-        @apply relative inline-flex items-center gap-2 font-sans text-[0.82rem] font-semibold uppercase tracking-[0.14em];
+        @apply relative inline-flex items-center gap-2 font-sans text-[0.82rem] font-semibold uppercase tracking-wide;
     }
 
     .link-underline::after {
@@ -131,30 +141,25 @@
         @apply origin-left scale-x-100;
     }
 
-    /* Warm gradient text accent on dark violet */
-    .grad-text {
-        @apply bg-gradient-accent-text bg-clip-text text-transparent;
-    }
-
-    /* Form fields — used on the dark violet contact panel */
+    /* Form fields — used on the dark contact panel */
     .field-input {
-        @apply w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 font-sans text-[0.95rem] text-ivory transition-colors duration-300 ease-editorial;
+        @apply w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3.5 font-sans text-[0.95rem] text-paper transition-colors duration-300 ease-editorial;
     }
 
     .field-input::placeholder {
-        color: rgba(244, 240, 232, 0.4);
+        color: rgba(245, 242, 234, 0.4);
     }
 
     .field-input:focus {
-        @apply border-sand outline-none;
+        @apply border-violet-bright outline-none;
         background: rgba(255, 255, 255, 0.07);
     }
 
     .field-input option {
-        color: #10192b;
+        color: #1A1033;
     }
 
-    /* Thin hairline rule used as an editorial separator */
+    /* Hairline rules */
     .rule {
         @apply h-px w-full bg-ink/10;
     }
@@ -167,9 +172,10 @@
 
 @layer utilities {
 
-    /* Image reveal mask helpers driven by Framer Motion */
-    .clip-reveal {
-        clip-path: inset(0 0 100% 0);
+    /* Highlighted word — violet marker underline */
+    .mark-lime {
+        background-image: linear-gradient(transparent 62%, rgba(124, 58, 237, 0.28) 62%);
+        background-repeat: no-repeat;
     }
 
     /* Subtle film grain overlay for depth on dark sections */
@@ -184,19 +190,16 @@
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
-    /* Marquee that pauses on hover */
     .marquee-hover:hover .animate-marquee {
         animation-play-state: paused;
     }
 
-    /* Word-by-word / line clip container */
     .clip-text {
         overflow: hidden;
         display: inline-block;
         vertical-align: bottom;
     }
 
-    /* Hide scrollbar for carousels while keeping scroll behaviour */
     .no-scrollbar {
         -ms-overflow-style: none;
         scrollbar-width: none;

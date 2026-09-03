@@ -43,12 +43,12 @@ export default function FloatingCTA() {
                         <a
                             href={REGISTER_CLIENT_URL}
                             data-cursor-label="Let's talk"
-                            className="group flex items-center gap-3 rounded-full bg-primary py-3.5 pl-6 pr-3.5 text-ivory shadow-lifted transition-colors duration-300 hover:bg-primary-light"
+                            className="group flex items-center gap-3 rounded-full bg-violet py-3.5 pl-6 pr-3.5 text-paper shadow-lifted transition-colors duration-300 hover:bg-violet-deep"
                         >
-                            <span className="font-sans text-[0.82rem] font-semibold uppercase tracking-[0.14em]">
+                            <span className="font-sans text-[0.82rem] font-semibold uppercase tracking-wide">
                                 Start a project
                             </span>
-                            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ivory text-primary">
+                            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-paper text-violet">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-500 ease-editorial group-hover:translate-x-0.5">
                                     <path d="M5 12h14" />
                                     <path d="m12 5 7 7-7 7" />

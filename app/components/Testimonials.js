@@ -10,23 +10,29 @@ const EASE = [0.22, 1, 0.36, 1]
 const ITEMS = [
     {
         quote:
-            'Diversify helped us turn a complicated offer into a digital experience that people understand, trust and act on. The growth has followed.',
+            'Diversify turned a complicated offer into a digital experience people understand, trust and act on. They feel less like an agency and more like part of our team.',
         name: 'Maya Chen',
-        role: 'Founder, Northstar Studio',
+        role: 'Founder',
+        company: 'Northstar Studio',
+        service: 'Web Development · SEO',
         img: IMAGES.portrait,
     },
     {
         quote:
-            'Their SEO and content work doubled our organic pipeline in under a year. They feel less like an agency and more like part of our team.',
+            'Their SEO and content work rebuilt our organic pipeline from the ground up. Every recommendation was tied back to a business outcome, not a vanity metric.',
         name: 'Daniel Ree',
-        role: 'CMO, Lumen Health',
+        role: 'CMO',
+        company: 'Lumen Health',
+        service: 'SEO · Content',
         img: IMAGES.portrait2,
     },
     {
         quote:
-            'The rebrand and new site completely changed how our market sees us. Every detail was considered, and the results speak for themselves.',
+            'The rebrand and new site completely changed how our market sees us. Every detail was considered, and the strategy behind it was airtight.',
         name: 'Priya Anand',
-        role: 'CEO, Vertex Labs',
+        role: 'CEO',
+        company: 'Vertex Labs',
+        service: 'Branding · Web',
         img: IMAGES.portrait3,
     },
 ]
@@ -44,7 +50,6 @@ export default function Testimonials() {
         [index]
     )
 
-    // Auto-advance, paused for reduced-motion users.
     useEffect(() => {
         if (reduce) return
         const id = setInterval(() => {
@@ -63,14 +68,15 @@ export default function Testimonials() {
     }
 
     return (
-        <section id="testimonials" className="section bg-ivory">
-            <div className="container">
-                <Reveal className="mb-12 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <section id="testimonials" className="section relative grain overflow-hidden bg-violet-900 text-paper">
+            <div aria-hidden="true" className="pointer-events-none absolute -left-40 bottom-0 h-[28rem] w-[28rem] rounded-full bg-violet-bright/20 blur-[140px]" />
+            <div className="container relative z-10">
+                <Reveal className="mb-14 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                     <div>
-                        <div className="label label-line text-clay">Testimonials</div>
-                        <h2 className="mt-6 display text-[clamp(2rem,4.5vw,3.4rem)] leading-[1.05] text-primary">
-                            What our clients
-                            <span className="italic text-clay"> say.</span>
+                        <div className="label label-line text-violet-light">Client stories</div>
+                        <h2 className="mt-6 display text-[clamp(2rem,4.5vw,3.6rem)] leading-[1.05] text-paper">
+                            Don&apos;t take
+                            <span className="italic text-violet-light"> our word for it.</span>
                         </h2>
                     </div>
 
@@ -79,7 +85,7 @@ export default function Testimonials() {
                             type="button"
                             onClick={() => go(index - 1)}
                             aria-label="Previous testimonial"
-                            className="flex h-12 w-12 items-center justify-center rounded-full border border-ink/25 text-primary transition-all duration-300 ease-editorial hover:border-primary hover:bg-primary hover:text-ivory"
+                            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/25 text-paper transition-all duration-300 ease-editorial hover:bg-paper hover:text-ink"
                         >
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M19 12H5" />
@@ -90,7 +96,7 @@ export default function Testimonials() {
                             type="button"
                             onClick={() => go(index + 1)}
                             aria-label="Next testimonial"
-                            className="flex h-12 w-12 items-center justify-center rounded-full border border-ink/25 text-primary transition-all duration-300 ease-editorial hover:border-primary hover:bg-primary hover:text-ivory"
+                            className="flex h-12 w-12 items-center justify-center rounded-full border border-white/25 text-paper transition-all duration-300 ease-editorial hover:bg-paper hover:text-ink"
                         >
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M5 12h14" />
@@ -102,7 +108,7 @@ export default function Testimonials() {
 
                 <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16">
                     <div className="relative lg:col-span-4">
-                        <div className="relative mx-auto aspect-[4/5] w-full max-w-[320px] overflow-hidden rounded-[24px]">
+                        <div className="relative mx-auto aspect-[4/5] w-full max-w-[320px] overflow-hidden rounded-[24px] ring-1 ring-white/10">
                             <AnimatePresence mode="wait" custom={dir}>
                                 <motion.img
                                     key={active.img}
@@ -118,10 +124,20 @@ export default function Testimonials() {
                                     className="absolute inset-0 h-full w-full object-cover"
                                 />
                             </AnimatePresence>
+                            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-violet-900/70 to-transparent" />
                         </div>
                     </div>
 
                     <div className="relative lg:col-span-8">
+                        <svg
+                            aria-hidden="true"
+                            className="h-10 w-10 text-violet-light"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                        >
+                            <path d="M9.5 4C6.5 5.8 5 8.6 5 12.5V20h7v-8H8.2c0-2.3 1-4 3.3-5.3L9.5 4zm10 0c-3 1.8-4.5 4.6-4.5 8.5V20h7v-8h-3.8c0-2.3 1-4 3.3-5.3L19.5 4z" />
+                        </svg>
+
                         <AnimatePresence mode="wait" custom={dir}>
                             <motion.div
                                 key={index}
@@ -133,23 +149,29 @@ export default function Testimonials() {
                                 transition={{ duration: 0.6, ease: EASE }}
                             >
                                 <blockquote>
-                                    <p className="display text-[clamp(1.6rem,3.6vw,2.9rem)] leading-[1.2] text-primary">
+                                    <p className="mt-4 display text-[clamp(1.5rem,3.4vw,2.7rem)] leading-[1.22] text-paper">
                                         {active.quote}
                                     </p>
                                 </blockquote>
-                                <div className="mt-8 flex items-center gap-4">
-                                    <span className="h-px w-10 bg-clay" />
-                                    <div>
-                                        <p className="font-serif text-lg text-primary">{active.name}</p>
-                                        <p className="font-sans text-[0.72rem] uppercase tracking-editorial text-ink/50">
-                                            {active.role}
-                                        </p>
+                                <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-3">
+                                    <div className="flex items-center gap-4">
+                                        <span className="h-px w-10 bg-violet-bright" />
+                                        <div>
+                                            <p className="font-serif text-lg text-paper">
+                                                {active.name}
+                                            </p>
+                                            <p className="font-mono text-[0.7rem] uppercase tracking-wide text-paper/50">
+                                                {active.role}, {active.company}
+                                            </p>
+                                        </div>
                                     </div>
+                                    <span className="rounded-full border border-white/20 px-4 py-1.5 font-mono text-[0.66rem] font-medium uppercase tracking-wide text-violet-light">
+                                        {active.service}
+                                    </span>
                                 </div>
                             </motion.div>
                         </AnimatePresence>
 
-                        {/* Progress dots */}
                         <div className="mt-10 flex items-center gap-2.5">
                             {ITEMS.map((_, i) => (
                                 <button
@@ -158,7 +180,7 @@ export default function Testimonials() {
                                     onClick={() => go(i)}
                                     aria-label={`Go to testimonial ${i + 1}`}
                                     aria-current={i === index}
-                                    className={`h-1.5 rounded-full transition-all duration-500 ease-editorial ${i === index ? 'w-10 bg-primary' : 'w-4 bg-ink/20 hover:bg-ink/40'
+                                    className={`h-1.5 rounded-full transition-all duration-500 ease-editorial ${i === index ? 'w-10 bg-violet-bright' : 'w-4 bg-white/25 hover:bg-white/40'
                                         }`}
                                 />
                             ))}

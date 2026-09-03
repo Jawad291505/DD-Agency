@@ -1,16 +1,12 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import Intro from './components/Intro'
-import About from './components/About'
-import Paths from './components/Paths'
+import Trust from './components/Trust'
 import Services from './components/Services'
-import Experience from './components/Experience'
-import Philosophy from './components/Philosophy'
-import Gallery from './components/Gallery'
-import Clients from './components/Clients'
+import WhyUs from './components/WhyUs'
+import Process from './components/Process'
+import Work from './components/Work'
 import Testimonials from './components/Testimonials'
 import Contact from './components/Contact'
-import FinalCTA from './components/FinalCTA'
 import Footer from './components/Footer'
 import FloatingCTA from './components/FloatingCTA'
 
@@ -20,16 +16,12 @@ export default function Home() {
             <Navbar />
             <main>
                 <Hero />
-                <Intro />
-                <About />
-                <Paths />
+                <Trust />
                 <Services />
-                <Experience />
-                <Philosophy />
-                <Gallery />
-                <Clients />
+                <WhyUs />
+                <Process />
+                <Work />
                 <Testimonials />
-                <FinalCTA />
                 <Contact />
             </main>
             <Footer />
