@@ -3,30 +3,30 @@
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Reveal } from './motion'
-import { REGISTER_CLIENT_URL, REGISTER_TRAINER_URL } from './links'
+import { REGISTER_CLIENT_URL } from './links'
 
 const EASE = [0.22, 1, 0.36, 1]
 
 const PATHS = [
     {
         n: '01',
-        badge: 'Be found',
-        title: 'SEO that earns attention',
-        desc: 'Build a search presence that compounds. We turn technical foundations and useful content into qualified organic growth.',
-        points: ['Technical SEO & audits', 'Content strategy', 'Search performance tracking'],
-        cta: 'Talk about SEO',
+        badge: 'One clear outcome',
+        title: 'Start a project',
+        desc: 'Perfect for a defined goal — a new website, a rebrand, an SEO overhaul or a launch campaign. Fixed scope, clear deliverables, a firm timeline.',
+        points: ['Scoped deliverables', 'Fixed timeline & price', 'Launch-ready handover'],
+        cta: 'Scope a project',
         href: REGISTER_CLIENT_URL,
-        featured: true,
+        featured: false,
     },
     {
         n: '02',
-        badge: 'Build better',
-        title: 'Digital experiences that convert',
-        desc: 'From first sketch to final launch, we create fast, memorable websites and digital systems that make your next move easier.',
-        points: ['Web design & development', 'Conversion-led UX', 'Scalable digital solutions'],
-        cta: 'Start a project',
-        href: REGISTER_TRAINER_URL,
-        featured: false,
+        badge: 'Ongoing growth',
+        title: 'Grow on a retainer',
+        desc: 'Your marketing team on demand. A monthly partnership across any of our services, with a roadmap that compounds results month after month.',
+        points: ['Dedicated team', 'Priority turnaround', 'Monthly strategy & reporting'],
+        cta: 'Become a partner',
+        href: REGISTER_CLIENT_URL,
+        featured: true,
     },
 ]
 
@@ -35,20 +35,20 @@ export default function Paths() {
     const reduce = useReducedMotion()
 
     return (
-        <section id="register" className="section bg-primary text-ivory">
-            <div className="container">
+        <section id="engagements" className="section relative grain bg-primary text-ivory">
+            <div className="container relative z-10">
                 <Reveal className="grid grid-cols-1 items-end gap-6 md:grid-cols-2">
                     <div>
-                        <div className="label label-line text-sand">What we do</div>
+                        <div className="label label-line text-sand">How we work together</div>
                         <h2 className="mt-6 display text-[clamp(2.2rem,5vw,4rem)] leading-[1.02] text-ivory">
                             Two ways to
                             <br />
-                            <span className="italic text-sand">grow.</span>
+                            <span className="italic text-sand">work with us.</span>
                         </h2>
                     </div>
                     <p className="max-w-[400px] text-ivory/60 md:justify-self-end md:text-right">
-                        Whether you need to be found, build something better, or scale what is already
-                        working, we bring the strategy and craft to move your business forward.
+                        Every service we offer can be delivered as a focused, one-off project or an
+                        ongoing partnership. Pick the model that fits where your brand is right now.
                     </p>
                 </Reveal>
 
@@ -66,6 +66,15 @@ export default function Paths() {
                             className={`group relative flex flex-col p-8 transition-colors duration-500 ease-editorial md:p-12 ${hovered === i ? 'bg-ivory text-primary' : 'bg-white/[0.03] text-ivory'
                                 }`}
                         >
+                            {p.featured && (
+                                <span
+                                    className={`absolute right-6 top-6 rounded-full px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-500 md:right-12 md:top-12 ${hovered === i ? 'bg-primary text-ivory' : 'bg-sand text-primary'
+                                        }`}
+                                >
+                                    Most popular
+                                </span>
+                            )}
+
                             <div className="flex items-center justify-between">
                                 <span className="font-sans text-xs uppercase tracking-editorial opacity-60">
                                     {p.badge}
@@ -104,8 +113,8 @@ export default function Paths() {
                                 <span className="link-underline">{p.cta}</span>
                                 <span
                                     className={`flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-500 ease-editorial ${hovered === i
-                                            ? 'border-primary bg-primary text-ivory'
-                                            : 'border-white/25 text-ivory'
+                                        ? 'border-primary bg-primary text-ivory'
+                                        : 'border-white/25 text-ivory'
                                         }`}
                                 >
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-500 ease-editorial group-hover:translate-x-0.5">

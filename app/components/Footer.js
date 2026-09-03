@@ -2,21 +2,21 @@ import { REGISTER_CLIENT_URL, REGISTER_TRAINER_URL } from './links'
 
 const COLUMNS = [
     {
-            heading: 'Services',
+        heading: 'Services',
         links: [
-            { label: 'SEO services', href: '#register' },
-            { label: 'Web development', href: '#register' },
-            { label: 'Digital solutions', href: '#register' },
-            { label: 'Meta ad solutions', href: '#register' },
+            { label: 'SEO', href: '#services' },
+            { label: 'Content Marketing', href: '#services' },
+            { label: 'Social Media Marketing', href: '#services' },
+            { label: 'Web / App Development', href: '#services' },
         ],
     },
     {
         heading: 'Company',
         links: [
-            { label: 'About Diversify', href: '#intro' },
-            { label: 'Careers', href: '#top' },
-            { label: 'Journal', href: '#top' },
-            { label: 'Contact', href: '#top' },
+            { label: 'About Diversify', href: '#about' },
+            { label: 'Services', href: '#services' },
+            { label: 'Testimonials', href: '#testimonials' },
+            { label: 'Contact', href: '#contact' },
         ],
     },
     {

@@ -2,11 +2,12 @@
 
 import { IMAGES } from './images'
 import { Reveal } from './motion'
+import Magnetic from './Magnetic'
 import { REGISTER_CLIENT_URL, REGISTER_TRAINER_URL } from './links'
 
 export default function FinalCTA() {
     return (
-        <section id="contact" className="relative isolate overflow-hidden bg-primary-deep text-ivory">
+        <section id="get-started" className="relative isolate overflow-hidden bg-primary-deep text-ivory">
             {/* Cinematic background image, dimmed for legibility */}
             <div className="absolute inset-0 -z-10">
                 <img
@@ -31,12 +32,16 @@ export default function FinalCTA() {
                     way to get there.
                 </Reveal>
                 <Reveal delay={0.2} className="mt-10 flex flex-wrap items-center justify-center gap-4">
-                    <a href={REGISTER_CLIENT_URL} className="btn btn-ivory">
-                        Start a conversation
-                    </a>
-                    <a href={REGISTER_TRAINER_URL} className="btn btn-outline-ivory">
-                        See what we do
-                    </a>
+                    <Magnetic strength={0.5}>
+                        <a href={REGISTER_CLIENT_URL} data-cursor-label="Let's talk" className="btn btn-ivory">
+                            Start a conversation
+                        </a>
+                    </Magnetic>
+                    <Magnetic strength={0.4}>
+                        <a href={REGISTER_TRAINER_URL} className="btn btn-outline-ivory">
+                            See what we do
+                        </a>
+                    </Magnetic>
                 </Reveal>
             </div>
         </section>

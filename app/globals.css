@@ -26,6 +26,15 @@
         color: #f4f0e8;
     }
 
+    /* Hand off to the custom cursor on real pointer devices */
+    @media (pointer: fine) {
+
+        html.has-custom-cursor,
+        html.has-custom-cursor * {
+            cursor: none !important;
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
         html {
             scroll-behavior: auto;
@@ -127,6 +136,24 @@
         @apply bg-gradient-accent-text bg-clip-text text-transparent;
     }
 
+    /* Form fields — used on the dark violet contact panel */
+    .field-input {
+        @apply w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 font-sans text-[0.95rem] text-ivory transition-colors duration-300 ease-editorial;
+    }
+
+    .field-input::placeholder {
+        color: rgba(244, 240, 232, 0.4);
+    }
+
+    .field-input:focus {
+        @apply border-sand outline-none;
+        background: rgba(255, 255, 255, 0.07);
+    }
+
+    .field-input option {
+        color: #10192b;
+    }
+
     /* Thin hairline rule used as an editorial separator */
     .rule {
         @apply h-px w-full bg-ink/10;
@@ -143,5 +170,39 @@
     /* Image reveal mask helpers driven by Framer Motion */
     .clip-reveal {
         clip-path: inset(0 0 100% 0);
+    }
+
+    /* Subtle film grain overlay for depth on dark sections */
+    .grain::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0.05;
+        mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Marquee that pauses on hover */
+    .marquee-hover:hover .animate-marquee {
+        animation-play-state: paused;
+    }
+
+    /* Word-by-word / line clip container */
+    .clip-text {
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+
+    /* Hide scrollbar for carousels while keeping scroll behaviour */
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
     }
 }

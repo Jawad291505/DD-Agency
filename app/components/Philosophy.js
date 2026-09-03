@@ -28,8 +28,8 @@ const PRINCIPLES = [
 
 export default function Philosophy() {
     return (
-        <section id="values" className="section overflow-hidden bg-primary text-ivory">
-            <div className="container">
+        <section id="values" className="section relative grain overflow-hidden bg-primary text-ivory">
+            <div className="container relative z-10">
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
                     <div className="lg:col-span-5">
                         <div className="label label-line text-sand">How we work</div>
@@ -41,7 +41,7 @@ export default function Philosophy() {
                         <ImageReveal className="mt-10 hidden aspect-[5/4] overflow-hidden rounded-[24px] lg:block" delay={0.1}>
                             <img
                                 src={IMAGES.philosophy}
-                                alt="A modern studio workspace with plants and natural light"
+                                alt="Abstract flowing form representing considered digital craft"
                                 loading="lazy"
                                 className="h-full w-full object-cover"
                             />

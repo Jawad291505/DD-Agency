@@ -1,5 +1,9 @@
 import './globals.css'
 import { Inter, Fraunces } from 'next/font/google'
+import SmoothScroll from './components/SmoothScroll'
+import Cursor from './components/Cursor'
+import ScrollProgress from './components/ScrollProgress'
+import Preloader from './components/Preloader'
 
 const inter = Inter({
     subsets: ['latin'],
@@ -89,7 +93,12 @@ export default function RootLayout({ children }) {
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
                 />
             </head>
-            <body>{children}</body>
+            <body>
+                <Preloader />
+                <ScrollProgress />
+                <Cursor />
+                <SmoothScroll>{children}</SmoothScroll>
+            </body>
         </html>
     )
 }

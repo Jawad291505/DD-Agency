@@ -19,7 +19,7 @@ export default function Experience() {
                         <ImageReveal className="relative aspect-[4/3] overflow-hidden rounded-[24px]">
                             <img
                                 src={IMAGES.experienceLarge}
-                                alt="A creative team collaborating around a laptop"
+                                alt="Abstract light trails representing data and momentum"
                                 loading="lazy"
                                 className="h-full w-full object-cover transition-transform duration-[1.2s] ease-editorial hover:scale-[1.04]"
                             />
@@ -59,7 +59,7 @@ export default function Experience() {
                         <ImageReveal className="relative aspect-[3/4] overflow-hidden rounded-[24px]" delay={0.1}>
                             <img
                                 src={IMAGES.experienceTall}
-                                alt="A designer reviewing a digital interface"
+                                alt="Dimensional abstract render in warm tones"
                                 loading="lazy"
                                 className="h-full w-full object-cover transition-transform duration-[1.2s] ease-editorial hover:scale-[1.04]"
                             />

@@ -77,10 +77,15 @@ module.exports = {
                     from: { transform: 'scale(1.08)' },
                     to: { transform: 'scale(1)' },
                 },
+                marquee: {
+                    from: { transform: 'translateX(0)' },
+                    to: { transform: 'translateX(-50%)' },
+                },
             },
             animation: {
                 rise: 'riseIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both',
                 'slow-zoom': 'slowZoom 8s cubic-bezier(0.22, 1, 0.36, 1) both',
+                marquee: 'marquee 32s linear infinite',
             },
             transitionTimingFunction: {
                 premium: 'cubic-bezier(0.4, 0, 0.2, 1)',

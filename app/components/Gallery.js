@@ -5,10 +5,10 @@ import { Reveal, ImageReveal } from './motion'
 
 // Intentional, asymmetric composition — each item defines its own span + ratio.
 const ITEMS = [
-    { src: IMAGES.gallery1, alt: 'Analytics dashboard on a laptop', cls: 'sm:col-span-7 aspect-[16/10]' },
-    { src: IMAGES.gallery2, alt: 'Editorial design materials on a desk', cls: 'sm:col-span-5 aspect-[4/5]' },
-    { src: IMAGES.gallery3, alt: 'Creative team working at a table', cls: 'sm:col-span-5 aspect-[4/5]' },
-    { src: IMAGES.gallery4, alt: 'Website performance chart on a screen', cls: 'sm:col-span-7 aspect-[16/10]' },
+    { src: IMAGES.gallery1, alt: 'Colourful digital data visualisation', cls: 'sm:col-span-7 aspect-[16/10]' },
+    { src: IMAGES.gallery2, alt: 'Close-up of code on a dark screen', cls: 'sm:col-span-5 aspect-[4/5]' },
+    { src: IMAGES.gallery3, alt: 'Abstract geometric form in soft light', cls: 'sm:col-span-5 aspect-[4/5]' },
+    { src: IMAGES.gallery4, alt: 'Flowing abstract gradient in warm tones', cls: 'sm:col-span-7 aspect-[16/10]' },
 ]
 
 export default function Gallery() {
@@ -39,8 +39,10 @@ export default function Gallery() {
                                 src={it.src}
                                 alt={it.alt}
                                 loading="lazy"
+                                data-cursor-label="View"
                                 className="h-full w-full object-cover transition-transform duration-[1.2s] ease-editorial group-hover:scale-[1.05]"
                             />
+                            <div className="pointer-events-none absolute inset-0 bg-primary/0 transition-colors duration-500 ease-editorial group-hover:bg-primary/10" />
                         </ImageReveal>
                     ))}
                 </div>
