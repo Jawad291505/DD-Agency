@@ -118,44 +118,63 @@ export default function Navbar() {
             </header>
 
             <AnimatePresence>
-                {open && (
-                    <motion.div
+                {open && [
+                    /* Blurred scrim — the page shows through, softened. Tap to close. */
+                    <motion.button
+                        key="scrim"
+                        type="button"
+                        aria-label="Close menu"
+                        tabIndex={-1}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed inset-0 z-40 bg-gradient-to-b from-violet-900 to-ink text-paper lg:hidden"
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        onClick={() => setOpen(false)}
+                        className="fixed inset-0 top-[76px] z-40 w-full cursor-default bg-ink/25 backdrop-blur-md lg:hidden"
+                    />,
+                    /* Curtain — drops from behind the header, roughly half-height. */
+                    <motion.div
+                        key="curtain"
+                        initial={{ y: '-100%' }}
+                        animate={{ y: 0 }}
+                        exit={{ y: '-100%' }}
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="fixed inset-x-0 top-0 z-40 max-h-[85vh] origin-top overflow-y-auto rounded-b-3xl border-b border-white/10 bg-gradient-to-b from-violet-900 to-ink text-paper shadow-editorial lg:hidden"
                     >
-                        <div className="container flex h-full flex-col justify-center pt-20">
+                        <div className="container flex flex-col px-6 pb-8 pt-24">
                             <nav className="flex flex-col" aria-label="Mobile">
                                 {LINKS.map((l, i) => (
                                     <motion.a
                                         key={l.href}
                                         href={l.href}
                                         onClick={() => setOpen(false)}
-                                        initial={{ opacity: 0, y: 20 }}
+                                        initial={{ opacity: 0, y: -10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{
-                                            delay: 0.12 + i * 0.07,
-                                            duration: 0.6,
+                                            delay: 0.14 + i * 0.05,
+                                            duration: 0.4,
                                             ease: [0.22, 1, 0.36, 1],
                                         }}
-                                        className="group flex items-baseline gap-4 border-b border-white/12 py-6"
+                                        className="group flex items-baseline gap-3 border-b border-white/10 py-3.5"
                                     >
-                                        <span className="font-mono text-xs tracking-wide text-violet-light">
+                                        <span className="font-mono text-[0.7rem] tracking-wide text-violet-light">
                                             {l.index}
                                         </span>
-                                        <span className="display text-[clamp(2.2rem,10vw,3.4rem)] text-paper">
+                                        <span className="display text-2xl text-paper">
                                             {l.label}
                                         </span>
                                     </motion.a>
                                 ))}
                             </nav>
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.4, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                                className="mt-12 flex flex-col gap-3 sm:flex-row"
+                                transition={{
+                                    delay: 0.14 + LINKS.length * 0.05,
+                                    duration: 0.4,
+                                    ease: [0.22, 1, 0.36, 1],
+                                }}
+                                className="mt-6 flex flex-col gap-3"
                             >
                                 <a
                                     href={REGISTER_CLIENT_URL}
@@ -173,8 +192,8 @@ export default function Navbar() {
                                 </a>
                             </motion.div>
                         </div>
-                    </motion.div>
-                )}
+                    </motion.div>,
+                ]}
             </AnimatePresence>
         </>
     )
