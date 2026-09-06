@@ -86,14 +86,13 @@ export default function Navbar() {
                     </nav>
 
                     <div className="flex items-center gap-3">
-                        <Magnetic className="hidden sm:inline-flex" strength={0.5}>
+                        <Magnetic className="hidden lg:inline-flex" strength={0.5}>
                             <a
                                 href={REGISTER_CLIENT_URL}
                                 data-cursor-label="Let's talk"
                                 className="btn btn-primary"
                             >
                                 Start a project
-
                             </a>
                         </Magnetic>
                         <button
