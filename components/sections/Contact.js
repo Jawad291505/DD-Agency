@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Reveal, Stagger, StaggerItem } from './motion'
-import Magnetic from './Magnetic'
+import { Reveal, Stagger, StaggerItem } from '@/lib/motion'
+import Magnetic from '@/components/ui/Magnetic'
 
 const SERVICE_OPTIONS = [
     'SEO',
@@ -35,7 +35,7 @@ export default function Contact() {
     return (
         <section id="contact" className="relative isolate grain overflow-hidden bg-violet-900 text-paper">
             {/* Ambient accents */}
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden md:block">
                 <div className="absolute -left-32 top-0 h-[30rem] w-[30rem] rounded-full bg-violet-bright/20 blur-[130px]" />
                 <div className="absolute -right-24 bottom-0 h-[26rem] w-[26rem] rounded-full bg-violet/20 blur-[130px]" />
             </div>

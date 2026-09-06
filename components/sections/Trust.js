@@ -1,7 +1,7 @@
 'use client'
 
-import { Reveal, Stagger, StaggerItem } from './motion'
-import Counter from './Counter'
+import { Reveal, Stagger, StaggerItem } from '@/lib/motion'
+import Counter from '@/components/ui/Counter'
 
 const STATS = [
     { v: '80+', k: 'Projects delivered', d: 'Across web, brand and growth' },
@@ -10,25 +10,27 @@ const STATS = [
     { v: '15+', k: 'Industries served', d: 'From SaaS to local retail' },
 ]
 
-const CLIENTS = [
-    'Northstar',
-    'Lumen',
-    'Vertex',
-    'Coastline',
-    'Bloom & Co',
-    'Halcyon',
-    'Meridian',
-    'Fieldwork',
-    'Atlas',
-    'Orbit',
+const SERVICES = [
+    'SEO',
+    'Google Ads',
+    'Meta Ads',
+    'Social Media',
+    'Web Design',
+    'Web Development',
+    'App Development',
+    'E-commerce',
+    'Branding',
+    'Graphic Design',
+    'Content Creation',
+    'Digital Solutions',
 ]
 
 export default function Trust() {
-    const marquee = [...CLIENTS, ...CLIENTS]
+    const marquee = [...SERVICES, ...SERVICES]
 
     return (
-        <section id="trust" className="section bg-paper">
-            <div className="container">
+        <section id="trust" className="section relative torch overflow-hidden bg-paper">
+            <div className="container relative z-10">
                 <Reveal className="grid grid-cols-1 items-end gap-8 md:grid-cols-[1fr_auto]">
                     <p className="max-w-[720px] display text-[clamp(1.6rem,3.6vw,2.6rem)] leading-[1.2] text-ink">
                         Ambitious brands partner with us because we treat their growth like our own —
@@ -53,12 +55,12 @@ export default function Trust() {
                 </Stagger>
             </div>
 
-            {/* Full-bleed client marquee */}
-            <div className="mt-20">
+            {/* Full-bleed services marquee */}
+            <div className="mt-20 bg-paper">
                 <p className="container mb-8 font-mono text-[0.7rem] uppercase tracking-wide text-ink/40">
-                    ↓ Brands we&apos;ve helped grow
+                    ↓ What we do
                 </p>
-                <div className="marquee-hover relative overflow-hidden border-y border-ink/12 py-6 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+                <div className="marquee-hover bg-paper relative overflow-hidden border-y border-ink/12 py-6 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
                     <div className="flex w-max animate-marquee gap-14 pr-14">
                         {marquee.map((name, i) => (
                             <span

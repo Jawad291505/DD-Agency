@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import Magnetic from './Magnetic'
-import { REGISTER_CLIENT_URL } from './links'
+import Magnetic from '@/components/ui/Magnetic'
+import { REGISTER_CLIENT_URL } from '@/data/links'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -43,7 +43,7 @@ export default function FloatingCTA() {
                         <a
                             href={REGISTER_CLIENT_URL}
                             data-cursor-label="Let's talk"
-                            className="group flex items-center gap-3 rounded-full bg-violet py-3.5 pl-6 pr-3.5 text-paper shadow-lifted transition-colors duration-300 hover:bg-violet-deep"
+                            className="group flex items-center gap-3 rounded-full bg-gradient-to-br from-violet to-violet-deep py-3.5 pl-6 pr-3.5 text-paper shadow-glow transition-all duration-300 hover:from-violet-bright hover:to-violet"
                         >
                             <span className="font-sans text-[0.82rem] font-semibold uppercase tracking-wide">
                                 Start a project

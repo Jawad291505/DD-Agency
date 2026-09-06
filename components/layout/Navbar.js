@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import Magnetic from './Magnetic'
-import { LogoLockup } from './Logo'
-import { REGISTER_CLIENT_URL } from './links'
+import Magnetic from '@/components/ui/Magnetic'
+import { LogoLockup } from '@/components/ui/Logo'
+import { REGISTER_CLIENT_URL } from '@/data/links'
 
 const LINKS = [
     { href: '#services', label: 'Services', index: '01' },
@@ -12,6 +12,7 @@ const LINKS = [
     { href: '#process', label: 'Process', index: '03' },
     { href: '#work', label: 'Work', index: '04' },
     { href: '#testimonials', label: 'Clients', index: '05' },
+    { href: '#about', label: 'About', index: '06' },
 ]
 
 export default function Navbar() {
@@ -54,7 +55,7 @@ export default function Navbar() {
         <>
             <header
                 className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-editorial ${scrolled || open
-                    ? 'border-b border-ink/10 bg-paper/85 backdrop-blur-xl'
+                    ? 'border-b border-ink/10 bg-paper/95 md:bg-paper/85 md:backdrop-blur-xl'
                     : 'border-b border-transparent bg-transparent'
                     }`}
             >
@@ -68,7 +69,7 @@ export default function Navbar() {
                         <LogoLockup markSize="h-10 w-10 rounded-xl shadow-sm ring-1 ring-ink/10 transition-transform duration-500 ease-editorial group-hover:scale-[1.04]" />
                     </a>
 
-                    <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
+                    <nav className="hidden items-center gap-7 lg:flex xl:gap-9" aria-label="Primary">
                         {LINKS.map((l) => (
                             <a
                                 key={l.href}
@@ -122,7 +123,7 @@ export default function Navbar() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed inset-0 z-40 bg-violet-900 text-paper lg:hidden"
+                        className="fixed inset-0 z-40 bg-gradient-to-b from-violet-900 to-ink text-paper lg:hidden"
                     >
                         <div className="container flex h-full flex-col justify-center pt-20">
                             <nav className="flex flex-col" aria-label="Mobile">

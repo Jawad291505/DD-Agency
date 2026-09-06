@@ -20,11 +20,16 @@ export const IMAGES = {
     gallery3: u('1526374965328-7f61d4dc18c5', 900),
     gallery4: u('1633356122544-f134324a6cee', 800),
 
-    // About / philosophy atmosphere — abstract dimensional render
-    philosophy: u('1611162617474-5b21e879e113', 1200),
+    // About / philosophy atmosphere — abstract dimensional render.
+    // Local asset in /public so it never depends on an Unsplash hotlink at runtime.
+    philosophy: '/about.jpg',
 
     // Testimonial portraits — real people (clients), not workspaces
     portrait: u('1494790108377-be9c29b29330', 600),
     portrait2: u('1507003211169-0a1dd7228f2d', 600),
     portrait3: u('1573497019940-1c28c88b4f3e', 600),
+
+    // Founder portrait — placeholder. Swap for a real photo of the owner:
+    // drop the file in /public (e.g. /owner.jpg) and set owner: '/owner.jpg'.
+    owner: u('1560250097-0b93528c311a', 900),
 }

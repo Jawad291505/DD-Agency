@@ -5,10 +5,12 @@ import { useReducedMotion } from 'framer-motion'
 import Lenis from 'lenis'
 
 /**
- * Buttery smooth-scroll wrapper (the awwwards standard).
- * Also wires anchor links through Lenis for silky in-page navigation
- * and exposes scroll progress on the document for the progress rail.
- * Fully disabled for reduced-motion users so native scroll is preserved.
+ * Smooth-scroll wrapper — pointer / desktop only.
+ *
+ * On touch devices we deliberately keep native scrolling: momentum scroll is
+ * already smooth there, and running Lenis (a constant rAF loop that hijacks
+ * touch and forces extra layout/paint work per frame) is what made mobile
+ * scrolling feel laggy. Also fully disabled for reduced-motion users.
  */
 export default function SmoothScroll({ children }) {
     const reduce = useReducedMotion()
@@ -16,21 +18,19 @@ export default function SmoothScroll({ children }) {
     useEffect(() => {
         if (reduce) return
 
+        const coarsePointer = window.matchMedia(
+            '(hover: none), (pointer: coarse)'
+        ).matches
+        if (coarsePointer) return
+
         const lenis = new Lenis({
             duration: 1.15,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smoothWheel: true,
-            touchMultiplier: 1.6,
         })
 
-        // Expose globally so other components (nav, buttons) can drive it.
+        // Expose for potential external control (nav, buttons).
         window.__lenis = lenis
-
-        const onScroll = ({ scroll, limit }) => {
-            const p = limit > 0 ? scroll / limit : 0
-            document.documentElement.style.setProperty('--scroll-progress', String(p))
-        }
-        lenis.on('scroll', onScroll)
 
         let raf
         const loop = (time) => {
@@ -40,6 +40,7 @@ export default function SmoothScroll({ children }) {
         raf = requestAnimationFrame(loop)
 
         // Intercept in-page anchor clicks for smooth, offset-aware scrolling.
+        // (On touch, native `scroll-behavior` + `scroll-padding-top` handle this.)
         const onClick = (e) => {
             const a = e.target.closest('a[href^="#"]')
             if (!a) return

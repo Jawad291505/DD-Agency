@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Reveal } from './motion'
+import { Reveal } from '@/lib/motion'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -50,8 +50,8 @@ export default function Process() {
     const step = STEPS[active]
 
     return (
-        <section id="process" className="section bg-paper-deep">
-            <div className="container">
+        <section id="process" className="section relative  overflow-hidden bg-paper">
+            <div className="container relative z-10">
                 <Reveal className="grid grid-cols-1 items-end gap-8 md:grid-cols-2">
                     <div>
                         <div className="label label-line text-ink/60">How we work</div>
@@ -77,8 +77,8 @@ export default function Process() {
                                 onClick={() => setActive(i)}
                                 aria-pressed={active === i}
                                 className={`group relative overflow-hidden rounded-2xl border p-5 text-left transition-all duration-500 ease-editorial ${active === i
-                                    ? 'border-violet bg-violet text-paper shadow-soft'
-                                    : 'border-ink/12 bg-surface text-ink hover:border-violet/40'
+                                    ? 'border-violet bg-gradient-to-br from-violet via-violet to-violet-deep text-paper shadow-glow'
+                                    : 'border-ink/12 bg-surface-gradient text-ink hover:border-violet/40'
                                     }`}
                             >
                                 <span
@@ -101,7 +101,7 @@ export default function Process() {
                     {/* Progress bar */}
                     <div className="mt-6 h-1 w-full overflow-hidden rounded-full bg-ink/10">
                         <motion.div
-                            className="h-full rounded-full bg-violet"
+                            className="h-full rounded-full bg-gradient-to-r from-violet-bright via-violet to-violet-deep"
                             initial={false}
                             animate={{ width: `${((active + 1) / STEPS.length) * 100}%` }}
                             transition={{ duration: 0.6, ease: EASE }}
@@ -114,7 +114,7 @@ export default function Process() {
                         initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, ease: EASE }}
-                        className="mt-10 grid grid-cols-1 gap-8 rounded-[28px] bg-surface p-8 shadow-card md:grid-cols-12 md:p-12"
+                        className="mt-10 grid grid-cols-1 gap-8 rounded-[28px] bg-surface-gradient p-8 shadow-card md:grid-cols-12 md:p-12"
                     >
                         <div className="md:col-span-2">
                             <span className="display text-[clamp(3rem,7vw,5rem)] leading-none text-line-strong">

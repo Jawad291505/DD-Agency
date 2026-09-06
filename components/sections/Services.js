@@ -2,10 +2,8 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { Reveal } from './motion'
-import { REGISTER_CLIENT_URL } from './links'
-
-const EASE = [0.22, 1, 0.36, 1]
+import { Reveal } from '@/lib/motion'
+import { REGISTER_CLIENT_URL } from '@/data/links'
 
 const GROUPS = [
     {
@@ -54,8 +52,9 @@ export default function Services() {
     const reduce = useReducedMotion()
 
     return (
-        <section id="services" className="section relative grain overflow-hidden bg-violet-900 text-paper">
-            <div aria-hidden="true" className="pointer-events-none absolute -right-40 top-20 h-[30rem] w-[30rem] rounded-full bg-violet-bright/25 blur-[140px]" />
+        <section id="services" className="section relative grain overflow-hidden bg-gradient-to-b from-violet-900 to-ink text-paper">
+            <div aria-hidden="true" className="pointer-events-none absolute -right-40 top-20 hidden h-[30rem] w-[30rem] rounded-full bg-violet-bright/25 blur-[140px] md:block" />
+            <div aria-hidden="true" className="pointer-events-none absolute -left-52 bottom-10 hidden h-[26rem] w-[26rem] rounded-full bg-violet/20 blur-[150px] md:block" />
             <div className="container relative z-10">
                 <Reveal className="grid grid-cols-1 items-end gap-8 md:grid-cols-2">
                     <div>
@@ -100,7 +99,7 @@ export default function Services() {
                                         {g.kicker}
                                     </span>
                                     <span
-                                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-all duration-500 ease-editorial ${isOpen ? 'rotate-45 border-violet bg-violet text-paper' : 'border-white/25 text-paper group-hover:border-white/60'}`}
+                                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-[transform,background-color,border-color] duration-300 ease-out ${isOpen ? 'rotate-45 border-violet bg-violet text-paper' : 'border-white/25 text-paper group-hover:border-white/60'}`}
                                     >
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
                                             <path d="M12 5v14M5 12h14" />
@@ -115,8 +114,15 @@ export default function Services() {
                                             initial={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
                                             animate={reduce ? { opacity: 1 } : { height: 'auto', opacity: 1 }}
                                             exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
-                                            transition={{ duration: 0.5, ease: EASE }}
-                                            className="overflow-hidden"
+                                            transition={
+                                                reduce
+                                                    ? { duration: 0.2 }
+                                                    : {
+                                                        height: { duration: 0.3, ease: [0.33, 1, 0.68, 1] },
+                                                        opacity: { duration: 0.18, ease: 'linear' },
+                                                    }
+                                            }
+                                            style={{ overflow: 'hidden', willChange: 'height', contain: 'layout paint' }}
                                         >
                                             <div className="grid grid-cols-1 gap-8 pb-10 md:grid-cols-12 md:gap-8">
                                                 <div className="md:col-span-4 md:pl-14">
@@ -130,21 +136,18 @@ export default function Services() {
                                                 </div>
                                                 <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/12 sm:grid-cols-2 md:col-span-8">
                                                     {g.services.map((s, i) => (
-                                                        <motion.div
+                                                        <div
                                                             key={s.name}
-                                                            initial={reduce ? {} : { opacity: 0, y: 14 }}
-                                                            animate={{ opacity: 1, y: 0 }}
-                                                            transition={{ duration: 0.4, ease: EASE, delay: 0.08 + i * 0.05 }}
-                                                            className="group/item relative bg-white/[0.03] p-6 transition-colors duration-500 hover:bg-violet hover:text-paper"
+                                                            className="group/item relative bg-white/[0.03] p-6 transition-colors duration-300 hover:bg-gradient-to-br hover:from-violet hover:to-violet-deep hover:text-paper"
                                                         >
-                                                            <span className="font-mono text-[0.66rem] text-violet-light transition-colors duration-500 group-hover/item:text-paper/60">
+                                                            <span className="font-mono text-[0.66rem] text-violet-light transition-colors duration-300 group-hover/item:text-paper/60">
                                                                 {String(i + 1).padStart(2, '0')}
                                                             </span>
                                                             <h4 className="mt-3 font-serif text-[1.3rem] leading-tight">{s.name}</h4>
-                                                            <p className="mt-2 text-[0.9rem] leading-relaxed text-paper/55 transition-colors duration-500 group-hover/item:text-paper/80">
+                                                            <p className="mt-2 text-[0.9rem] leading-relaxed text-paper/55 transition-colors duration-300 group-hover/item:text-paper/80">
                                                                 {s.value}
                                                             </p>
-                                                        </motion.div>
+                                                        </div>
                                                     ))}
                                                 </div>
                                             </div>

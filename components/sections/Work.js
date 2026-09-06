@@ -1,8 +1,8 @@
 'use client'
 
-import { IMAGES } from './images'
-import { Reveal, ImageReveal } from './motion'
-import { REGISTER_CLIENT_URL } from './links'
+import { IMAGES } from '@/data/images'
+import { Reveal, ImageReveal } from '@/lib/motion'
+import { REGISTER_CLIENT_URL } from '@/data/links'
 
 /**
  * Case-study framework. Copy is intentionally capability-led rather than
@@ -11,48 +11,48 @@ import { REGISTER_CLIENT_URL } from './links'
  */
 const PROJECTS = [
     {
-        title: 'Northstar Studio',
-        category: 'Web Development · SEO',
+        title: 'Trendwood',
+        category: 'Web · Social · SEO',
         summary:
-            'A rebuilt marketing site and technical SEO foundation designed to turn organic discovery into qualified enquiries.',
+            'A large furniture retailer given full-stack digital support — brand graphics, ongoing website maintenance, social media management and technical SEO, all under one roof.',
         image: IMAGES.gallery1,
         metrics: [
-            { label: 'Focus', value: 'Organic growth' },
-            { label: 'Scope', value: 'Design → Build → SEO' },
+            { label: 'Focus', value: 'Full-stack presence' },
+            { label: 'Scope', value: 'Graphics · Web · Social · SEO' },
         ],
         featured: true,
     },
     {
-        title: 'Lumen Health',
-        category: 'Content · SEO',
+        title: 'Agora',
+        category: 'App · Web Development',
         summary:
-            'An editorial content engine built to compound organic pipeline in a competitive, trust-driven category.',
+            'An app that makes democratic participation effortless, keeping an open line between politicians and the public they represent.',
         image: IMAGES.gallery3,
         metrics: [
-            { label: 'Focus', value: 'Pipeline' },
-            { label: 'Scope', value: 'Strategy → Content' },
+            { label: 'Focus', value: 'Civic engagement' },
+            { label: 'Scope', value: 'App → Web' },
         ],
     },
     {
-        title: 'Vertex Labs',
-        category: 'Branding · Web',
+        title: 'Fitoo',
+        category: 'Web · Ads · SEO',
         summary:
-            'A full rebrand and site relaunch that repositioned a technical product for a broader, higher-value market.',
+            'A fitness service provider taken online end to end — website, ad campaigns, SEO, graphic design and a consistent presence across every channel.',
         image: IMAGES.gallery2,
         metrics: [
-            { label: 'Focus', value: 'Positioning' },
-            { label: 'Scope', value: 'Brand → Web' },
+            { label: 'Focus', value: 'Online presence' },
+            { label: 'Scope', value: 'Web · Ads · SEO · Design' },
         ],
     },
     {
-        title: 'Coastline',
-        category: 'Meta Ads · Social',
+        title: 'Eyesight Ltd.',
+        category: 'Ad Campaigns · Video',
         summary:
-            'A performance-led paid social program engineered to scale acquisition while protecting return on ad spend.',
+            'Performance ad campaigns paired with in-house videography, built to turn attention into measurable demand.',
         image: IMAGES.gallery4,
         metrics: [
-            { label: 'Focus', value: 'Acquisition' },
-            { label: 'Scope', value: 'Paid social' },
+            { label: 'Focus', value: 'Demand generation' },
+            { label: 'Scope', value: 'Campaigns → Video' },
         ],
     },
 ]
@@ -98,7 +98,7 @@ export default function Work() {
 
                 {/* Featured project */}
                 <ImageReveal className="mt-14">
-                    <div className="group grid grid-cols-1 overflow-hidden rounded-3xl bg-violet-900 text-paper lg:grid-cols-2">
+                    <div className="group grid grid-cols-1 overflow-hidden rounded-3xl bg-gradient-to-br from-violet-deep via-violet-900 to-ink text-paper shadow-glow lg:grid-cols-2">
                         <div className="relative aspect-[16/11] overflow-hidden lg:aspect-auto">
                             <img
                                 src={featured.image}
@@ -128,7 +128,7 @@ export default function Work() {
                 <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
                     {rest.map((p, i) => (
                         <ImageReveal key={p.title} delay={(i % 3) * 0.08}>
-                            <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-surface transition-shadow duration-500 hover:shadow-soft">
+                            <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-ink/10 bg-surface-gradient transition-shadow duration-500 hover:shadow-soft">
                                 <div className="relative aspect-[4/3] overflow-hidden">
                                     <img
                                         src={p.image}
@@ -154,7 +154,10 @@ export default function Work() {
                     ))}
                 </div>
 
-                <Reveal className="mt-14 flex flex-col items-center gap-6 rounded-3xl border border-ink/10 bg-paper-deep px-8 py-12 text-center">
+                <Reveal
+                    className="frame-gradient mt-14 flex flex-col items-center gap-6 rounded-3xl px-8 py-12 text-center"
+                    style={{ '--frame-bg': '#ECE5F7' }}
+                >
                     <p className="display text-[clamp(1.4rem,3vw,2.1rem)] leading-snug text-ink">
                         Your project could be the next one here.
                     </p>

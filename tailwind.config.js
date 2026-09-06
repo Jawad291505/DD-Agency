@@ -68,10 +68,14 @@ module.exports = {
                 soft: '0 18px 44px -20px rgba(20, 19, 15, 0.22)',
                 lifted: '0 30px 70px -28px rgba(20, 19, 15, 0.4)',
                 editorial: '0 50px 100px -55px rgba(13, 12, 10, 0.6)',
+                glow: '0 30px 70px -30px rgba(124, 58, 237, 0.55)',
             },
             backgroundImage: {
                 'grid-ink': 'linear-gradient(rgba(22,21,18,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(22,21,18,0.05) 1px, transparent 1px)',
                 'grid-light': 'linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)',
+                // Hero-style violet-tinted surface — white lifting into a lavender wash.
+                // Drop-in replacement for `bg-surface` on cards and panels.
+                'surface-gradient': 'linear-gradient(155deg, #FFFFFF 0%, #F8F4FE 52%, #EEE6FC 100%)',
             },
             keyframes: {
                 riseIn: {

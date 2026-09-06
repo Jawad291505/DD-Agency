@@ -1,9 +1,9 @@
 import './globals.css'
 import { Inter, Fraunces, JetBrains_Mono } from 'next/font/google'
-import SmoothScroll from './components/SmoothScroll'
-import Cursor from './components/Cursor'
-import ScrollProgress from './components/ScrollProgress'
-import Preloader from './components/Preloader'
+import SmoothScroll from '@/components/effects/SmoothScroll'
+import Cursor from '@/components/effects/Cursor'
+import ScrollProgress from '@/components/effects/ScrollProgress'
+import Preloader from '@/components/effects/Preloader'
 
 const inter = Inter({
     subsets: ['latin'],

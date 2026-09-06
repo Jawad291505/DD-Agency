@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useInView, useReducedMotion } from 'framer-motion'
+import { isAppReady, onAppReady } from '@/lib/ready'
 
 /**
  * Count-up number that animates exactly once when scrolled into view.
@@ -23,6 +24,11 @@ export default function Counter({ value, duration = 1900, className }) {
     const rafRef = useRef(null)
     const reduce = useReducedMotion()
     const inView = useInView(ref, { once: true, amount: 0.4 })
+
+    // Hold the count-up until the Preloader has finished, so numbers that are
+    // already on screen at load don't animate hidden behind the loading panel.
+    const [ready, setReady] = useState(isAppReady)
+    useEffect(() => onAppReady(() => setReady(true)), [])
 
     const parsed = useMemo(() => {
         const match = String(value).match(/^(\D*)([\d.,]+)(.*)$/s)
@@ -59,7 +65,7 @@ export default function Counter({ value, duration = 1900, className }) {
             return
         }
 
-        if (!inView) return
+        if (!inView || !ready) return
         hasRun.current = true
 
         const start = performance.now()
@@ -78,7 +84,7 @@ export default function Counter({ value, duration = 1900, className }) {
         return () => {
             if (rafRef.current) cancelAnimationFrame(rafRef.current)
         }
-    }, [inView, reduce, duration, parsed, format])
+    }, [inView, ready, reduce, duration, parsed, format])
 
     if (!parsed) {
         return (

@@ -1,7 +1,7 @@
 'use client'
 
-import { Reveal, Stagger, StaggerItem } from './motion'
-import Counter from './Counter'
+import { Reveal, Stagger, StaggerItem } from '@/lib/motion'
+import Counter from '@/components/ui/Counter'
 
 const REASONS = [
     {
@@ -32,8 +32,8 @@ const REASONS = [
 
 export default function WhyUs() {
     return (
-        <section id="why" className="section overflow-hidden bg-surface-warm">
-            <div className="container">
+        <section id="why" className="section relative torch overflow-hidden bg-paper">
+            <div className="container relative z-10">
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
                     {/* Sticky statement rail */}
                     <div className="lg:col-span-4">
@@ -48,10 +48,10 @@ export default function WhyUs() {
                                 relationship that actually deliver it.
                             </p>
 
-                            <div className="mt-10 rounded-3xl bg-violet-900 p-8 text-paper">
+                            <div className="mt-10 rounded-3xl bg-gradient-to-br from-violet-deep via-violet-900 to-ink p-8 text-paper shadow-glow">
                                 <p className="display text-[clamp(2.4rem,5vw,3.4rem)] leading-none text-paper">
                                     <Counter value="4.9" />
-                                    <span className="text-violet-light">/5</span>
+                                    <span className="text-gradient-light">/5</span>
                                 </p>
                                 <p className="mt-3 text-sm text-paper/70">
                                     Average client satisfaction across every project we&apos;ve closed
@@ -66,7 +66,7 @@ export default function WhyUs() {
                         {REASONS.map((r, i) => (
                             <StaggerItem
                                 key={r.title}
-                                className="group relative bg-surface p-8 transition-colors duration-500 ease-editorial hover:bg-violet-soft md:p-9"
+                                className="group relative bg-surface bg-gradient-to-br from-white to-violet-soft/60 p-8 transition-all duration-500 ease-editorial hover:from-violet-soft hover:to-surface md:p-9"
                             >
                                 <span className="font-mono text-xs tracking-wide text-violet">
                                     {String(i + 1).padStart(2, '0')}

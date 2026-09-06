@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { motion, useReducedMotion, AnimatePresence } from 'framer-motion'
-import { REGISTER_CLIENT_URL } from './links'
-import Magnetic from './Magnetic'
-import Counter from './Counter'
+import { useEffect, useRef, useState } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { REGISTER_CLIENT_URL } from '@/data/links'
+import Magnetic from '@/components/ui/Magnetic'
+import Counter from '@/components/ui/Counter'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -32,6 +32,16 @@ const MARQUEE = [
 export default function Hero() {
     const reduce = useReducedMotion()
     const [word, setWord] = useState(0)
+    const sectionRef = useRef(null)
+
+    // Parallax for the oversized "Diversify Digital" watermark as the hero exits.
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ['start start', 'end start'],
+    })
+    const markX = useTransform(scrollYProgress, [0, 1], reduce ? ['0%', '0%'] : ['0%', '-7%'])
+    const markY = useTransform(scrollYProgress, [0, 1], reduce ? ['0%', '0%'] : ['0%', '8%'])
+    const markOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [0.06, 0.045, 0])
 
     useEffect(() => {
         if (reduce) return
@@ -51,7 +61,25 @@ export default function Hero() {
     const marquee = [...MARQUEE, ...MARQUEE]
 
     return (
-        <section id="top" className="relative isolate overflow-hidden bg-paper text-ink">
+        <section ref={sectionRef} id="top" className="relative isolate overflow-hidden bg-paper text-ink">
+            {/* Oversized parallax watermark — anchored into the lower-right space */}
+            <motion.div
+                aria-hidden="true"
+                initial={reduce ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.4, ease: EASE, delay: 0.45 }}
+                className="pointer-events-none absolute inset-x-0 bottom-[9%] z-0 md:bottom-[13%]"
+            >
+                <motion.div
+                    style={{ x: markX, y: markY, opacity: reduce ? 0.05 : markOpacity }}
+                    className="pr-6 text-right will-change-transform md:pr-10"
+                >
+                    <span className="whitespace-nowrap font-serif font-light leading-none tracking-[-0.045em] text-ink [font-size:clamp(2.5rem,11vw,10rem)]">
+                        Diversify Digital
+                    </span>
+                </motion.div>
+            </motion.div>
+
             {/* Blueprint grid + ambient accents */}
             <div aria-hidden="true" className="pointer-events-none absolute inset-0">
                 <div
@@ -64,8 +92,8 @@ export default function Hero() {
                             'radial-gradient(ellipse 90% 70% at 50% 30%, black, transparent 80%)',
                     }}
                 />
-                <div className="absolute -right-40 top-10 h-[34rem] w-[34rem] rounded-full bg-violet/20 blur-[130px]" />
-                <div className="absolute -left-40 bottom-10 h-[28rem] w-[28rem] rounded-full bg-violet-bright/15 blur-[130px]" />
+                <div className="absolute -right-40 top-10 hidden h-[34rem] w-[34rem] rounded-full bg-violet/20 blur-[130px] md:block" />
+                <div className="absolute -left-40 bottom-10 hidden h-[28rem] w-[28rem] rounded-full bg-violet-bright/15 blur-[130px] md:block" />
             </div>
 
             <div className="container relative z-10 flex min-h-[100svh] flex-col justify-center pb-14 pt-[clamp(7rem,14vh,10rem)]">
@@ -88,17 +116,17 @@ export default function Hero() {
                 </motion.div>
 
                 <h1 className="mt-8 display text-[clamp(2.8rem,8.5vw,7rem)] leading-[0.9] tracking-[-0.03em] text-ink">
-                    <span className="block overflow-hidden">
+                    <span className="block overflow-hidden pb-[0.2em] -mb-[0.2em]">
                         <motion.span custom={0} variants={line} initial="hidden" animate="show" className="block">
                             We build brands
                         </motion.span>
                     </span>
-                    <span className="block overflow-hidden">
+                    <span className="block overflow-hidden pb-[0.2em] -mb-[0.2em]">
                         <motion.span custom={1} variants={line} initial="hidden" animate="show" className="block">
                             that don&apos;t just show up —
                         </motion.span>
                     </span>
-                    <span className="block overflow-hidden">
+                    <span className="block overflow-hidden pb-[0.55em] -mb-[0.55em]">
                         <motion.span
                             custom={2}
                             variants={line}
@@ -115,7 +143,7 @@ export default function Hero() {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={reduce ? { opacity: 0 } : { opacity: 0, y: '-0.5em' }}
                                         transition={{ duration: 0.5, ease: EASE }}
-                                        className="col-start-1 row-start-1 whitespace-nowrap italic text-violet"
+                                        className="col-start-1 row-start-1 whitespace-nowrap italic text-violet text-gradient"
                                     >
                                         {ROTATING[word]}
                                     </motion.span>
