@@ -1,20 +1,13 @@
 'use client'
 
-import { useState } from 'react'
-import { Reveal, Stagger, StaggerItem } from '@/lib/motion'
+import { useState, useRef, useEffect } from 'react'
+import { useReducedMotion } from 'framer-motion'
 import Magnetic from '@/components/ui/Magnetic'
 
 const SERVICE_OPTIONS = [
-    'SEO',
-    'Google Ads',
-    'Meta Ads',
-    'Social Media Marketing',
-    'Web Development',
-    'App Development',
-    'Branding',
-    'Graphic Design',
-    'Content Creation',
-    'Not sure yet',
+    'SEO', 'Google Ads', 'Meta Ads', 'Social Media Marketing',
+    'Web Development', 'App Development', 'Branding', 'Graphic Design',
+    'Content Creation', 'Not sure yet',
 ]
 
 const DETAILS = [
@@ -23,171 +16,206 @@ const DETAILS = [
     ['Where we work', 'Fully remote — partnering with brands worldwide', null],
 ]
 
+/**
+ * Minimal particle field that echoes the hero but in a settled, organised state.
+ * The growth engine has been built — the particles are now ordered.
+ */
+function ContactCanvas() {
+    const canvasRef = useRef(null)
+    const rafRef = useRef(null)
+
+    useEffect(() => {
+        const canvas = canvasRef.current
+        if (!canvas) return
+        const ctx = canvas.getContext('2d')
+        let w = canvas.offsetWidth
+        let h = canvas.offsetHeight
+        const isMobile = w < 768
+        const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio, 2)
+        canvas.width = w * dpr
+        canvas.height = h * dpr
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+        const cols = isMobile ? 6 : 12
+        const rows = isMobile ? 4 : 8
+        const particles = []
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+                particles.push({
+                    x: (i + 0.5) * (w / cols),
+                    y: (j + 0.5) * (h / rows),
+                    phase: Math.random() * Math.PI * 2,
+                    r: 1 + Math.random(),
+                })
+            }
+        }
+
+        const draw = () => {
+            ctx.clearRect(0, 0, w, h)
+            const time = performance.now() * 0.001
+
+            particles.forEach((p, i) => {
+                const px = p.x + Math.sin(time * 0.5 + p.phase) * 3
+                const py = p.y + Math.cos(time * 0.3 + p.phase) * 3
+                const alpha = 0.18 + 0.10 * Math.sin(time + p.phase)
+
+                ctx.beginPath()
+                ctx.arc(px, py, p.r, 0, Math.PI * 2)
+                ctx.fillStyle = `rgba(139, 92, 246, ${alpha})`
+                ctx.fill()
+
+                // Connect to nearby — desktop only (O(n²))
+                if (!isMobile) {
+                    particles.forEach((p2, j) => {
+                        if (j <= i) return
+                        const dx = px - (p2.x + Math.sin(time * 0.5 + p2.phase) * 3)
+                        const dy = py - (p2.y + Math.cos(time * 0.3 + p2.phase) * 3)
+                        const dist = Math.sqrt(dx * dx + dy * dy)
+                        if (dist < w / cols * 1.5) {
+                            ctx.beginPath()
+                            ctx.moveTo(px, py)
+                            ctx.lineTo(
+                                p2.x + Math.sin(time * 0.5 + p2.phase) * 3,
+                                p2.y + Math.cos(time * 0.3 + p2.phase) * 3
+                            )
+                            ctx.strokeStyle = `rgba(139, 92, 246, 0.06)`
+                            ctx.lineWidth = 0.5
+                            ctx.stroke()
+                        }
+                    })
+                }
+            })
+
+            rafRef.current = requestAnimationFrame(draw)
+        }
+        rafRef.current = requestAnimationFrame(draw)
+        return () => cancelAnimationFrame(rafRef.current)
+    }, [])
+
+    return <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
+}
+
 export default function Contact() {
     const [sent, setSent] = useState(false)
+    const reduce = useReducedMotion()
 
     const onSubmit = (e) => {
         e.preventDefault()
-        // No backend wired up — acknowledge locally so the UX stays complete.
         setSent(true)
     }
 
     return (
-        <section id="contact" className="relative isolate grain overflow-hidden bg-violet-900 text-paper">
-            {/* Ambient accents */}
-            <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden md:block">
-                <div className="absolute -left-32 top-0 h-[30rem] w-[30rem] rounded-full bg-violet-bright/20 blur-[130px]" />
-                <div className="absolute -right-24 bottom-0 h-[26rem] w-[26rem] rounded-full bg-violet/20 blur-[130px]" />
+        <section id="contact" className="relative overflow-hidden bg-[#0a0a0f] py-[clamp(6rem,12vw,10rem)]">
+            {/* Background */}
+            <div className="absolute inset-0">
+                {!reduce && <ContactCanvas />}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[550px] w-[700px] rounded-full bg-violet-600/15 blur-[180px]" />
+                <div className="absolute inset-0 grain" />
             </div>
 
-            <div className="container relative z-10 py-[clamp(5rem,10vw,9rem)]">
-                {/* Big conversion headline */}
-                <Reveal className="mx-auto max-w-4xl text-center">
-                    <div className="label label-line mx-auto text-violet-light">Let&apos;s build it</div>
-                    <h2 className="mt-6 display text-[clamp(2.6rem,7vw,5.6rem)] leading-[0.98] text-paper">
-                        Have a project in mind?
+            <div className="container relative z-10">
+                {/* Big headline — journey completion */}
+                <div className="mx-auto max-w-3xl text-center">
+                    <span className="label label-line mx-auto text-violet-400/60">Let&apos;s build it</span>
+                    <h2 className="mt-8 display text-[clamp(2.8rem,7vw,6rem)] leading-[0.95] text-white/90">
+                        Ready to
                         <br />
-                        <span className="italic text-violet-light">Let&apos;s make it grow.</span>
+                        <span className="italic text-gradient-violet">grow?</span>
                     </h2>
-                    <p className="mx-auto mt-7 max-w-[520px] text-[1.05rem] leading-relaxed text-paper/70">
+                    <p className="mx-auto mt-6 max-w-lg text-[1rem] leading-relaxed text-white/55">
                         Tell us about your brand and where you want to take it. We&apos;ll come back
-                        within one business day with a clear next step — no pressure, no jargon.
+                        within one business day with a clear next step.
                     </p>
-                </Reveal>
+                </div>
 
                 <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
                     {/* Details */}
                     <div className="lg:col-span-5">
-                        <Stagger className="flex flex-col gap-6">
+                        <div className="flex flex-col gap-6">
                             {DETAILS.map(([label, value, href]) => (
-                                <StaggerItem key={label} className="border-t border-white/12 pt-5">
-                                    <p className="font-mono text-[0.7rem] uppercase tracking-wide text-violet-light">
+                                <div key={label} className="border-t border-white/[0.06] pt-5">
+                                    <p className="font-mono text-[0.65rem] uppercase tracking-wide text-violet-400/50">
                                         {label}
                                     </p>
                                     {href ? (
-                                        <a
-                                            href={href}
-                                            className="mt-2 inline-block font-serif text-xl text-paper transition-colors duration-300 hover:text-violet-light"
-                                        >
+                                        <a href={href} className="mt-2 block font-serif text-lg text-white/70 transition-colors hover:text-violet-300">
                                             {value}
                                         </a>
                                     ) : (
-                                        <p className="mt-2 font-serif text-xl text-paper">{value}</p>
+                                        <p className="mt-2 font-serif text-lg text-white/70">{value}</p>
                                     )}
-                                </StaggerItem>
+                                </div>
                             ))}
-                        </Stagger>
+                        </div>
 
-                        <Reveal delay={0.2} className="mt-10 rounded-3xl border border-white/12 bg-white/[0.03] p-8">
-                            <p className="font-mono text-[0.7rem] uppercase tracking-wide text-violet-light">
+                        <div className="mt-10 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6">
+                            <p className="font-mono text-[0.65rem] uppercase tracking-wide text-violet-400/50">
                                 What happens next
                             </p>
-                            <ol className="mt-5 flex flex-col gap-4 text-[0.95rem] text-paper/70">
+                            <ol className="mt-4 flex flex-col gap-3 text-[0.9rem] text-white/55">
                                 {[
                                     'We read your message and review your brand.',
                                     'We reply within one business day.',
                                     'We book a short, no-obligation call.',
                                 ].map((t, i) => (
                                     <li key={t} className="flex items-start gap-3">
-                                        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-violet text-[0.72rem] font-semibold text-paper">
+                                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-violet-600/20 text-[0.65rem] font-medium text-violet-300">
                                             {i + 1}
                                         </span>
                                         {t}
                                     </li>
                                 ))}
                             </ol>
-                        </Reveal>
+                        </div>
                     </div>
 
                     {/* Form */}
                     <div className="lg:col-span-7">
-                        <Reveal className="rounded-3xl border border-white/12 bg-white/[0.04] p-8 md:p-10">
+                        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 md:p-10">
                             {sent ? (
-                                <div className="flex min-h-[440px] flex-col items-center justify-center text-center">
-                                    <span className="flex h-16 w-16 items-center justify-center rounded-full bg-violet text-paper">
-                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                                <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
+                                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-600/20 text-violet-300">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M20 6 9 17l-5-5" />
                                         </svg>
                                     </span>
-                                    <h3 className="mt-6 display text-[clamp(1.6rem,3vw,2.2rem)] text-paper">
-                                        Thank you.
-                                    </h3>
-                                    <p className="mt-3 max-w-[360px] text-paper/70">
-                                        Your message is on its way. We&apos;ll be in touch within one
-                                        business day.
-                                    </p>
+                                    <h3 className="mt-6 display text-[clamp(1.4rem,3vw,2rem)] text-white/90">Thank you.</h3>
+                                    <p className="mt-3 max-w-xs text-white/40">We&apos;ll be in touch within one business day.</p>
                                 </div>
                             ) : (
-                                <form onSubmit={onSubmit} className="flex flex-col gap-6">
-                                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                                        <Field label="Name" htmlFor="name">
-                                            <input
-                                                id="name"
-                                                name="name"
-                                                type="text"
-                                                required
-                                                autoComplete="name"
-                                                className="field-input"
-                                                placeholder="Your name"
-                                            />
+                                <form onSubmit={onSubmit} className="flex flex-col gap-5">
+                                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                                        <Field label="Name" id="name">
+                                            <input id="name" name="name" type="text" required autoComplete="name" className="field-input" placeholder="Your name" />
                                         </Field>
-                                        <Field label="Email" htmlFor="email">
-                                            <input
-                                                id="email"
-                                                name="email"
-                                                type="email"
-                                                required
-                                                autoComplete="email"
-                                                className="field-input"
-                                                placeholder="you@company.com"
-                                            />
+                                        <Field label="Email" id="email">
+                                            <input id="email" name="email" type="email" required autoComplete="email" className="field-input" placeholder="you@company.com" />
                                         </Field>
                                     </div>
-
-                                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                                        <Field label="Company" htmlFor="company">
-                                            <input
-                                                id="company"
-                                                name="company"
-                                                type="text"
-                                                autoComplete="organization"
-                                                className="field-input"
-                                                placeholder="Company name"
-                                            />
+                                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                                        <Field label="Company" id="company">
+                                            <input id="company" name="company" type="text" autoComplete="organization" className="field-input" placeholder="Company name" />
                                         </Field>
-                                        <Field label="Service of interest" htmlFor="service">
+                                        <Field label="Service" id="service">
                                             <select id="service" name="service" className="field-input" defaultValue="">
-                                                <option value="" disabled>
-                                                    Select a service
-                                                </option>
+                                                <option value="" disabled>Select a service</option>
                                                 {SERVICE_OPTIONS.map((s) => (
-                                                    <option key={s} value={s}>
-                                                        {s}
-                                                    </option>
+                                                    <option key={s} value={s}>{s}</option>
                                                 ))}
                                             </select>
                                         </Field>
                                     </div>
-
-                                    <Field label="Message" htmlFor="message">
-                                        <textarea
-                                            id="message"
-                                            name="message"
-                                            rows={4}
-                                            required
-                                            className="field-input resize-none"
-                                            placeholder="Tell us about your project and your goals..."
-                                        />
+                                    <Field label="Message" id="message">
+                                        <textarea id="message" name="message" rows={4} required className="field-input resize-none" placeholder="Tell us about your project..." />
                                     </Field>
-
-                                    <Magnetic strength={0.4} className="mt-2 self-start">
-                                        <button type="submit" data-cursor-label="Send" className="btn btn-lime">
+                                    <Magnetic strength={0.3} className="mt-2 self-start">
+                                        <button type="submit" data-cursor-label="Send" className="btn btn-primary">
                                             Send message
                                         </button>
                                     </Magnetic>
                                 </form>
                             )}
-                        </Reveal>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -195,12 +223,10 @@ export default function Contact() {
     )
 }
 
-function Field({ label, htmlFor, children }) {
+function Field({ label, id, children }) {
     return (
-        <label htmlFor={htmlFor} className="flex flex-col gap-2">
-            <span className="font-mono text-[0.7rem] uppercase tracking-wide text-paper/50">
-                {label}
-            </span>
+        <label htmlFor={id} className="flex flex-col gap-1.5">
+            <span className="font-mono text-[0.65rem] uppercase tracking-wide text-white/40">{label}</span>
             {children}
         </label>
     )

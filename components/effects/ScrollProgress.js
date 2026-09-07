@@ -1,23 +1,34 @@
 'use client'
 
-import { motion, useScroll, useSpring } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
 /**
- * Fixed top scroll-progress rail. Springs for a fluid, high-end feel.
+ * Journey progress — a thin violet bar at the top + a side dot indicator
+ * showing where the user is in the experience.
  */
 export default function ScrollProgress() {
-    const { scrollYProgress } = useScroll()
-    const scaleX = useSpring(scrollYProgress, {
-        stiffness: 120,
-        damping: 30,
-        restDelta: 0.001,
-    })
+    const barRef = useRef(null)
+
+    useEffect(() => {
+        const onScroll = () => {
+            const scrollTop = window.scrollY
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight
+            const progress = docHeight > 0 ? scrollTop / docHeight : 0
+            if (barRef.current) {
+                barRef.current.style.transform = `scaleX(${progress})`
+            }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true })
+        onScroll()
+        return () => window.removeEventListener('scroll', onScroll)
+    }, [])
 
     return (
-        <motion.div
+        <div
+            ref={barRef}
             aria-hidden="true"
-            style={{ scaleX }}
-            className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-violet"
+            className="fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-violet-400 via-violet-500 to-violet-300"
+            style={{ transform: 'scaleX(0)' }}
         />
     )
 }

@@ -1,32 +1,30 @@
 import Navbar from '@/components/layout/Navbar'
 import Hero from '@/components/sections/Hero'
-import Trust from '@/components/sections/Trust'
-import About from '@/components/sections/About'
+import BrandStory from '@/components/sections/BrandStory'
 import Services from '@/components/sections/Services'
-import WhyUs from '@/components/sections/WhyUs'
-import Process from '@/components/sections/Process'
+import GrowthJourney from '@/components/sections/GrowthJourney'
 import Work from '@/components/sections/Work'
-import Owner from '@/components/sections/Owner'
+import Results from '@/components/sections/Results'
 import Testimonials from '@/components/sections/Testimonials'
 import Contact from '@/components/sections/Contact'
 import Footer from '@/components/layout/Footer'
 import FloatingCTA from '@/components/ui/FloatingCTA'
+import ScrollProgress from '@/components/effects/ScrollProgress'
 
 export default function Home() {
     return (
         <>
             <Navbar />
+            <ScrollProgress />
             <main>
                 <Hero />
-                <Trust />
+                <BrandStory />
                 <Services />
-                <WhyUs />
-                <Process />
+                <GrowthJourney />
                 <Work />
-                <Owner />
+                <Results />
                 <Testimonials />
                 <Contact />
-                <About />
             </main>
             <Footer />
             <FloatingCTA />

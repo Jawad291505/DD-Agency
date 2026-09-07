@@ -7,11 +7,6 @@ import { REGISTER_CLIENT_URL } from '@/data/links'
 
 const EASE = [0.22, 1, 0.36, 1]
 
-/**
- * Persistent conversion pill. Appears once the hero scrolls out of view and
- * hides again near the contact/footer so it never fights the on-page form.
- * Keeps the primary action a single click away throughout the journey.
- */
 export default function FloatingCTA() {
     const [show, setShow] = useState(false)
 
@@ -39,19 +34,18 @@ export default function FloatingCTA() {
                     transition={{ duration: 0.5, ease: EASE }}
                     className="fixed bottom-6 right-6 z-40 hidden md:block"
                 >
-                    <Magnetic strength={0.4}>
+                    <Magnetic strength={0.3}>
                         <a
                             href={REGISTER_CLIENT_URL}
                             data-cursor-label="Let's talk"
-                            className="group flex items-center gap-3 rounded-full bg-gradient-to-br from-violet to-violet-deep py-3.5 pl-6 pr-3.5 text-paper shadow-glow transition-all duration-300 hover:from-violet-bright hover:to-violet"
+                            className="group flex items-center gap-3 rounded-full bg-gradient-to-br from-violet-500 to-violet-700 py-3 pl-5 pr-3 text-white shadow-[0_8px_30px_-8px_rgba(124,58,237,0.5)] transition-all duration-300 hover:shadow-[0_12px_40px_-8px_rgba(124,58,237,0.6)]"
                         >
-                            <span className="font-sans text-[0.82rem] font-semibold uppercase tracking-wide">
+                            <span className="font-sans text-[0.75rem] font-semibold uppercase tracking-wide">
                                 Start a project
                             </span>
-                            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-paper text-violet">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-500 ease-editorial group-hover:translate-x-0.5">
-                                    <path d="M5 12h14" />
-                                    <path d="m12 5 7 7-7 7" />
+                            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                                    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
                                 </svg>
                             </span>
                         </a>

@@ -3,14 +3,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
-/**
- * Custom trailing cursor with a hover/label state.
- * - Dot follows the pointer 1:1.
- * - Ring lags behind with easing for the signature "editorial" feel.
- * - Grows + shows a label ("View", "Drag", etc.) over interactive targets
- *   that declare `data-cursor` / `data-cursor-label`.
- * Hidden on touch devices and for reduced-motion users.
- */
 export default function Cursor() {
     const reduce = useReducedMotion()
     const dotRef = useRef(null)
@@ -19,7 +11,6 @@ export default function Cursor() {
     const [variant, setVariant] = useState('default')
     const [label, setLabel] = useState('')
 
-    // 1. Decide whether the custom cursor should run at all.
     useEffect(() => {
         if (reduce) return
         if (!window.matchMedia('(pointer: fine)').matches) return
@@ -28,10 +19,8 @@ export default function Cursor() {
         return () => document.documentElement.classList.remove('has-custom-cursor')
     }, [reduce])
 
-    // 2. Wire up movement + hover detection — only after the nodes exist.
     useEffect(() => {
         if (!enabled) return
-
         const dot = dotRef.current
         const ring = ringRef.current
         let mouseX = window.innerWidth / 2
@@ -56,15 +45,10 @@ export default function Cursor() {
 
         const onOver = (e) => {
             const el = e.target.closest('[data-cursor], a, button')
-            if (!el) {
-                setVariant('default')
-                setLabel('')
-                return
-            }
-            const c = el.getAttribute('data-cursor')
+            if (!el) { setVariant('default'); setLabel(''); return }
             const l = el.getAttribute('data-cursor-label')
             setLabel(l || '')
-            setVariant(c || (l ? 'label' : 'link'))
+            setVariant(l ? 'label' : 'link')
         }
 
         window.addEventListener('mousemove', onMove, { passive: true })
@@ -80,34 +64,30 @@ export default function Cursor() {
     if (!enabled) return null
 
     const isLabel = variant === 'label' && label
-    const isLink = variant === 'link' || variant === 'view'
+    const isLink = variant === 'link'
 
     return (
         <>
             <div
                 ref={dotRef}
                 aria-hidden="true"
-                className="pointer-events-none fixed left-0 top-0 z-[9999] -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-ink mix-blend-difference"
+                className="pointer-events-none fixed left-0 top-0 z-[9999] -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-white mix-blend-difference"
             />
             <div
                 ref={ringRef}
                 aria-hidden="true"
                 className="pointer-events-none fixed left-0 top-0 z-[9998] flex items-center justify-center rounded-full transition-[width,height,background-color,border-color] duration-300 ease-out"
                 style={{
-                    marginLeft: isLabel ? -44 : -18,
-                    marginTop: isLabel ? -44 : -18,
-                    width: isLabel ? 88 : 36,
-                    height: isLabel ? 88 : 36,
-                    border: isLabel ? 'none' : '1px solid rgba(124,58,237,0.55)',
-                    background: isLabel
-                        ? '#7C3AED'
-                        : isLink
-                            ? 'rgba(124,58,237,0.18)'
-                            : 'transparent',
+                    marginLeft: isLabel ? -40 : -16,
+                    marginTop: isLabel ? -40 : -16,
+                    width: isLabel ? 80 : 32,
+                    height: isLabel ? 80 : 32,
+                    border: isLabel ? 'none' : '1px solid rgba(124,58,237,0.4)',
+                    background: isLabel ? 'rgba(124,58,237,0.9)' : isLink ? 'rgba(124,58,237,0.12)' : 'transparent',
                 }}
             >
                 {isLabel && (
-                    <span className="font-mono text-[0.6rem] font-semibold uppercase tracking-wide text-paper">
+                    <span className="font-mono text-[0.55rem] font-semibold uppercase tracking-wide text-white">
                         {label}
                     </span>
                 )}
