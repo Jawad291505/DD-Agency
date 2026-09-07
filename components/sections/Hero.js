@@ -14,6 +14,7 @@ function ParticleCanvas() {
     const mouseRef = useRef({ x: 0.5, y: 0.5 })
     const scrollRef = useRef(0)
     const particlesRef = useRef([])
+    const brightRef = useRef([])
     const rafRef = useRef(null)
     const sizeRef = useRef({ w: 0, h: 0 })
     const visibleRef = useRef(true)
@@ -32,13 +33,24 @@ function ParticleCanvas() {
             canvas.height = h * dpr
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
             sizeRef.current = { w, h }
-            const count = isMobile ? 25 : Math.min(Math.floor((w * h) / 8000), 100)
-            particlesRef.current = Array.from({ length: count }, () => ({
-                x: Math.random() * w, y: Math.random() * h,
-                vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
-                r: Math.random() * 1.5 + 0.5, alpha: Math.random() * 0.5 + 0.15,
-                pulse: Math.random() * Math.PI * 2,
-            }))
+            // Many more stars for a dense night-sky feel
+            const count = isMobile ? 70 : Math.min(Math.floor((w * h) / 2600), 320)
+            particlesRef.current = Array.from({ length: count }, () => {
+                // A few brighter "hero" stars amongst many faint ones
+                const bright = Math.random() > 0.82
+                return {
+                    x: Math.random() * w, y: Math.random() * h,
+                    vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.22,
+                    r: bright ? Math.random() * 1.1 + 0.9 : Math.random() * 0.9 + 0.3,
+                    alpha: bright ? Math.random() * 0.25 + 0.4 : Math.random() * 0.28 + 0.14,
+                    pulse: Math.random() * Math.PI * 2,
+                    twinkle: Math.random() * 0.8 + 0.5, // gentle twinkle speed
+                    bright,
+                    // Cool star tint — mostly white/lavender, a few violet
+                    tint: Math.random() > 0.5 ? '255,255,255' : '210,196,255',
+                }
+            })
+            brightRef.current = particlesRef.current.filter((p) => p.bright)
         }
         resize()
         const onResize = () => resize()
@@ -70,37 +82,69 @@ function ParticleCanvas() {
             const scroll = scrollRef.current
             const time = performance.now() * 0.001
             const particles = particlesRef.current
-            // Connection lines — skip on mobile (O(n²) is the perf killer)
+
+            // Glowing stars use additive blending so overlaps get brighter
+            ctx.globalCompositeOperation = 'lighter'
+
+            // Constellation lines — only between the bright stars, so the
+            // O(n²) pass stays cheap even with a dense field.
             if (w >= 768) {
-                ctx.lineWidth = 0.5
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x
-                        const dy = particles[i].y - particles[j].y
+                ctx.lineWidth = 0.6
+                const bright = brightRef.current
+                for (let i = 0; i < bright.length; i++) {
+                    for (let j = i + 1; j < bright.length; j++) {
+                        const a = bright[i], b = bright[j]
+                        const dx = a.x - b.x
+                        const dy = a.y - b.y
                         const dist = Math.sqrt(dx * dx + dy * dy)
-                        if (dist < 120) {
-                            ctx.strokeStyle = `rgba(139,92,246,${(1 - dist / 120) * 0.15})`
-                            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y)
-                            ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke()
+                        if (dist < 150) {
+                            ctx.strokeStyle = `rgba(167,139,250,${(1 - dist / 150) * 0.15})`
+                            ctx.beginPath(); ctx.moveTo(a.x, a.y)
+                            ctx.lineTo(b.x, b.y); ctx.stroke()
                         }
                     }
                 }
             }
+
             particles.forEach((p) => {
                 const mx = mouse.x * w, my = mouse.y * h
                 const dmx = mx - p.x, dmy = my - p.y
                 const md = Math.sqrt(dmx * dmx + dmy * dmy)
                 if (md < 200) { const f = ((200 - md) / 200) * 0.008; p.vx += dmx * f; p.vy += dmy * f }
                 p.vx += (Math.random() - 0.5) * scroll * 0.02; p.vy += scroll * 0.01
-                p.vx *= 0.99; p.vy *= 0.99; p.x += p.vx; p.y += p.vy; p.pulse += 0.02
+                p.vx *= 0.99; p.vy *= 0.99; p.x += p.vx; p.y += p.vy
+                p.pulse += 0.02
                 if (p.x < 0) p.x = w; if (p.x > w) p.x = 0
                 if (p.y < 0) p.y = h; if (p.y > h) p.y = 0
-                const pa = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse + time))
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2)
-                ctx.fillStyle = `rgba(139,92,246,${pa * 0.12})`; ctx.fill()
+
+                // Twinkle — gentle, shallow shimmer (stays mostly steady)
+                const tw = 0.7 + 0.3 * Math.sin(p.pulse * p.twinkle + time)
+                const pa = Math.min(1, p.alpha * tw)
+
+                // Soft outer glow halo
+                const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * (p.bright ? 6 : 4))
+                glow.addColorStop(0, `rgba(${p.tint},${pa * 0.32})`)
+                glow.addColorStop(1, `rgba(${p.tint},0)`)
+                ctx.fillStyle = glow
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (p.bright ? 6 : 4), 0, Math.PI * 2); ctx.fill()
+
+                // Solid core
                 ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-                ctx.fillStyle = `rgba(196,181,253,${pa})`; ctx.fill()
+                ctx.fillStyle = `rgba(${p.tint},${pa})`; ctx.fill()
+
+                // Sparkle cross on the brightest stars when they peak
+                if (p.bright && tw > 0.95) {
+                    const len = p.r * 4 * (tw - 0.95) / 0.05
+                    ctx.strokeStyle = `rgba(255,255,255,${(tw - 0.95) / 0.05 * 0.3})`
+                    ctx.lineWidth = 0.7
+                    ctx.beginPath()
+                    ctx.moveTo(p.x - len, p.y); ctx.lineTo(p.x + len, p.y)
+                    ctx.moveTo(p.x, p.y - len); ctx.lineTo(p.x, p.y + len)
+                    ctx.stroke()
+                }
             })
+
+            ctx.globalCompositeOperation = 'source-over'
             rafRef.current = requestAnimationFrame(draw)
         }
         rafRef.current = requestAnimationFrame(draw)
@@ -175,14 +219,14 @@ export default function Hero() {
 
                 <h1 className="mt-6 sm:mt-8 display text-[clamp(2.4rem,7.5vw,7.5rem)] leading-[0.88] tracking-[-0.03em]">
                     <span className="block overflow-hidden pb-[0.15em] -mb-[0.15em]">
-                        <motion.span custom={0} variants={line} initial="hidden" animate="show" className="block text-white">Make your</motion.span>
+                        <motion.span custom={0} variants={line} initial="hidden" animate="show" className="block text-white text-glow-soft">Make your</motion.span>
                     </span>
                     <span className="block overflow-hidden pb-[0.15em] -mb-[0.15em]">
-                        <motion.span custom={1} variants={line} initial="hidden" animate="show" className="block text-white">digital presence</motion.span>
+                        <motion.span custom={1} variants={line} initial="hidden" animate="show" className="block text-white text-glow-soft">digital presence</motion.span>
                     </span>
                     <span className="block overflow-hidden pb-[0.4em] -mb-[0.4em]">
                         <motion.span custom={2} variants={line} initial="hidden" animate="show" className="block">
-                            <span className="italic text-gradient-violet">impossible to ignore.</span>
+                            <span className="italic text-gradient-violet text-glow-violet">impossible to ignore.</span>
                         </motion.span>
                     </span>
                 </h1>

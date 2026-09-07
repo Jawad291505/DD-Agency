@@ -186,10 +186,21 @@
 
     /* Gradient text */
     .text-gradient-violet {
-        background-image: linear-gradient(135deg, #a78bfa 0%, #7c3aed 50%, #c084fc 100%);
+        background-image: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 50%, #d8b4fe 100%);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
+    }
+
+    /* Starry glow on headings — subtle */
+    .text-glow-soft {
+        text-shadow:
+            0 0 16px rgba(196, 181, 253, 0.2),
+            0 0 44px rgba(124, 58, 237, 0.14);
+    }
+
+    .text-glow-violet {
+        filter: drop-shadow(0 0 12px rgba(167, 139, 250, 0.32)) drop-shadow(0 0 34px rgba(124, 58, 237, 0.22));
     }
 
     .text-gradient-light {
