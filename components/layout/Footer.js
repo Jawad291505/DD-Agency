@@ -14,6 +14,7 @@ const COLUMNS = [
     {
         heading: 'Company',
         links: [
+            { label: 'Owner', href: '#owner' },
             { label: 'Work', href: '#work' },
             { label: 'Journey', href: '#journey' },
             { label: 'Clients', href: '#testimonials' },
@@ -32,7 +33,9 @@ const SOCIALS = [
 export default function Footer() {
     const year = new Date().getFullYear()
     return (
-        <footer className="relative bg-[#060609] text-white">
+        <footer className="relative bg-[#100b20] text-white">
+            {/* Seamless transition from Contact */}
+            <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
             <div className="absolute inset-0 grain" />
 
             <div className="container relative z-10">

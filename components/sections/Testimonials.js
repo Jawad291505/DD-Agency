@@ -60,10 +60,13 @@ export default function Testimonials() {
     return (
         <section
             id="testimonials"
-            className="relative overflow-hidden bg-[#0d0b14] py-[clamp(6rem,12vw,10rem)]"
+            className="relative overflow-hidden bg-[#100b20] py-[clamp(6rem,12vw,10rem)]"
         >
+            {/* Seamless transition gradients */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#100b20] to-transparent z-[2]" />
             {/* Calmer ambient — the pace slows down */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[550px] w-[550px] rounded-full bg-violet-600/[0.10] blur-[180px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[550px] w-[550px] rounded-full bg-violet-600/25 blur-[180px]" />
             <div className="absolute inset-0 noise" />
 
             <div className="container relative z-10">

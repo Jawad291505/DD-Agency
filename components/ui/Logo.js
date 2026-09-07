@@ -11,7 +11,7 @@ export default function Logo({ className = '', imgClassName = '' }) {
 }
 
 export function LogoLockup({ className = '', markSize = 'h-9 w-9', text = true, tone = 'paper' }) {
-    const wordColor = tone === 'paper' ? 'text-white' : 'text-[#0a0a0f]'
+    const wordColor = tone === 'paper' ? 'text-white' : 'text-[#100b20]'
     return (
         <span className={`inline-flex items-center gap-2.5 ${className}`}>
             <img

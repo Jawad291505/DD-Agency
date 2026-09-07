@@ -15,6 +15,7 @@ function ParticleCanvas() {
     const particlesRef = useRef([])
     const rafRef = useRef(null)
     const sizeRef = useRef({ w: 0, h: 0 })
+    const visibleRef = useRef(true)
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -41,6 +42,14 @@ function ParticleCanvas() {
         resize()
         const onResize = () => resize()
         window.addEventListener('resize', onResize)
+
+        // Pause when scrolled out of view
+        const observer = new IntersectionObserver(
+            ([entry]) => { visibleRef.current = entry.isIntersecting },
+            { threshold: 0 }
+        )
+        observer.observe(canvas)
+
         const onMove = (e) => {
             const rect = canvas.getBoundingClientRect()
             mouseRef.current = { x: (e.clientX - rect.left) / rect.width, y: (e.clientY - rect.top) / rect.height }
@@ -50,6 +59,10 @@ function ParticleCanvas() {
         window.addEventListener('scroll', onScroll, { passive: true })
 
         const draw = () => {
+            if (!visibleRef.current) {
+                rafRef.current = requestAnimationFrame(draw)
+                return
+            }
             const { w, h } = sizeRef.current
             ctx.clearRect(0, 0, w, h)
             const mouse = mouseRef.current
@@ -92,6 +105,7 @@ function ParticleCanvas() {
         rafRef.current = requestAnimationFrame(draw)
         return () => {
             cancelAnimationFrame(rafRef.current)
+            observer.disconnect()
             window.removeEventListener('resize', onResize)
             window.removeEventListener('mousemove', onMove)
             window.removeEventListener('scroll', onScroll)
@@ -117,16 +131,16 @@ export default function Hero() {
     }
 
     return (
-        <section id="top" className="relative isolate min-h-[100svh] overflow-hidden bg-[#0a0a0f]">
+        <section id="top" className="relative isolate min-h-[100svh] overflow-hidden bg-[#100b20]">
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-grid" style={{
                     maskImage: 'radial-gradient(ellipse 80% 70% at 50% 40%, black, transparent 80%)',
                     WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 40%, black, transparent 80%)',
                 }} />
                 {!reduce && <ParticleCanvas />}
-                <div className="absolute -right-32 top-0 h-[600px] w-[600px] rounded-full bg-violet-600/25 blur-[150px]" />
-                <div className="absolute -left-32 bottom-0 h-[500px] w-[500px] rounded-full bg-violet-400/20 blur-[150px]" />
-                <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-[400px] w-[700px] rounded-full bg-violet-500/[0.12] blur-[130px]" />
+                <div className="absolute -right-32 top-0 h-[600px] w-[600px] rounded-full bg-violet-600/45 blur-[150px]" />
+                <div className="absolute -left-32 bottom-0 h-[500px] w-[500px] rounded-full bg-violet-400/35 blur-[150px]" />
+                <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-[400px] w-[700px] rounded-full bg-violet-500/25 blur-[130px]" />
                 <div className="absolute inset-0 noise" />
             </div>
 
@@ -193,7 +207,7 @@ export default function Hero() {
                 </motion.div>
             </div>
 
-            <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 bg-gradient-to-t from-[#0a0a0f] to-transparent z-10" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 bg-gradient-to-t from-[#100b20] to-transparent z-10" />
         </section>
     )
 }

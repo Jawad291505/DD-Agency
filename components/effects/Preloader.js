@@ -67,7 +67,7 @@ export default function Preloader() {
         <AnimatePresence>
             {!done && (
                 <motion.div
-                    className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0a0a0f]"
+                    className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#100b20]"
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.7, ease: EASE }}
                 >

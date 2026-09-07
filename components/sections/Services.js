@@ -78,9 +78,13 @@ const SERVICES = [
 function ServiceVisual({ service, isActive }) {
     const canvasRef = useRef(null)
     const rafRef = useRef(null)
+    const visibleRef = useRef(false)
 
     useEffect(() => {
-        if (!isActive) return
+        if (!isActive) {
+            if (rafRef.current) cancelAnimationFrame(rafRef.current)
+            return
+        }
         const canvas = canvasRef.current
         if (!canvas) return
         const ctx = canvas.getContext('2d')
@@ -98,14 +102,24 @@ function ServiceVisual({ service, isActive }) {
             phase: Math.random() * Math.PI * 2,
         }))
 
+        // Use IntersectionObserver to pause when offscreen
+        const observer = new IntersectionObserver(
+            ([entry]) => { visibleRef.current = entry.isIntersecting },
+            { threshold: 0 }
+        )
+        observer.observe(canvas)
+
         let time = 0
         const draw = () => {
+            if (!visibleRef.current) {
+                rafRef.current = requestAnimationFrame(draw)
+                return
+            }
             ctx.clearRect(0, 0, size, size)
             const cx = size / 2, cy = size / 2
             time += 0.016
             const pulse = 0.5 + 0.5 * Math.sin(time * 2)
 
-            // Ambient glow
             const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 140)
             grd.addColorStop(0, service.color + '18')
             grd.addColorStop(1, 'transparent')
@@ -148,7 +162,10 @@ function ServiceVisual({ service, isActive }) {
             rafRef.current = requestAnimationFrame(draw)
         }
         rafRef.current = requestAnimationFrame(draw)
-        return () => cancelAnimationFrame(rafRef.current)
+        return () => {
+            cancelAnimationFrame(rafRef.current)
+            observer.disconnect()
+        }
     }, [isActive, service])
 
     return (
@@ -167,11 +184,14 @@ export default function Services() {
     const current = SERVICES[active]
 
     return (
-        <section id="services" className="relative overflow-hidden bg-[#0a0a0f] py-[clamp(5rem,10vw,9rem)]">
+        <section id="services" className="relative overflow-hidden bg-[#100b20] py-[clamp(5rem,10vw,9rem)]">
+            {/* Seamless transition gradients */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#100b20] to-transparent z-[2]" />
             {/* Brighter ambient glows */}
-            <div className="absolute -right-40 top-20 h-[34rem] w-[34rem] rounded-full bg-violet-600/20 blur-[150px]" />
-            <div className="absolute -left-40 bottom-10 h-[28rem] w-[28rem] rounded-full bg-violet-400/15 blur-[140px]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[350px] w-[550px] rounded-full bg-violet-500/[0.10] blur-[150px]" />
+            <div className="absolute -right-40 top-20 h-[34rem] w-[34rem] rounded-full bg-violet-600/40 blur-[150px]" />
+            <div className="absolute -left-40 bottom-10 h-[28rem] w-[28rem] rounded-full bg-violet-400/30 blur-[140px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[350px] w-[550px] rounded-full bg-violet-500/25 blur-[150px]" />
             <div className="absolute inset-0 grain" />
 
             <div className="container relative z-10">

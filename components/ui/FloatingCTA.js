@@ -11,13 +11,19 @@ export default function FloatingCTA() {
     const [show, setShow] = useState(false)
 
     useEffect(() => {
+        let ticking = false
         const onScroll = () => {
-            const y = window.scrollY
-            const contact = document.querySelector('#contact')
-            const nearContact = contact
-                ? contact.getBoundingClientRect().top < window.innerHeight * 0.9
-                : false
-            setShow(y > window.innerHeight * 0.8 && !nearContact)
+            if (ticking) return
+            ticking = true
+            requestAnimationFrame(() => {
+                const y = window.scrollY
+                const contact = document.querySelector('#contact')
+                const nearContact = contact
+                    ? contact.getBoundingClientRect().top < window.innerHeight * 0.9
+                    : false
+                setShow(y > window.innerHeight * 0.8 && !nearContact)
+                ticking = false
+            })
         }
         onScroll()
         window.addEventListener('scroll', onScroll, { passive: true })

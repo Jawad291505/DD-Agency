@@ -18,21 +18,29 @@ export default function BrandStory() {
             return
         }
 
+        let ticking = false
         const onScroll = () => {
-            const section = sectionRef.current
-            if (!section) return
-            const rect = section.getBoundingClientRect()
-            const vh = window.innerHeight
-            const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh + rect.height)))
+            if (ticking) return
+            ticking = true
+            requestAnimationFrame(() => {
+                const section = sectionRef.current
+                if (!section) { ticking = false; return }
+                const rect = section.getBoundingClientRect()
+                const vh = window.innerHeight
+                const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh + rect.height)))
+                const words = wordsRef.current
+                const total = words.filter(e => e && !e.dataset.break).length
 
-            wordsRef.current.forEach((el) => {
-                if (!el || el.dataset.break) return
-                const total = wordsRef.current.filter(e => e && !e.dataset.break).length
-                const idx = parseInt(el.dataset.idx)
-                const wordProgress = (progress - idx / total * 0.5) / 0.5
-                const opacity = Math.max(0.12, Math.min(1, wordProgress))
-                el.style.opacity = String(opacity)
-                el.style.transform = `translateY(${(1 - Math.min(1, Math.max(0, wordProgress))) * 6}px)`
+                for (let i = 0; i < words.length; i++) {
+                    const el = words[i]
+                    if (!el || el.dataset.break) continue
+                    const idx = parseInt(el.dataset.idx)
+                    const wordProgress = (progress - idx / total * 0.5) / 0.5
+                    const opacity = Math.max(0.12, Math.min(1, wordProgress))
+                    el.style.opacity = String(opacity)
+                    el.style.transform = `translateY(${(1 - Math.min(1, Math.max(0, wordProgress))) * 6}px)`
+                }
+                ticking = false
             })
         }
 
@@ -44,10 +52,13 @@ export default function BrandStory() {
     let wordIdx = 0
 
     return (
-        <section ref={sectionRef} className="relative overflow-hidden bg-[#0a0a0f] py-[clamp(8rem,20vh,16rem)]">
+        <section ref={sectionRef} className="relative overflow-hidden bg-[#100b20] py-[clamp(8rem,20vh,16rem)]">
+            {/* Seamless transition gradients */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#100b20] to-transparent z-[2]" />
             {/* Torch glow behind text */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[900px] rounded-full bg-violet-600/[0.12] blur-[200px]" />
-            <div className="absolute top-1/4 right-1/4 h-[350px] w-[350px] rounded-full bg-violet-400/[0.10] blur-[140px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[900px] rounded-full bg-violet-600/30 blur-[200px]" />
+            <div className="absolute top-1/4 right-1/4 h-[350px] w-[350px] rounded-full bg-violet-400/25 blur-[140px]" />
 
             <div className="container relative z-10">
                 <div className="mx-auto max-w-5xl">

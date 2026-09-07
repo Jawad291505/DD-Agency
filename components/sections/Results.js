@@ -42,13 +42,16 @@ export default function Results() {
     return (
         <section
             ref={sectionRef}
-            className="relative overflow-hidden bg-[#0a0a0f] py-[clamp(6rem,14vw,12rem)]"
+            className="relative overflow-hidden bg-[#100b20] py-[clamp(6rem,14vw,12rem)]"
         >
+            {/* Seamless transition gradients */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#100b20] to-transparent z-[2]" />
             {/* Intensified background */}
             <div className="absolute inset-0">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[700px] w-[900px] rounded-full bg-violet-600/20 blur-[200px]" />
-                <div className="absolute -left-40 top-0 h-[450px] w-[450px] rounded-full bg-violet-400/15 blur-[150px]" />
-                <div className="absolute -right-40 bottom-0 h-[450px] w-[450px] rounded-full bg-violet-500/15 blur-[150px]" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[700px] w-[900px] rounded-full bg-violet-600/40 blur-[200px]" />
+                <div className="absolute -left-40 top-0 h-[450px] w-[450px] rounded-full bg-violet-400/30 blur-[150px]" />
+                <div className="absolute -right-40 bottom-0 h-[450px] w-[450px] rounded-full bg-violet-500/30 blur-[150px]" />
                 <div className="absolute inset-0 grain" />
             </div>
 

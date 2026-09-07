@@ -14,13 +14,20 @@
     }
 
     body {
-        @apply bg-[#0a0a0f] font-sans text-white antialiased;
+        @apply bg-[#100b20] font-sans text-white antialiased;
         margin: 0;
         line-height: 1.55;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
         overflow-x: hidden;
         -webkit-tap-highlight-color: transparent;
+        /* Persistent violet ambience — fixed so it reads across the whole page
+           even without the cursor torch. */
+        background-image:
+            radial-gradient(ellipse 90% 60% at 50% -10%, rgba(124, 58, 237, 0.28), transparent 60%),
+            radial-gradient(ellipse 70% 50% at 100% 100%, rgba(139, 92, 246, 0.18), transparent 65%),
+            radial-gradient(ellipse 70% 50% at 0% 80%, rgba(91, 33, 182, 0.20), transparent 65%);
+        background-attachment: fixed;
     }
 
     ::selection {
@@ -141,7 +148,7 @@
     }
 
     .field-input option {
-        color: #0a0a0f;
+        color: #100b20;
     }
 }
 
@@ -210,5 +217,50 @@
     /* Glow effects */
     .glow-violet {
         box-shadow: 0 0 60px -12px rgba(124, 58, 237, 0.4), 0 0 120px -30px rgba(124, 58, 237, 0.2);
+    }
+}
+
+/* Torch ambient pulse — CSS-only on mobile, no JS rAF loop needed */
+@keyframes torch-ambient {
+
+    0%,
+    100% {
+        background: radial-gradient(50% 50% at 50% 50%, rgba(124, 58, 237, 0.12), rgba(167, 139, 250, 0.06) 50%, transparent 80%);
+    }
+
+    50% {
+        background: radial-gradient(50% 50% at 50% 50%, rgba(124, 58, 237, 0.20), rgba(167, 139, 250, 0.10) 50%, transparent 80%);
+    }
+}
+
+.torch-ambient-pulse {
+    animation: torch-ambient 4s ease-in-out infinite;
+    will-change: auto;
+}
+
+/* Reduce expensive blur radii on mobile — big CSS blur triggers heavy GPU compositing */
+@media (max-width: 767px) {
+    .blur-\[150px\] {
+        filter: blur(60px);
+    }
+
+    .blur-\[200px\] {
+        filter: blur(70px);
+    }
+
+    .blur-\[180px\] {
+        filter: blur(60px);
+    }
+
+    .blur-\[140px\] {
+        filter: blur(50px);
+    }
+
+    .blur-\[130px\] {
+        filter: blur(50px);
+    }
+
+    .blur-\[120px\] {
+        filter: blur(50px);
     }
 }

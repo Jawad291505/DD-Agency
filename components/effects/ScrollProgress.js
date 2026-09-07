@@ -10,13 +10,19 @@ export default function ScrollProgress() {
     const barRef = useRef(null)
 
     useEffect(() => {
+        let ticking = false
         const onScroll = () => {
-            const scrollTop = window.scrollY
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight
-            const progress = docHeight > 0 ? scrollTop / docHeight : 0
-            if (barRef.current) {
-                barRef.current.style.transform = `scaleX(${progress})`
-            }
+            if (ticking) return
+            ticking = true
+            requestAnimationFrame(() => {
+                const scrollTop = window.scrollY
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight
+                const progress = docHeight > 0 ? scrollTop / docHeight : 0
+                if (barRef.current) {
+                    barRef.current.style.transform = `scaleX(${progress})`
+                }
+                ticking = false
+            })
         }
         window.addEventListener('scroll', onScroll, { passive: true })
         onScroll()

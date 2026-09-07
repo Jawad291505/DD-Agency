@@ -90,7 +90,7 @@ function ProjectCard({ project, index }) {
                         data-cursor-label="View"
                         className="h-full w-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/60 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#100b20]/60 via-transparent to-transparent" />
                     <div className="absolute inset-0 bg-violet-600/5 mix-blend-overlay" />
                 </div>
             </div>
@@ -127,13 +127,14 @@ function ProjectCard({ project, index }) {
 
 export default function Work() {
     return (
-        <section id="work" className="relative overflow-hidden bg-[#0a0a0f] py-[clamp(5rem,10vw,9rem)]">
-            {/* Transition gradient from journey */}
-            <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#0a0a0f] to-transparent" />
+        <section id="work" className="relative overflow-hidden bg-[#100b20] py-[clamp(5rem,10vw,9rem)]">
+            {/* Seamless transition gradients */}
+            <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#100b20] to-transparent z-[2]" />
 
             <div className="absolute inset-0 grain" />
             {/* Section torch */}
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-[500px] w-[700px] rounded-full bg-violet-600/[0.08] blur-[180px]" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-[500px] w-[700px] rounded-full bg-violet-600/25 blur-[180px]" />
 
             <div className="container relative z-10">
                 {/* Header */}

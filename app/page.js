@@ -6,6 +6,7 @@ import GrowthJourney from '@/components/sections/GrowthJourney'
 import Work from '@/components/sections/Work'
 import Results from '@/components/sections/Results'
 import Testimonials from '@/components/sections/Testimonials'
+import Owner from '@/components/sections/Owner'
 import Contact from '@/components/sections/Contact'
 import Footer from '@/components/layout/Footer'
 import FloatingCTA from '@/components/ui/FloatingCTA'
@@ -24,6 +25,7 @@ export default function Home() {
                 <Work />
                 <Results />
                 <Testimonials />
+                <Owner />
                 <Contact />
             </main>
             <Footer />

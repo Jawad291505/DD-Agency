@@ -21,6 +21,7 @@ function JourneyCanvas({ progressRef, reduce }) {
     const particlesRef = useRef([])
     const rafRef = useRef(null)
     const sizeRef = useRef({ w: 0, h: 0 })
+    const visibleRef = useRef(false)
 
     useEffect(() => {
         if (reduce) return
@@ -48,8 +49,18 @@ function JourneyCanvas({ progressRef, reduce }) {
         resize()
         window.addEventListener('resize', resize)
 
+        const observer = new IntersectionObserver(
+            ([entry]) => { visibleRef.current = entry.isIntersecting },
+            { threshold: 0 }
+        )
+        observer.observe(canvas)
+
         // Single continuous rAF loop — reads progressRef.current each frame
         const draw = () => {
+            if (!visibleRef.current) {
+                rafRef.current = requestAnimationFrame(draw)
+                return
+            }
             const { w, h } = sizeRef.current
             if (!w || !h) { rafRef.current = requestAnimationFrame(draw); return }
             ctx.clearRect(0, 0, w, h)
@@ -123,6 +134,7 @@ function JourneyCanvas({ progressRef, reduce }) {
         rafRef.current = requestAnimationFrame(draw)
         return () => {
             cancelAnimationFrame(rafRef.current)
+            observer.disconnect()
             window.removeEventListener('resize', resize)
         }
     }, [reduce, progressRef])
@@ -142,7 +154,6 @@ export default function GrowthJourney() {
     const sectionRef = useRef(null)
     const progressRef = useRef(0)
     const [activeStage, setActiveStage] = useState(0)
-    const [progress, setProgress] = useState(0) // for UI only (progress bars, glow)
     const reduce = useReducedMotion()
     const [isMobile, setIsMobile] = useState(false)
 
@@ -152,6 +163,7 @@ export default function GrowthJourney() {
 
     useEffect(() => {
         let ticking = false
+        let lastStage = -1
         const onScroll = () => {
             if (ticking) return
             ticking = true
@@ -163,9 +175,20 @@ export default function GrowthJourney() {
                 const p = Math.max(0, Math.min(1, -rect.top / (rect.height - vh)))
                 progressRef.current = p
                 const stage = Math.min(STAGES.length - 1, Math.floor(p * STAGES.length))
-                // Only trigger React re-render when stage changes or progress bar needs update
-                setActiveStage(stage)
-                setProgress(p)
+                // Only re-render React when the stage actually changes
+                if (stage !== lastStage) {
+                    lastStage = stage
+                    setActiveStage(stage)
+                }
+                // Update progress bars via DOM directly to avoid re-renders
+                const bars = section.querySelectorAll('[data-progress-bar]')
+                const labels = section.querySelectorAll('[data-progress-label]')
+                bars.forEach((bar, i) => {
+                    bar.style.width = i < stage ? '100%' : i === stage ? `${(p * STAGES.length - stage) * 100}%` : '0%'
+                })
+                labels.forEach((label, i) => {
+                    label.style.color = i <= stage ? 'rgba(167,139,250,0.6)' : 'rgba(255,255,255,0.15)'
+                })
                 ticking = false
             })
         }
@@ -180,13 +203,13 @@ export default function GrowthJourney() {
         <section
             ref={sectionRef}
             id="journey"
-            className="relative bg-[#0a0a0f]"
+            className="relative bg-[#100b20]"
             style={{ height: isMobile ? '250vh' : '400vh' }}
         >
             <div className="sticky top-0 h-screen overflow-hidden">
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-grid" style={{
-                        opacity: 0.15 + progress * 0.15,
+                        opacity: 0.22,
                         maskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 70%)',
                         WebkitMaskImage: 'radial-gradient(circle at 50% 50%, black 30%, transparent 70%)',
                     }} />
@@ -195,10 +218,9 @@ export default function GrowthJourney() {
                     <div
                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-600/25 blur-[130px]"
                         style={{
-                            width: `${250 + progress * 350}px`,
-                            height: `${250 + progress * 350}px`,
-                            opacity: 0.4 + progress * 0.45,
-                            transition: 'width 0.3s, height 0.3s, opacity 0.3s',
+                            width: '450px',
+                            height: '450px',
+                            opacity: 0.6,
                         }}
                     />
                 </div>
@@ -230,15 +252,19 @@ export default function GrowthJourney() {
                                     <div key={i} className="flex-1">
                                         <div className="h-[2px] rounded-full bg-white/10 overflow-hidden">
                                             <div
+                                                data-progress-bar
                                                 className="h-full bg-violet-400"
                                                 style={{
-                                                    width: i < activeStage ? '100%' : i === activeStage ? `${(progress * STAGES.length - activeStage) * 100}%` : '0%',
+                                                    width: i < activeStage ? '100%' : '0%',
                                                     transition: 'width 0.15s linear',
                                                 }}
                                             />
                                         </div>
-                                        <span className={`mt-1.5 sm:mt-2 block font-mono text-[0.45rem] sm:text-[0.55rem] uppercase tracking-wider ${i <= activeStage ? 'text-violet-400/60' : 'text-white/15'
-                                            }`}>
+                                        <span
+                                            data-progress-label
+                                            className="mt-1.5 sm:mt-2 block font-mono text-[0.45rem] sm:text-[0.55rem] uppercase tracking-wider"
+                                            style={{ color: i <= activeStage ? 'rgba(167,139,250,0.6)' : 'rgba(255,255,255,0.15)' }}
+                                        >
                                             {STAGES[i].phase}
                                         </span>
                                     </div>
@@ -252,7 +278,7 @@ export default function GrowthJourney() {
                                     <div
                                         key={r}
                                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-violet-500/10"
-                                        style={{ width: r * 2, height: r * 2, opacity: 0.3 + progress * 0.4 }}
+                                        style={{ width: r * 2, height: r * 2, opacity: 0.55 }}
                                     />
                                 ))}
                                 <div className="absolute inset-0 flex flex-col items-center justify-center">

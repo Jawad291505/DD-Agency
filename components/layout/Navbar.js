@@ -13,7 +13,8 @@ const LINKS = [
     { href: '#journey', label: 'Journey', index: '02' },
     { href: '#work', label: 'Work', index: '03' },
     { href: '#testimonials', label: 'Clients', index: '04' },
-    { href: '#contact', label: 'Contact', index: '05' },
+    { href: '#owner', label: 'Owner', index: '05' },
+    { href: '#contact', label: 'Contact', index: '06' },
 ]
 
 export default function Navbar() {
@@ -22,7 +23,15 @@ export default function Navbar() {
     const [active, setActive] = useState('')
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 50)
+        let ticking = false
+        const onScroll = () => {
+            if (ticking) return
+            ticking = true
+            requestAnimationFrame(() => {
+                setScrolled(window.scrollY > 50)
+                ticking = false
+            })
+        }
         onScroll()
         window.addEventListener('scroll', onScroll, { passive: true })
         return () => window.removeEventListener('scroll', onScroll)
@@ -52,8 +61,8 @@ export default function Navbar() {
         <>
             <header
                 className={`fixed inset-x-0 top-0 z-50 transition-all duration-700 ${scrolled
-                        ? 'border-b border-white/[0.06] bg-[#0a0a0f]/80 backdrop-blur-xl'
-                        : 'bg-transparent'
+                    ? 'border-b border-white/[0.06] bg-[#100b20]/80 backdrop-blur-xl'
+                    : 'bg-transparent'
                     }`}
             >
                 <div className="container flex h-[72px] items-center justify-between">
@@ -118,7 +127,7 @@ export default function Navbar() {
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ duration: 0.5, ease: EASE }}
-                            className="fixed right-0 top-0 bottom-0 z-40 w-full max-w-sm bg-[#0a0a0f] border-l border-white/[0.06] px-8 pt-24 pb-10 lg:hidden"
+                            className="fixed right-0 top-0 bottom-0 z-40 w-full max-w-sm bg-[#100b20] border-l border-white/[0.06] px-8 pt-24 pb-10 lg:hidden"
                         >
                             <nav className="flex flex-col gap-1" aria-label="Mobile">
                                 {LINKS.map((l, i) => (

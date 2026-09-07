@@ -23,6 +23,7 @@ const DETAILS = [
 function ContactCanvas() {
     const canvasRef = useRef(null)
     const rafRef = useRef(null)
+    const visibleRef = useRef(false)
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -50,7 +51,17 @@ function ContactCanvas() {
             }
         }
 
+        const observer = new IntersectionObserver(
+            ([entry]) => { visibleRef.current = entry.isIntersecting },
+            { threshold: 0 }
+        )
+        observer.observe(canvas)
+
         const draw = () => {
+            if (!visibleRef.current) {
+                rafRef.current = requestAnimationFrame(draw)
+                return
+            }
             ctx.clearRect(0, 0, w, h)
             const time = performance.now() * 0.001
 
@@ -66,8 +77,8 @@ function ContactCanvas() {
 
                 // Connect to nearby — desktop only (O(n²))
                 if (!isMobile) {
-                    particles.forEach((p2, j) => {
-                        if (j <= i) return
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j]
                         const dx = px - (p2.x + Math.sin(time * 0.5 + p2.phase) * 3)
                         const dy = py - (p2.y + Math.cos(time * 0.3 + p2.phase) * 3)
                         const dist = Math.sqrt(dx * dx + dy * dy)
@@ -82,14 +93,17 @@ function ContactCanvas() {
                             ctx.lineWidth = 0.5
                             ctx.stroke()
                         }
-                    })
+                    }
                 }
             })
 
             rafRef.current = requestAnimationFrame(draw)
         }
         rafRef.current = requestAnimationFrame(draw)
-        return () => cancelAnimationFrame(rafRef.current)
+        return () => {
+            cancelAnimationFrame(rafRef.current)
+            observer.disconnect()
+        }
     }, [])
 
     return <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
@@ -105,11 +119,13 @@ export default function Contact() {
     }
 
     return (
-        <section id="contact" className="relative overflow-hidden bg-[#0a0a0f] py-[clamp(6rem,12vw,10rem)]">
+        <section id="contact" className="relative overflow-hidden bg-[#100b20] py-[clamp(6rem,12vw,10rem)]">
+            {/* Seamless transition gradients */}
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
             {/* Background */}
             <div className="absolute inset-0">
                 {!reduce && <ContactCanvas />}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[550px] w-[700px] rounded-full bg-violet-600/15 blur-[180px]" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[550px] w-[700px] rounded-full bg-violet-600/30 blur-[180px]" />
                 <div className="absolute inset-0 grain" />
             </div>
 
