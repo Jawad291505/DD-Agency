@@ -52,7 +52,7 @@ export default function BrandStory() {
     let wordIdx = 0
 
     return (
-        <section ref={sectionRef} className="relative overflow-hidden bg-[#100b20] py-[clamp(8rem,20vh,16rem)]">
+        <section ref={sectionRef} className="relative overflow-hidden bg-[#100b20] py-[clamp(5rem,20vh,16rem)]">
             {/* Seamless transition gradients */}
             <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#100b20] to-transparent z-[2]" />
@@ -83,7 +83,7 @@ export default function BrandStory() {
                     </p>
                 </div>
 
-                <div className="mx-auto mt-16 flex max-w-3xl flex-col items-center gap-8 text-center">
+                <div className="mx-auto mt-12 flex max-w-3xl flex-col items-center gap-8 text-center sm:mt-16">
                     <div className="h-px w-24 bg-gradient-to-r from-transparent via-violet-400/70 to-transparent" />
                     <p className="max-w-lg text-[1.05rem] leading-relaxed text-white/65">
                         Strategy, growth, technology and creative — aligned under one roof, pulling in the same direction.

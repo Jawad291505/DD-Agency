@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion'
 import Magnetic from '@/components/ui/Magnetic'
 import { REGISTER_CLIENT_URL } from '@/data/links'
+import { onAppReady } from '@/lib/ready'
 
 const EASE = [0.22, 1, 0.36, 1]
 const ROTATING = ['get found.', 'get chosen.', 'get remembered.', 'grow faster.']
@@ -118,6 +119,7 @@ function ParticleCanvas() {
 export default function Hero() {
     const reduce = useReducedMotion()
     const [word, setWord] = useState(0)
+    const [showParticles, setShowParticles] = useState(false)
 
     useEffect(() => {
         if (reduce) return
@@ -125,9 +127,24 @@ export default function Hero() {
         return () => clearInterval(id)
     }, [reduce])
 
+    // Defer the particle canvas until after first paint / app-ready + idle,
+    // so it never competes with LCP on load (helps mobile Speed Index).
+    useEffect(() => {
+        if (reduce) return
+        let idleId
+        const unsub = onAppReady(() => {
+            const schedule = window.requestIdleCallback || ((cb) => setTimeout(cb, 200))
+            idleId = schedule(() => setShowParticles(true))
+        })
+        return () => {
+            unsub()
+            if (idleId && window.cancelIdleCallback) window.cancelIdleCallback(idleId)
+        }
+    }, [reduce])
+
     const line = {
         hidden: reduce ? { opacity: 0 } : { opacity: 0, y: '110%' },
-        show: (i) => ({ opacity: 1, y: 0, transition: { duration: 1.1, ease: EASE, delay: 0.3 + i * 0.12 } }),
+        show: (i) => ({ opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE, delay: 0.08 + i * 0.08 } }),
     }
 
     return (
@@ -137,7 +154,7 @@ export default function Hero() {
                     maskImage: 'radial-gradient(ellipse 80% 70% at 50% 40%, black, transparent 80%)',
                     WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 40%, black, transparent 80%)',
                 }} />
-                {!reduce && <ParticleCanvas />}
+                {!reduce && showParticles && <ParticleCanvas />}
                 <div className="absolute -right-32 top-0 h-[600px] w-[600px] rounded-full bg-violet-600/45 blur-[150px]" />
                 <div className="absolute -left-32 bottom-0 h-[500px] w-[500px] rounded-full bg-violet-400/35 blur-[150px]" />
                 <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-[400px] w-[700px] rounded-full bg-violet-500/25 blur-[130px]" />
@@ -186,11 +203,11 @@ export default function Hero() {
                         </div>
                     </motion.div>
 
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, ease: EASE, delay: 1 }} className="flex gap-6 sm:gap-8 md:justify-end">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, ease: EASE, delay: 1 }} className="grid grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm md:flex md:divide-x-0 md:border-0 md:bg-transparent md:backdrop-blur-none md:gap-8 md:justify-end md:rounded-none">
                         {[{ v: '80+', l: 'Brands launched' }, { v: '3.4×', l: 'Avg. traffic lift' }, { v: '9yr', l: 'Building' }].map((s) => (
-                            <div key={s.l}>
-                                <span className="block font-serif text-[clamp(1.4rem,3vw,2.2rem)] leading-none text-white">{s.v}</span>
-                                <span className="mt-1 block font-mono text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wide text-white/50">{s.l}</span>
+                            <div key={s.l} className="px-3 py-4 text-center md:p-0 md:text-left">
+                                <span className="block font-serif text-[clamp(1.5rem,5vw,2.2rem)] leading-none text-white">{s.v}</span>
+                                <span className="mt-1.5 block font-mono text-[0.5rem] sm:text-[0.6rem] uppercase tracking-wide text-white/50">{s.l}</span>
                             </div>
                         ))}
                     </motion.div>

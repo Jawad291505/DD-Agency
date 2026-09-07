@@ -226,28 +226,43 @@ export default function GrowthJourney() {
                 </div>
 
                 <div className="container relative z-10 flex h-full items-center">
-                    <div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
-                        <div className="flex flex-col justify-center">
-                            <span className="label label-line text-violet-400/60">The Growth Journey</span>
+                    <div className="grid w-full grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
+                        <div className="flex flex-col justify-center text-center lg:text-left">
+                            <span className="label label-line mx-auto text-violet-400/60 lg:mx-0">The Growth Journey</span>
 
-                            <div className="mt-6 sm:mt-8 flex items-baseline gap-4">
+                            {/* Mobile concentric-ring visual with the stage number */}
+                            <div className="relative mx-auto mt-8 flex h-[150px] w-[150px] items-center justify-center sm:h-[180px] sm:w-[180px] lg:hidden">
+                                {[45, 70, 95].map((r) => (
+                                    <div
+                                        key={r}
+                                        className="absolute rounded-full border border-violet-500/15"
+                                        style={{ width: r * 2, height: r * 2 }}
+                                    />
+                                ))}
+                                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-violet-600/10 blur-xl" />
+                                <span className="relative font-mono text-[clamp(3rem,14vw,4.5rem)] font-light leading-none text-gradient-violet">
+                                    {current.no}
+                                </span>
+                            </div>
+
+                            <div className="mt-6 hidden items-baseline gap-4 sm:mt-8 lg:flex">
                                 <span className="font-mono text-[clamp(3.5rem,10vw,8rem)] font-light leading-none text-gradient-violet">
                                     {current.no}
                                 </span>
                                 <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/25">/ 06</span>
                             </div>
 
-                            <h3 className="mt-3 sm:mt-4 font-mono text-[0.7rem] sm:text-[0.75rem] uppercase tracking-[0.3em] text-violet-400">
+                            <h3 className="mt-5 font-mono text-[0.7rem] uppercase tracking-[0.3em] text-violet-400 sm:mt-4 sm:text-[0.75rem] lg:mt-4">
                                 {current.phase}
                             </h3>
-                            <h2 className="mt-2 sm:mt-3 display text-[clamp(1.6rem,4vw,3.2rem)] leading-tight text-white/90">
+                            <h2 className="mt-2 sm:mt-3 display text-[clamp(1.9rem,6vw,3.2rem)] leading-tight text-white/90">
                                 {current.headline}
                             </h2>
-                            <p className="mt-3 sm:mt-4 max-w-md text-[0.9rem] sm:text-[0.95rem] leading-relaxed text-white/55">
+                            <p className="mx-auto mt-3 max-w-md text-[0.92rem] leading-relaxed text-white/55 sm:mt-4 sm:text-[0.95rem] lg:mx-0">
                                 {current.desc}
                             </p>
 
-                            <div className="mt-8 sm:mt-10 flex items-center gap-2 sm:gap-3">
+                            <div className="mt-8 flex items-center gap-1.5 sm:mt-10 sm:gap-3">
                                 {STAGES.map((_, i) => (
                                     <div key={i} className="flex-1">
                                         <div className="h-[2px] rounded-full bg-white/10 overflow-hidden">
@@ -262,7 +277,7 @@ export default function GrowthJourney() {
                                         </div>
                                         <span
                                             data-progress-label
-                                            className="mt-1.5 sm:mt-2 block font-mono text-[0.45rem] sm:text-[0.55rem] uppercase tracking-wider"
+                                            className="mt-1.5 sm:mt-2 hidden font-mono text-[0.45rem] uppercase tracking-wider sm:block sm:text-[0.55rem]"
                                             style={{ color: i <= activeStage ? 'rgba(167,139,250,0.6)' : 'rgba(255,255,255,0.15)' }}
                                         >
                                             {STAGES[i].phase}

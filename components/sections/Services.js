@@ -170,7 +170,7 @@ function ServiceVisual({ service, isActive }) {
 
     return (
         <div className="relative flex items-center justify-center">
-            <canvas ref={canvasRef} className="h-[300px] w-[300px] opacity-70" style={{ width: 300, height: 300 }} />
+            <canvas ref={canvasRef} className="h-[220px] w-[220px] opacity-70 sm:h-[300px] sm:w-[300px]" style={{ width: 300, height: 300 }} />
             <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-white/25">{service.phase}</span>
             </div>
@@ -239,9 +239,9 @@ export default function Services() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={reduce ? { opacity: 0 } : { opacity: 0, y: -20 }}
                                 transition={{ duration: 0.5, ease: EASE }}
-                                className="rounded-3xl border border-white/[0.08] bg-white/[0.03] p-8 md:p-10 backdrop-blur-sm"
+                                className="rounded-3xl border border-white/[0.08] bg-white/[0.03] p-6 sm:p-8 md:p-10 backdrop-blur-sm"
                             >
-                                <div className="flex flex-col items-center gap-8 md:flex-row">
+                                <div className="flex flex-col items-center gap-6 sm:gap-8 md:flex-row">
                                     {!reduce && <ServiceVisual service={current} isActive={true} />}
                                     <div className="flex-1">
                                         <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-violet-300/70">{current.phase}</span>
@@ -249,7 +249,7 @@ export default function Services() {
                                         <p className="mt-4 text-[0.98rem] leading-relaxed text-white/65">{current.desc}</p>
 
                                         {/* Sub-services grid */}
-                                        <div className="mt-5 grid grid-cols-2 gap-2">
+                                        <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
                                             {current.subs.map((sub, si) => (
                                                 <div key={sub.name} className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-3.5 py-3 transition-colors duration-300 hover:border-violet-500/20 hover:bg-violet-500/[0.04]">
                                                     <span className="block text-[0.85rem] font-medium text-white/80">{sub.name}</span>

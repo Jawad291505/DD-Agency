@@ -154,7 +154,7 @@ export default function Work() {
                 </div>
 
                 {/* Projects — editorial layout */}
-                <div className="mt-20 flex flex-col gap-24">
+                <div className="mt-14 flex flex-col gap-16 sm:mt-20 sm:gap-24">
                     {PROJECTS.map((p, i) => (
                         <ProjectCard key={p.title} project={p} index={i} />
                     ))}

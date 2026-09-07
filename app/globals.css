@@ -63,6 +63,12 @@
         .grain::after {
             display: none;
         }
+
+        /* Fixed background attachment forces costly repaints on mobile scroll.
+           Use local attachment on touch devices to lift Speed Index / TBT. */
+        body {
+            background-attachment: scroll;
+        }
     }
 }
 

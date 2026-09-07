@@ -142,13 +142,13 @@ export default function Testimonials() {
                 </div>
 
                 {/* Selector dots */}
-                <div className="mt-12 flex items-center gap-3">
+                <div className="no-scrollbar mt-12 flex items-center gap-2 overflow-x-auto sm:flex-wrap sm:gap-3">
                     {ITEMS.map((t, i) => (
                         <button
                             key={t.name}
                             onClick={() => go(i)}
                             aria-label={`Testimonial from ${t.name}`}
-                            className={`group flex items-center gap-3 rounded-full border px-4 py-2 font-mono text-[0.65rem] uppercase tracking-wide transition-all duration-500 ${i === index
+                            className={`group flex shrink-0 items-center gap-3 rounded-full border px-4 py-2 font-mono text-[0.65rem] uppercase tracking-wide transition-all duration-500 ${i === index
                                 ? 'border-violet-500/30 bg-violet-500/10 text-violet-300'
                                 : 'border-white/[0.06] text-white/25 hover:border-white/15 hover:text-white/40'
                                 }`}

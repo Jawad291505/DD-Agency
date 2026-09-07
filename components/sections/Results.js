@@ -77,11 +77,11 @@ export default function Results() {
                 </div>
 
                 {/* Stats grid */}
-                <div className="mt-20 grid grid-cols-2 gap-6 lg:grid-cols-4">
+                <div className="mt-12 grid grid-cols-2 gap-3 sm:mt-20 sm:gap-6 lg:grid-cols-4">
                     {STATS.map((s, i) => (
                         <div
                             key={s.label}
-                            className="relative rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 md:p-8"
+                            className="relative rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 sm:p-6 md:p-8"
                             style={{
                                 opacity: visible ? 1 : 0,
                                 transform: visible ? 'none' : 'translateY(24px)',

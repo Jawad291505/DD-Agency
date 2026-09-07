@@ -5,8 +5,8 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { markAppReady } from '@/lib/ready'
 
 const EASE = [0.22, 1, 0.36, 1]
-const DURATION = 1200
-const LOGO_HOLD = 800
+const DURATION = 850
+const LOGO_HOLD = 380
 
 /**
  * Preloader sequence:
@@ -69,7 +69,7 @@ export default function Preloader() {
                 <motion.div
                     className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#100b20]"
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.7, ease: EASE }}
+                    transition={{ duration: 0.45, ease: EASE }}
                 >
                     {/* Subtle grid */}
                     <div className="absolute inset-0 bg-grid opacity-20" />
