@@ -5,6 +5,7 @@ import { motion, useReducedMotion, AnimatePresence } from 'framer-motion'
 import Magnetic from '@/components/ui/Magnetic'
 import { REGISTER_CLIENT_URL } from '@/data/links'
 import { onAppReady } from '@/lib/ready'
+import { isScrolling } from '@/lib/scrolling'
 
 const EASE = [0.22, 1, 0.36, 1]
 const ROTATING = ['get found.', 'get chosen.', 'get remembered.', 'grow faster.']
@@ -72,7 +73,10 @@ function ParticleCanvas() {
         window.addEventListener('scroll', onScroll, { passive: true })
 
         const draw = () => {
-            if (!visibleRef.current) {
+            // Skip drawing while off-screen or while the user is actively
+            // scrolling — a frozen star-field for ~120ms is invisible and
+            // keeps touch scrolling smooth.
+            if (!visibleRef.current || isScrolling()) {
                 rafRef.current = requestAnimationFrame(draw)
                 return
             }
@@ -202,7 +206,41 @@ export default function Hero() {
                 <div className="absolute -right-32 top-0 h-[600px] w-[600px] rounded-full bg-violet-600/45 blur-[150px]" />
                 <div className="absolute -left-32 bottom-0 h-[500px] w-[500px] rounded-full bg-violet-400/35 blur-[150px]" />
                 <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-[400px] w-[700px] rounded-full bg-violet-500/25 blur-[130px]" />
+
+                {/* Slow orbit rings — decorative depth behind the headline */}
+                {!reduce && (
+                    <>
+                        <div
+                            aria-hidden="true"
+                            className="absolute right-[-9rem] top-1/2 hidden -translate-y-1/2 rounded-full border border-dashed border-violet-300/10 lg:block"
+                            style={{ width: 560, height: 560, willChange: 'transform', animation: 'hero-ring-spin 70s linear infinite' }}
+                        />
+                        <div
+                            aria-hidden="true"
+                            className="absolute right-[-4rem] top-1/2 hidden -translate-y-1/2 rounded-full border border-violet-300/[0.07] lg:block"
+                            style={{ width: 360, height: 360, willChange: 'transform', animation: 'hero-ring-spin 45s linear infinite reverse' }}
+                        />
+                    </>
+                )}
                 <div className="absolute inset-0 noise" />
+            </div>
+
+            {/* Editorial framing — corner ticks + side rails. Purely decorative. */}
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[5] hidden sm:block">
+                {/* Left node rail */}
+                <div className="absolute left-6 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-2 lg:flex xl:left-10">
+                    <span className="h-1.5 w-1.5 rounded-full bg-violet-400/50" />
+                    <span className="h-24 w-px bg-gradient-to-b from-violet-400/40 to-transparent" />
+                    <span className="h-1 w-1 rounded-full bg-violet-400/30" />
+                </div>
+
+                {/* Right vertical brand mark */}
+                <div className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-3 lg:flex xl:right-10">
+                    <span className="h-14 w-px bg-gradient-to-b from-transparent via-violet-400/30 to-transparent" />
+                    <span className="font-mono text-[0.6rem] uppercase tracking-[0.32em] text-white/25 [writing-mode:vertical-rl]">
+                        Diversify Digital
+                    </span>
+                </div>
             </div>
 
             <div className="container relative z-10 flex min-h-[100svh] flex-col justify-center pb-16 sm:pb-20 pt-[clamp(6rem,14vh,10rem)]">
@@ -269,6 +307,23 @@ export default function Hero() {
             </div>
 
             <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 bg-gradient-to-t from-[#100b20] to-transparent z-10" />
+
+            {/* Scroll cue */}
+            <motion.div
+                aria-hidden="true"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, ease: EASE, delay: 1.6 }}
+                className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2"
+            >
+                <span className="font-mono text-[0.5rem] uppercase tracking-[0.3em] text-white/30">Scroll</span>
+                <span className="relative h-10 w-px overflow-hidden bg-white/10">
+                    <span
+                        className="absolute left-0 top-0 h-3 w-px bg-violet-300"
+                        style={reduce ? { top: '50%' } : { animation: 'hero-scroll-dot 1.9s ease-in-out infinite' }}
+                    />
+                </span>
+            </motion.div>
         </section>
     )
 }

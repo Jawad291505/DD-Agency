@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import Magnetic from '@/components/ui/Magnetic'
+import { isScrolling } from '@/lib/scrolling'
 
 const SERVICE_OPTIONS = [
     'SEO', 'Google Ads', 'Meta Ads', 'Social Media Marketing',
@@ -58,7 +59,7 @@ function ContactCanvas() {
         observer.observe(canvas)
 
         const draw = () => {
-            if (!visibleRef.current) {
+            if (!visibleRef.current || isScrolling()) {
                 rafRef.current = requestAnimationFrame(draw)
                 return
             }

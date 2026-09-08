@@ -26,45 +26,58 @@ export default function Torch() {
         if (!isFinePointer) return
 
         const cursorEl = cursorRef.current
-        const ambientEl = ambientRef.current
         if (cursorEl) cursorEl.style.display = 'block'
-        // Remove the CSS animation class on desktop since we drive it from JS
-        if (ambientEl) ambientEl.classList.remove('torch-ambient-pulse')
+        // Ambient breathing stays on the CSS `torch-ambient-pulse` animation
+        // (compositor-driven, zero main-thread cost). We only drive the
+        // cursor-following torch from JS here.
 
         let mouseX = window.innerWidth / 2
         let mouseY = window.innerHeight / 2
         let currentX = mouseX
         let currentY = mouseY
-        let time = 0
-        let raf
+        let raf = null
 
-        const onMove = (e) => { mouseX = e.clientX; mouseY = e.clientY }
-
-        const loop = () => {
-            // Cursor torch
-            currentX += (mouseX - currentX) * 0.07
-            currentY += (mouseY - currentY) * 0.07
+        const paint = () => {
             if (cursorEl) {
                 cursorEl.style.background = `radial-gradient(700px circle at ${currentX}px ${currentY}px, rgba(124,58,237,0.28), rgba(167,139,250,0.14) 35%, rgba(139,92,246,0.06) 55%, transparent 70%)`
             }
+        }
 
-            // Ambient breathing (desktop)
-            time += 0.016
-            const pulse = 0.6 + 0.4 * Math.sin(time * 0.8)
-            const ao = (0.11 + 0.07 * pulse).toFixed(3)
-            if (ambientEl) {
-                ambientEl.style.background = `radial-gradient(50% 50% at 50% 50%, rgba(124,58,237,${ao}), rgba(167,139,250,${(ao * 0.5).toFixed(3)}) 50%, transparent 80%)`
+        const loop = () => {
+            currentX += (mouseX - currentX) * 0.07
+            currentY += (mouseY - currentY) * 0.07
+            paint()
+            // Once the torch has caught up to the pointer, stop the loop —
+            // no need to keep repainting a full-viewport gradient every frame
+            // while the mouse is still. It restarts on the next mousemove.
+            if (Math.abs(mouseX - currentX) < 0.5 && Math.abs(mouseY - currentY) < 0.5) {
+                raf = null
+                return
             }
-
             raf = requestAnimationFrame(loop)
         }
 
+        const onMove = (e) => {
+            mouseX = e.clientX
+            mouseY = e.clientY
+            if (raf == null && !document.hidden) raf = requestAnimationFrame(loop)
+        }
+
+        const onVisibility = () => {
+            if (document.hidden && raf != null) {
+                cancelAnimationFrame(raf)
+                raf = null
+            }
+        }
+
         window.addEventListener('mousemove', onMove, { passive: true })
-        raf = requestAnimationFrame(loop)
+        document.addEventListener('visibilitychange', onVisibility)
+        paint()
 
         return () => {
-            cancelAnimationFrame(raf)
+            if (raf != null) cancelAnimationFrame(raf)
             window.removeEventListener('mousemove', onMove)
+            document.removeEventListener('visibilitychange', onVisibility)
         }
     }, [reduce])
 

@@ -6,7 +6,7 @@ import { markAppReady } from '@/lib/ready'
 
 const EASE = [0.22, 1, 0.36, 1]
 const DURATION = 850
-const LOGO_HOLD = 380
+const LOGO_HOLD = 780
 
 /**
  * Preloader sequence:

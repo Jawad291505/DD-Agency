@@ -3,6 +3,8 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import { Reveal, Stagger, StaggerItem } from '@/lib/motion'
+import { isScrolling } from '@/lib/scrolling'
+import LAND_RINGS from '@/data/land'
 
 /* ── Region data ── */
 const REGIONS = [
@@ -119,6 +121,18 @@ function GlobeCanvas({ isVisible }) {
         const wireframe = generateWireframe(R)
         const regionPoints = REGIONS.map((r) => latLngTo3D(r.lat, r.lng, R))
 
+        // Pre-project continent outlines to 3D (sphere surface)
+        const landRings = LAND_RINGS.map((ring) =>
+            ring.map(([lng, lat]) => latLngTo3D(lat, lng, R))
+        )
+
+        // Light direction (upper-left front) for sphere shading
+        const light = { x: -0.6, y: 0.6, z: 0.55 }
+        const lightLen = Math.hypot(light.x, light.y, light.z)
+        light.x /= lightLen
+        light.y /= lightLen
+        light.z /= lightLen
+
         // Stars background
         const stars = Array.from({ length: 80 }, () => ({
             x: Math.random() * size,
@@ -132,7 +146,10 @@ function GlobeCanvas({ isVisible }) {
         let time = 0
 
         const draw = () => {
-            if (!visibleRef.current) {
+            // Pause while off-screen or during an active scroll — the globe
+            // sitting still for a scroll gesture keeps the page smooth on
+            // laptop trackpads and touch.
+            if (!visibleRef.current || isScrolling()) {
                 rafRef.current = requestAnimationFrame(draw)
                 return
             }
@@ -174,26 +191,36 @@ function GlobeCanvas({ isVisible }) {
             ctx.lineWidth = 1
             ctx.stroke()
 
-            // Inner fill
-            const innerGrad = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.3, 0, cx, cy, R)
-            innerGrad.addColorStop(0, 'rgba(124, 58, 237, 0.08)')
-            innerGrad.addColorStop(1, 'rgba(16, 11, 32, 0.3)')
-            ctx.fillStyle = innerGrad
+            // Ocean base sphere
+            ctx.beginPath()
+            ctx.arc(cx, cy, R, 0, TAU)
+            ctx.fillStyle = 'rgba(21, 15, 43, 0.96)'
             ctx.fill()
 
-            // Clip to globe
+            // Clip to globe for everything drawn on the surface
             ctx.save()
             ctx.beginPath()
             ctx.arc(cx, cy, R - 1, 0, TAU)
             ctx.clip()
 
-            // Wireframe
+            // Screen position of the light for shading gradients
+            const lx = cx + light.x * R
+            const ly = cy - light.y * R
+
+            // Lit ocean
+            const oceanGrad = ctx.createRadialGradient(lx, ly, R * 0.1, cx, cy, R * 1.9)
+            oceanGrad.addColorStop(0, 'rgba(96, 63, 178, 0.55)')
+            oceanGrad.addColorStop(0.45, 'rgba(48, 31, 92, 0.35)')
+            oceanGrad.addColorStop(1, 'rgba(9, 6, 20, 0.6)')
+            ctx.fillStyle = oceanGrad
+            ctx.fillRect(cx - R, cy - R, R * 2, R * 2)
+
+            // Graticule (lat/long grid) — faint, behind land
             wireframe.forEach((arc) => {
                 ctx.beginPath()
                 let started = false
                 arc.forEach((pt) => {
-                    const r1 = rotateY(pt, rotY)
-                    const r2 = rotateX(r1, tiltX)
+                    const r2 = rotateX(rotateY(pt, rotY), tiltX)
                     if (r2.z < 0) {
                         started = false
                         return
@@ -207,13 +234,69 @@ function GlobeCanvas({ isVisible }) {
                         ctx.lineTo(sx, sy)
                     }
                 })
-                const depth = 0.06
-                ctx.strokeStyle = `rgba(167, 139, 250, ${depth})`
+                ctx.strokeStyle = 'rgba(167, 139, 250, 0.10)'
                 ctx.lineWidth = 0.5
                 ctx.stroke()
             })
 
+            // Continents
+            const landGrad = ctx.createRadialGradient(lx, ly, R * 0.1, cx, cy, R * 2)
+            landGrad.addColorStop(0, 'rgba(179, 150, 255, 0.95)')
+            landGrad.addColorStop(0.5, 'rgba(129, 96, 214, 0.85)')
+            landGrad.addColorStop(1, 'rgba(63, 44, 120, 0.8)')
+            landRings.forEach((ring) => {
+                let anyFront = false
+                ctx.beginPath()
+                ring.forEach((pt, idx) => {
+                    const r2 = rotateX(rotateY(pt, rotY), tiltX)
+                    let px = r2.x
+                    let py = r2.y
+                    if (r2.z < 0) {
+                        // point is on the far side — pin it to the visible limb
+                        const m = Math.hypot(px, py) || 1
+                        px = (px / m) * (R - 1)
+                        py = (py / m) * (R - 1)
+                    } else {
+                        anyFront = true
+                    }
+                    const sx = cx + px
+                    const sy = cy - py
+                    if (idx === 0) ctx.moveTo(sx, sy)
+                    else ctx.lineTo(sx, sy)
+                })
+                if (!anyFront) return
+                ctx.closePath()
+                ctx.fillStyle = landGrad
+                ctx.fill()
+                ctx.strokeStyle = 'rgba(214, 198, 255, 0.35)'
+                ctx.lineWidth = 0.6
+                ctx.stroke()
+            })
+
+            // Limb darkening — gives the disc volume
+            const limbGrad = ctx.createRadialGradient(cx, cy, R * 0.55, cx, cy, R)
+            limbGrad.addColorStop(0, 'transparent')
+            limbGrad.addColorStop(1, 'rgba(6, 4, 16, 0.62)')
+            ctx.fillStyle = limbGrad
+            ctx.fillRect(cx - R, cy - R, R * 2, R * 2)
+
+            // Day / night terminator — soft shadow opposite the light
+            const termGrad = ctx.createLinearGradient(lx, ly, cx - light.x * R * 1.4, cy + light.y * R * 1.4)
+            termGrad.addColorStop(0, 'transparent')
+            termGrad.addColorStop(0.55, 'transparent')
+            termGrad.addColorStop(1, 'rgba(4, 2, 12, 0.55)')
+            ctx.fillStyle = termGrad
+            ctx.fillRect(cx - R, cy - R, R * 2, R * 2)
+
             ctx.restore()
+
+            // Atmosphere rim
+            const atmGrad = ctx.createRadialGradient(cx, cy, R * 0.92, cx, cy, R * 1.14)
+            atmGrad.addColorStop(0, 'transparent')
+            atmGrad.addColorStop(0.6, 'rgba(139, 92, 246, 0.18)')
+            atmGrad.addColorStop(1, 'transparent')
+            ctx.fillStyle = atmGrad
+            ctx.fillRect(cx - R * 1.2, cy - R * 1.2, R * 2.4, R * 2.4)
 
             // Region dots
             regionPoints.forEach((pt, i) => {

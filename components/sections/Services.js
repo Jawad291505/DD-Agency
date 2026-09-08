@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { REGISTER_CLIENT_URL } from '@/data/links'
+import { isScrolling } from '@/lib/scrolling'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -111,7 +112,7 @@ function ServiceVisual({ service, isActive }) {
 
         let time = 0
         const draw = () => {
-            if (!visibleRef.current) {
+            if (!visibleRef.current || isScrolling()) {
                 rafRef.current = requestAnimationFrame(draw)
                 return
             }

@@ -21,14 +21,23 @@
         text-rendering: optimizeLegibility;
         overflow-x: hidden;
         -webkit-tap-highlight-color: transparent;
-        /* Persistent violet ambience — fixed so it reads across the whole page
-           even without the cursor torch. */
         background-color: #100b20;
+    }
+
+    /* Persistent violet ambience. A `position: fixed` layer paints once and is
+       composited on scroll — unlike `background-attachment: fixed`, which
+       repaints this triple-gradient on every scroll frame and was a major
+       cause of scroll jank on laptops. */
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
         background-image:
             radial-gradient(ellipse 90% 60% at 50% -10%, rgba(124, 58, 237, 0.28), transparent 60%),
             radial-gradient(ellipse 70% 50% at 100% 100%, rgba(139, 92, 246, 0.18), transparent 65%),
             radial-gradient(ellipse 70% 50% at 0% 80%, rgba(91, 33, 182, 0.20), transparent 65%);
-        background-attachment: fixed;
     }
 
     ::selection {
@@ -62,12 +71,6 @@
     (pointer: coarse) {
         .grain::after {
             display: none;
-        }
-
-        /* Fixed background attachment forces costly repaints on mobile scroll.
-           Use local attachment on touch devices to lift Speed Index / TBT. */
-        body {
-            background-attachment: scroll;
         }
     }
 }
@@ -238,22 +241,54 @@
     }
 }
 
-/* Torch ambient pulse — CSS-only on mobile, no JS rAF loop needed */
+/* Torch ambient pulse — CSS-only, no JS rAF loop needed.
+   Animates `opacity` (compositor-accelerated, no repaint) over a static
+   gradient rather than animating the gradient itself, which forced a
+   full-viewport repaint every frame on both mobile and desktop. */
 @keyframes torch-ambient {
 
     0%,
     100% {
-        background: radial-gradient(50% 50% at 50% 50%, rgba(124, 58, 237, 0.12), rgba(167, 139, 250, 0.06) 50%, transparent 80%);
+        opacity: 0.6;
     }
 
     50% {
-        background: radial-gradient(50% 50% at 50% 50%, rgba(124, 58, 237, 0.20), rgba(167, 139, 250, 0.10) 50%, transparent 80%);
+        opacity: 1;
     }
 }
 
 .torch-ambient-pulse {
+    background: radial-gradient(50% 50% at 50% 50%, rgba(124, 58, 237, 0.20), rgba(167, 139, 250, 0.10) 50%, transparent 80%);
     animation: torch-ambient 4s ease-in-out infinite;
-    will-change: auto;
+}
+
+/* Hero decorative motion — transform/opacity only (compositor-friendly) */
+@keyframes hero-ring-spin {
+    from {
+        transform: translateY(-50%) rotate(0deg);
+    }
+
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+@keyframes hero-scroll-dot {
+
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    35%,
+    65% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(260%);
+        opacity: 0;
+    }
 }
 
 /* Reduce expensive blur radii on mobile — big CSS blur triggers heavy GPU compositing */

@@ -164,11 +164,14 @@ export default function GrowthJourney() {
     useEffect(() => {
         let ticking = false
         let lastStage = -1
+        const section = sectionRef.current
+        // Query the progress bars/labels once — not on every scroll frame.
+        const bars = section ? section.querySelectorAll('[data-progress-bar]') : []
+        const labels = section ? section.querySelectorAll('[data-progress-label]') : []
         const onScroll = () => {
             if (ticking) return
             ticking = true
             requestAnimationFrame(() => {
-                const section = sectionRef.current
                 if (!section) { ticking = false; return }
                 const rect = section.getBoundingClientRect()
                 const vh = window.innerHeight
@@ -181,8 +184,6 @@ export default function GrowthJourney() {
                     setActiveStage(stage)
                 }
                 // Update progress bars via DOM directly to avoid re-renders
-                const bars = section.querySelectorAll('[data-progress-bar]')
-                const labels = section.querySelectorAll('[data-progress-label]')
                 bars.forEach((bar, i) => {
                     bar.style.width = i < stage ? '100%' : i === stage ? `${(p * STAGES.length - stage) * 100}%` : '0%'
                 })
