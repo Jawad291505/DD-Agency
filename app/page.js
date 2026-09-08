@@ -5,6 +5,7 @@ import Services from '@/components/sections/Services'
 import GrowthJourney from '@/components/sections/GrowthJourney'
 import Work from '@/components/sections/Work'
 import Results from '@/components/sections/Results'
+import Coverage from '@/components/sections/Coverage'
 import Testimonials from '@/components/sections/Testimonials'
 import Owner from '@/components/sections/Owner'
 import Contact from '@/components/sections/Contact'
@@ -24,6 +25,7 @@ export default function Home() {
                 <GrowthJourney />
                 <Work />
                 <Results />
+                <Coverage />
                 <Testimonials />
                 <Owner />
                 <Contact />

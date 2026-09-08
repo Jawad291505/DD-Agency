@@ -207,7 +207,7 @@ export default function Hero() {
 
             <div className="container relative z-10 flex min-h-[100svh] flex-col justify-center pb-16 sm:pb-20 pt-[clamp(6rem,14vh,10rem)]">
                 <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.15 }} className="flex flex-wrap items-center gap-3">
-                    <span className="label label-line text-white/50">Digital Growth Engine</span>
+                    <span className="label label-line text-white/50">AI-Driven Growth. Full-Service Digital Marketing &amp; IT.</span>
                     <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 font-mono text-[0.6rem] sm:text-[0.65rem] text-white/50 backdrop-blur-sm">
                         <span className="relative flex h-1.5 w-1.5">
                             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-violet-400 opacity-75" />
@@ -234,8 +234,8 @@ export default function Hero() {
                 <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.7 }}>
                         <p className="max-w-[520px] text-[0.95rem] sm:text-[1.08rem] leading-relaxed text-white/70">
-                            Diversify Digital is a full-service growth partner — SEO, paid media, web &amp; app
-                            development, branding and creative. We build brands that don&apos;t just show up — they
+                            We&apos;re a full-service digital marketing and IT partner — SEO, paid media, web &amp; app
+                            development, branding and creative, powered by AI-driven insight. Brands we work with don&apos;t just show up. They
                         </p>
                         <div className="mt-2 h-[2rem] sm:h-[2.2rem] overflow-hidden">
                             <AnimatePresence mode="popLayout" initial={false}>

@@ -102,6 +102,43 @@ export default function Results() {
                         </div>
                     ))}
                 </div>
+
+                {/* Our Digital Marketing Process */}
+                <div className="mt-24 border-t border-white/[0.06] pt-16">
+                    <div className="mx-auto max-w-3xl text-center">
+                        <span className="label label-line mx-auto text-violet-300/80">How we work</span>
+                        <h3 className="mt-6 display text-[clamp(1.8rem,4vw,3rem)] leading-[1.08] text-white">
+                            Our Digital Marketing Process:{' '}
+                            <span className="italic text-gradient-violet">How Results Are Built</span>
+                        </h3>
+                        <p className="mx-auto mt-4 max-w-lg text-[0.95rem] text-white/55">
+                            Diversify Digital follows a clear, data-driven process to deliver steady growth, visibility, and measurable results.
+                        </p>
+                    </div>
+                    <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-3">
+                        {[
+                            { step: '01', title: 'Market & Search Intent Analysis', desc: 'Understand your market and buyers before touching your site.' },
+                            { step: '02', title: 'Technical & Content Optimization', desc: 'Build the foundation search engines and users need.' },
+                            { step: '03', title: 'Authority & Conversion Growth', desc: 'Turn visibility into real conversion.' },
+                        ].map((item, i) => (
+                            <div
+                                key={item.step}
+                                className="relative rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 md:p-8"
+                                style={{
+                                    opacity: visible ? 1 : 0,
+                                    transform: visible ? 'none' : 'translateY(24px)',
+                                    transition: `opacity 0.8s ${0.8 + i * 0.15}s cubic-bezier(0.22,1,0.36,1), transform 0.8s ${0.8 + i * 0.15}s cubic-bezier(0.22,1,0.36,1)`,
+                                }}
+                            >
+                                <span className="font-mono text-[clamp(2rem,4vw,3rem)] font-light leading-none text-gradient-violet">
+                                    {item.step}
+                                </span>
+                                <h4 className="mt-4 font-serif text-[1.1rem] leading-snug text-white/85">{item.title}</h4>
+                                <p className="mt-2 text-[0.85rem] leading-relaxed text-white/50">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
     )

@@ -4,12 +4,12 @@ import { useRef, useEffect, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
 const STAGES = [
-    { no: '01', phase: 'Attention', headline: 'Signals appear', desc: 'Your brand enters the digital landscape. First impressions form in milliseconds — we make each one count.' },
-    { no: '02', phase: 'Discovery', headline: 'Networks form', desc: 'Search visibility grows. Your audience finds you through the channels that matter to their decisions.' },
-    { no: '03', phase: 'Traffic', headline: 'Flow begins', desc: 'Visitors arrive with intent. Campaigns, content and search compound into consistent, qualified traffic.' },
-    { no: '04', phase: 'Engagement', headline: 'Connections multiply', desc: 'Every touchpoint reinforces the next. Users explore, interact and begin to trust your brand.' },
-    { no: '05', phase: 'Conversion', headline: 'Paths converge', desc: 'Intent becomes action. The experience is engineered so the path to yes is clear and frictionless.' },
-    { no: '06', phase: 'Growth', headline: 'Everything accelerates', desc: 'Results compound. What started as attention is now a self-reinforcing engine of sustainable growth.' },
+    { no: '01', phase: 'Attention', headline: 'A signal goes out', desc: 'Your brand enters the digital landscape. First impressions form in milliseconds — we make sure yours lands.' },
+    { no: '02', phase: 'Discovery', headline: 'Intent takes over', desc: 'A signal becomes a search. We make sure you\'re the answer they find first.' },
+    { no: '03', phase: 'Experience', headline: 'They land. It has to hold.', desc: 'The site, the app, the page — this is where interest either converts or walks away.' },
+    { no: '04', phase: 'Identity', headline: 'They start to remember you', desc: 'Consistent brand and creative turn a one-time visitor into someone who knows your name.' },
+    { no: '05', phase: 'Engagement', headline: 'The relationship builds', desc: 'Social and content keep the conversation going long after the first click.' },
+    { no: '06', phase: 'Growth', headline: 'It all compounds', desc: 'Every stage feeds the next. The engine keeps running — and the numbers keep climbing.' },
 ]
 
 /**

@@ -9,68 +9,68 @@ const EASE = [0.22, 1, 0.36, 1]
 const SERVICES = [
     {
         id: 'seo', phase: 'ATTENTION', no: '01', title: 'SEO', headline: 'Get found where it matters',
-        desc: 'Rank for what your buyers actually search. Technical foundations, content strategy and authority building that compounds month over month.',
+        desc: 'Rank for what buyers actually search — technical foundations, content and authority that move you up and keep you there.',
         color: '#a78bfa',
         subs: [
-            { name: 'Technical SEO', detail: 'Site speed, crawlability, structured data' },
-            { name: 'Content Strategy', detail: 'Topic clusters, keyword mapping, editorial calendars' },
-            { name: 'Link Building', detail: 'Authority and trust signals that move rankings' },
-            { name: 'Local SEO', detail: 'Google Business, citations, map pack visibility' },
+            { name: 'Technical SEO', detail: 'Site speed, crawlability, indexing and structured data that give search engines no reason to skip you' },
+            { name: 'Content Strategy', detail: 'Topic clusters, keyword mapping and editorial calendars built around real buyer intent' },
+            { name: 'Link Building', detail: 'Authority and trust signals from real sources, not spammy shortcuts that put your rankings at risk' },
+            { name: 'Local SEO', detail: 'Google Business optimization, citations and map pack visibility for brands that live and win locally' },
         ],
     },
     {
-        id: 'ads', phase: 'DISCOVERY', no: '02', title: 'Google & Meta Ads', headline: 'Capture high-intent demand',
-        desc: 'Precision targeting, creative that performs, and ROAS you can take to the board.',
+        id: 'ads', phase: 'DISCOVERY', no: '02', title: 'Google & Meta Ads', headline: 'Ads built for intent — not just reach',
+        desc: 'Paid campaigns built on intent, not guesswork. Every dollar tracked back to real pipeline — not vanity clicks.',
         color: '#8b5cf6',
         subs: [
-            { name: 'Google Ads', detail: 'Search, Shopping, Display and Performance Max' },
-            { name: 'Meta Ads', detail: 'Facebook and Instagram campaigns that convert' },
-            { name: 'Retargeting', detail: 'Re-engage visitors across platforms' },
-            { name: 'Analytics & Attribution', detail: 'Track every dollar from click to close' },
+            { name: 'Search & Shopping Ads', detail: 'Capture demand at the exact moment someone\'s ready to buy' },
+            { name: 'Meta Campaigns', detail: 'Reach, retarget, and convert across Facebook & Instagram' },
+            { name: 'Conversion Tracking', detail: 'Full-funnel attribution, no black boxes, no guesswork' },
+            { name: 'Creative Testing', detail: 'Continuous iteration on the ads, copy, and creative that actually convert' },
         ],
     },
     {
-        id: 'web', phase: 'EXPERIENCE', no: '03', title: 'Web & App Development', headline: 'Products that perform',
-        desc: 'Fast, scalable digital experiences engineered to convert and easy to grow with.',
+        id: 'web', phase: 'EXPERIENCE', no: '03', title: 'Web & App Development', headline: 'Build the thing people land on',
+        desc: 'Fast, considered, conversion-ready builds — from marketing sites to full digital products — so every visitor you earn actually sticks around.',
         color: '#7c3aed',
         subs: [
-            { name: 'Web Development', detail: 'Sites that load fast and sell harder' },
-            { name: 'App Development', detail: 'Mobile products people come back to' },
-            { name: 'E-commerce', detail: 'Storefronts built to lift order value' },
-            { name: 'Digital Solutions', detail: 'Custom tooling that removes friction' },
+            { name: 'Web Development', detail: 'Marketing sites, e-commerce stores, custom builds engineered for speed and conversion' },
+            { name: 'App Development', detail: 'Native and cross-platform apps built for real users, not just app-store screenshots' },
+            { name: 'Performance Engineering', detail: 'Page speed, accessibility, and Core Web Vitals tuned so nothing slows growth down' },
+            { name: 'Ongoing Maintenance', detail: 'We don\'t disappear at launch. Updates, monitoring, and support keep things running long after go-live' },
         ],
     },
     {
-        id: 'brand', phase: 'IDENTITY', no: '04', title: 'Branding & Creative', headline: 'Impossible to ignore',
-        desc: 'Identity that earns instant recognition. One consistent voice, everywhere.',
+        id: 'brand', phase: 'IDENTITY', no: '04', title: 'Branding & Creative', headline: 'Don\'t just look good. Be memorable.',
+        desc: 'A brand isn\'t a logo file — it\'s every impression people form of you. We build identities that hold their shape across every screen, page, and platform.',
         color: '#6d28d9',
         subs: [
-            { name: 'Branding', detail: 'Strategy, naming, positioning and identity systems' },
-            { name: 'Graphic Design', detail: 'Considered visuals on every touchpoint' },
-            { name: 'Creative Direction', detail: 'One coherent vision across all channels' },
-            { name: 'Content Creation', detail: 'Stories worth paying attention to' },
+            { name: 'Brand Identity', detail: 'Logo, design system, brand guidelines' },
+            { name: 'Graphic Design', detail: 'Campaign creative, social assets, print collateral' },
+            { name: 'Messaging & Voice', detail: 'What you say, how you say it, and why it sticks' },
+            { name: 'Video & Photography', detail: 'Real, in-house production — no stock footage' },
         ],
     },
     {
-        id: 'social', phase: 'ENGAGEMENT', no: '05', title: 'Social Media', headline: 'Build an audience that buys',
-        desc: 'Community management, content and strategy that turns followers into customers.',
+        id: 'social', phase: 'ENGAGEMENT', no: '05', title: 'Social Media', headline: 'Social that actually works',
+        desc: 'Followers are easy. A real audience isn\'t. We build consistent social presence, on-brand, and built to convert — not just rack up likes.',
         color: '#c084fc',
         subs: [
-            { name: 'Social Strategy', detail: 'Platform selection, audience mapping, tone' },
-            { name: 'Content Calendars', detail: 'Consistent publishing that builds momentum' },
-            { name: 'Community Management', detail: 'Conversations that deepen loyalty' },
-            { name: 'Influencer Outreach', detail: 'Authentic partnerships that extend reach' },
+            { name: 'Content Calendars', detail: 'Planned, not improvised' },
+            { name: 'Community Management', detail: 'Actual conversations, not silence' },
+            { name: 'Platform Strategy', detail: 'Focused effort where your audience actually is' },
+            { name: 'Performance Reporting', detail: 'Data that tells you what to do next' },
         ],
     },
     {
-        id: 'strategy', phase: 'GROWTH', no: '06', title: 'Growth Strategy', headline: 'The engine behind everything',
-        desc: 'Every engagement starts with your real business problem. The plan comes first.',
+        id: 'strategy', phase: 'GROWTH', no: '06', title: 'Growth Strategy', headline: 'One roadmap. No guesswork.',
+        desc: 'Disconnected tactics don\'t compound. A plan does. We build the roadmap that ties every channel to one goal — and we run it.',
         color: '#a855f7',
         subs: [
-            { name: 'Growth Audits', detail: 'Find the real bottleneck before spending' },
-            { name: 'Channel Planning', detail: 'Right message, right platform, right time' },
-            { name: 'Conversion Optimisation', detail: 'Turn more traffic into revenue' },
-            { name: 'Reporting & KPIs', detail: 'Transparent numbers tied to business outcomes' },
+            { name: 'Growth Audits', detail: 'Where you\'re leaking opportunity' },
+            { name: 'Road mapping', detail: 'Quarter-by-quarter priorities, sequenced by impact' },
+            { name: 'Cross-Channel Strategy', detail: 'SEO, paid, brand, and product, working toward the same numbers' },
+            { name: 'Reporting & Iteration', detail: 'Real numbers, reviewed on a real cadence, with changes made when the data calls for it' },
         ],
     },
 ]
@@ -199,14 +199,14 @@ export default function Services() {
                     <div>
                         <span className="label label-line text-violet-300/80">What we do</span>
                         <h2 className="mt-6 display text-[clamp(2.2rem,5vw,4rem)] leading-[1.02] text-white">
-                            One engine for
+                            Digital Marketing services
                             <br />
-                            <span className="italic text-gradient-violet">the whole journey.</span>
+                            <span className="italic text-gradient-violet">at Diversify Digital.</span>
                         </h2>
                     </div>
                     <p className="max-w-[400px] text-[1rem] text-white/65 md:text-right">
-                        Each service is a stage in the growth machine. They don&apos;t work in isolation —
-                        they compound together.
+                        Every service we offer plays a role in one connected growth system. Nothing works in isolation —
+                        each stage builds on the last.
                     </p>
                 </div>
 
@@ -272,6 +272,41 @@ export default function Services() {
                                 <button key={i} onClick={() => setActive(i)} aria-label={`Service ${i + 1}`}
                                     className={`h-1 rounded-full transition-all duration-500 ${i === active ? 'w-8 bg-violet-400' : 'w-1 bg-white/20 hover:bg-white/30'}`}
                                 />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Why Choose Diversify Digital */}
+                <div className="mt-24 border-t border-white/[0.06] pt-16">
+                    <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.4fr]">
+                        <div>
+                            <span className="label label-line text-violet-300/80">The difference</span>
+                            <h3 className="mt-6 display text-[clamp(1.8rem,4vw,3rem)] leading-[1.08] text-white">
+                                Why Choose Diversify Digital for{' '}
+                                <span className="italic text-gradient-violet">Digital Marketing Services?</span>
+                            </h3>
+                        </div>
+                        <div className="flex flex-col gap-4">
+                            {[
+                                { title: 'Strategy before tactics', desc: 'Every channel ties back to a real roadmap, not a checklist' },
+                                { title: 'Built for the AI-era search', desc: 'Optimized for both traditional rankings and AI-driven discovery' },
+                                { title: 'Technical foundation that supports growth', desc: 'Speed, structure, and clean code, done right' },
+                                { title: 'Conversion is part of the plan', desc: 'Built to turn visitors into leads, not just clicks' },
+                                { title: 'Measurement that connects to revenue', desc: 'Tracked against pipeline and revenue, not vanity metrics' },
+                                { title: 'Transparent reporting', desc: 'Clear numbers, on a cadence you can count on' },
+                            ].map((item, i) => (
+                                <div key={item.title} className="flex items-start gap-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-5 py-4 transition-colors duration-300 hover:border-violet-500/15 hover:bg-violet-500/[0.03]">
+                                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-violet-600/20">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-violet-300">
+                                            <path d="M20 6 9 17l-5-5" />
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <span className="block text-[0.92rem] font-medium text-white/80">{item.title}</span>
+                                        <span className="mt-0.5 block text-[0.82rem] text-white/45">{item.desc}</span>
+                                    </div>
+                                </div>
                             ))}
                         </div>
                     </div>

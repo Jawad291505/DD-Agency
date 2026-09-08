@@ -3,7 +3,7 @@
 import { useRef, useEffect } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
-const LINE_1 = ['We', 'don\'t', 'just', 'market', 'brands.']
+const LINE_1 = ['We', 'don\'t', 'chase', 'trends.']
 const LINE_2 = ['We', 'build', 'digital', 'momentum.']
 const ALL_WORDS = [...LINE_1, '|', ...LINE_2]
 
@@ -86,8 +86,8 @@ export default function BrandStory() {
                 <div className="mx-auto mt-12 flex max-w-3xl flex-col items-center gap-8 text-center sm:mt-16">
                     <div className="h-px w-24 bg-gradient-to-r from-transparent via-violet-400/70 to-transparent" />
                     <p className="max-w-lg text-[1.05rem] leading-relaxed text-white/65">
-                        Strategy, growth, technology and creative — aligned under one roof, pulling in the same direction.
-                        No stitching together five vendors. One team, real outcomes.
+                        Strategy, growth, technology, and creative — all under one roof, moving in the same direction.
+                        No juggling vendors, no mixed signals. One team, measurable results.
                     </p>
                 </div>
             </div>

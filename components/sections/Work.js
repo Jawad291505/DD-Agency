@@ -48,6 +48,16 @@ const PROJECTS = [
             { label: 'Scope', value: 'Campaigns → Video' },
         ],
     },
+    {
+        title: 'Al Imran Milk Shop',
+        category: 'Branding · Web · Social',
+        summary: 'A local milk and dairy shop transformed into a recognized brand — complete identity, web presence, social media strategy and graphic design that set them apart in a crowded market.',
+        image: IMAGES.gallery5,
+        metrics: [
+            { label: 'Focus', value: 'Brand building' },
+            { label: 'Scope', value: 'Branding · Web · Social · Design' },
+        ],
+    },
 ]
 
 function ProjectCard({ project, index }) {
