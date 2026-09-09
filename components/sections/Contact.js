@@ -58,11 +58,13 @@ function ContactCanvas() {
         )
         observer.observe(canvas)
 
+        let firstFrame = true
         const draw = () => {
-            if (!visibleRef.current || isScrolling()) {
+            if (!firstFrame && (!visibleRef.current || isScrolling())) {
                 rafRef.current = requestAnimationFrame(draw)
                 return
             }
+            firstFrame = false
             ctx.clearRect(0, 0, w, h)
             const time = performance.now() * 0.001
 
@@ -112,11 +114,37 @@ function ContactCanvas() {
 
 export default function Contact() {
     const [sent, setSent] = useState(false)
+    const [sending, setSending] = useState(false)
+    const [error, setError] = useState('')
     const reduce = useReducedMotion()
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
-        setSent(true)
+        setSending(true)
+        setError('')
+
+        const form = e.target
+        const data = {
+            name: form.name.value,
+            email: form.email.value,
+            company: form.company.value,
+            service: form.service.value,
+            message: form.message.value,
+        }
+
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+            if (!res.ok) throw new Error()
+            setSent(true)
+        } catch {
+            setError('Something went wrong. Please try again or email us directly.')
+        } finally {
+            setSending(false)
+        }
     }
 
     return (
@@ -225,9 +253,12 @@ export default function Contact() {
                                     <Field label="Message" id="message">
                                         <textarea id="message" name="message" rows={4} required className="field-input resize-none" placeholder="Tell us about your project..." />
                                     </Field>
+                                    {error && (
+                                        <p className="text-sm text-red-400">{error}</p>
+                                    )}
                                     <Magnetic strength={0.3} className="mt-2 self-start">
-                                        <button type="submit" data-cursor-label="Send" className="btn btn-primary">
-                                            Send message
+                                        <button type="submit" disabled={sending} data-cursor-label="Send" className="btn btn-primary disabled:opacity-50">
+                                            {sending ? 'Sending...' : 'Send message'}
                                         </button>
                                     </Magnetic>
                                 </form>

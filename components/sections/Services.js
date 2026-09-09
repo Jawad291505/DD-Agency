@@ -183,9 +183,32 @@ export default function Services() {
     const [active, setActive] = useState(0)
     const reduce = useReducedMotion()
     const current = SERVICES[active]
+    const pausedRef = useRef(false)
+    const sectionRef = useRef(null)
+    const visibleRef = useRef(false)
+
+    // Auto-rotate every 2s, pause on hover or when offscreen / reduced motion
+    useEffect(() => {
+        if (reduce) return
+
+        const el = sectionRef.current
+        if (!el) return
+        const obs = new IntersectionObserver(
+            ([e]) => { visibleRef.current = e.isIntersecting },
+            { threshold: 0.1 }
+        )
+        obs.observe(el)
+
+        const id = setInterval(() => {
+            if (pausedRef.current || !visibleRef.current) return
+            setActive((prev) => (prev + 1) % SERVICES.length)
+        }, 2000)
+
+        return () => { clearInterval(id); obs.disconnect() }
+    }, [reduce])
 
     return (
-        <section id="services" className="relative overflow-hidden bg-[#100b20] py-[clamp(5rem,10vw,9rem)]">
+        <section id="services" ref={sectionRef} className="relative overflow-hidden bg-[#100b20] py-[clamp(5rem,10vw,9rem)]">
             {/* Seamless transition gradients */}
             <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#100b20] to-transparent z-[2]" />
@@ -212,7 +235,11 @@ export default function Services() {
                 </div>
 
                 <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.2fr]">
-                    <div className="flex flex-col border-t border-white/[0.08]">
+                    <div
+                        className="flex flex-col border-t border-white/[0.08]"
+                        onMouseEnter={() => { pausedRef.current = true }}
+                        onMouseLeave={() => { pausedRef.current = false }}
+                    >
                         {SERVICES.map((s, i) => {
                             const isActive = active === i
                             return (

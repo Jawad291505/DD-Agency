@@ -35,7 +35,7 @@ function ParticleCanvas() {
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
             sizeRef.current = { w, h }
             // Many more stars for a dense night-sky feel
-            const count = isMobile ? 70 : Math.min(Math.floor((w * h) / 2600), 320)
+            const count = isMobile ? 70 : Math.min(Math.floor((w * h) / 2600), 180)
             particlesRef.current = Array.from({ length: count }, () => {
                 // A few brighter "hero" stars amongst many faint ones
                 const bright = Math.random() > 0.82

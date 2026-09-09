@@ -12,14 +12,14 @@ export default function FloatingCTA() {
 
     useEffect(() => {
         let ticking = false
+        const contactEl = document.querySelector('#contact')
         const onScroll = () => {
             if (ticking) return
             ticking = true
             requestAnimationFrame(() => {
                 const y = window.scrollY
-                const contact = document.querySelector('#contact')
-                const nearContact = contact
-                    ? contact.getBoundingClientRect().top < window.innerHeight * 0.9
+                const nearContact = contactEl
+                    ? contactEl.getBoundingClientRect().top < window.innerHeight * 0.9
                     : false
                 setShow(y > window.innerHeight * 0.8 && !nearContact)
                 ticking = false
