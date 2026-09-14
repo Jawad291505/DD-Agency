@@ -12,9 +12,9 @@ const LINKS = [
     { href: '#services', label: 'Services', index: '01' },
     { href: '#journey', label: 'Journey', index: '02' },
     { href: '#work', label: 'Work', index: '03' },
-    { href: '#testimonials', label: 'Clients', index: '04' },
-    { href: '#owner', label: 'Owner', index: '05' },
-    { href: '#contact', label: 'Contact', index: '06' },
+
+    { href: '#owner', label: 'Team', index: '04' },
+    { href: '#contact', label: 'Contact', index: '05' },
 ]
 
 export default function Navbar() {

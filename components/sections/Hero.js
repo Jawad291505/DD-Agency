@@ -249,8 +249,12 @@ function GlobeCanvas({ reduce }) {
         const gratSteps = isMobile ? 48 : 72
 
         const draw = () => {
-            // Skip when off-screen or while touch-scrolling
-            if (!visibleRef.current || isScrolling()) {
+            // Skip only when off-screen. Unlike the particle field, this
+            // canvas is small and cheap, and its rotation is driven by
+            // absolute time — pausing it during scroll would make time
+            // keep advancing underneath it, so on resume the globe would
+            // snap forward instead of rotating smoothly.
+            if (!visibleRef.current) {
                 rafRef.current = requestAnimationFrame(draw)
                 return
             }
@@ -487,7 +491,7 @@ export default function Hero() {
                     </span>
                 </h1>
 
-                <div className="mt-5 sm:mt-6 grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
+                <div className="mt-5 sm:mt-6 grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-center">
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.7 }}>
                         <p className="max-w-[520px] text-[0.95rem] sm:text-[1.08rem] leading-relaxed text-white/70">
                             We&apos;re a full-service digital marketing and IT partner — SEO, paid media, web &amp; app
@@ -514,7 +518,7 @@ export default function Hero() {
                 </div>
 
                 <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.85 }}
-                    className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+                    className="mt-6 sm:mt-4 flex flex-wrap items-center gap-3 sm:gap-4">
                     <Magnetic strength={0.4}>
                         <a href={REGISTER_CLIENT_URL} data-cursor-label="Let's talk" className="btn btn-primary">Start your project</a>
                     </Magnetic>

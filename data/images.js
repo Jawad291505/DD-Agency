@@ -31,6 +31,17 @@ export const IMAGES = {
     portrait2: u('1507003211169-0a1dd7228f2d', 600),
     portrait3: u('1573497019940-1c28c88b4f3e', 600),
 
+    ubaid: '/assets/owner/ubaid.webp',
+    jamal: '/assets/owner/jamal.webp',
+    jawad: '/assets/owner/Jawad.webp',
+    waleed: '/assets/owner/Waled.webp',
+    irum: '/assets/owner/Irum.webp',
+    kashan: '/assets/owner/Kashan.webp',
+    muntaha: '/assets/owner/Muntaha.webp',
+    usman: '/assets/owner/usman.webp',
+    asif: '/assets/owner/Asif.webp',
+    hamza: '/assets/owner/hamza.webp',
+
     // Founder portrait — local asset
-    owner: '/assets/owner/owner.webp',
+    owner: '/assets/owner/waqar.webp',
 }
