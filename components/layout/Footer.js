@@ -5,20 +5,20 @@ const COLUMNS = [
     {
         heading: 'Services',
         links: [
-            { label: 'SEO', href: '#services' },
-            { label: 'Google & Meta Ads', href: '#services' },
-            { label: 'Web & App Development', href: '#services' },
-            { label: 'Branding & Creative', href: '#services' },
+            { label: 'SEO', href: '/#services' },
+            { label: 'Google & Meta Ads', href: '/#services' },
+            { label: 'Web & App Development', href: '/#services' },
+            { label: 'Branding & Creative', href: '/#services' },
         ],
     },
     {
         heading: 'Company',
         links: [
-            { label: 'Owner', href: '#owner' },
-            { label: 'Work', href: '#work' },
-            { label: 'Journey', href: '#journey' },
-            { label: 'Clients', href: '#testimonials' },
-            { label: 'Contact', href: '#contact' },
+            { label: 'Owner', href: '/owner' },
+            { label: 'Work', href: '/work' },
+            { label: 'Journey', href: '/#journey' },
+            { label: 'Clients', href: '/#testimonials' },
+            { label: 'Contact', href: '/#contact' },
         ],
     },
 ]
@@ -57,7 +57,7 @@ export default function Footer() {
                 {/* Grid */}
                 <div className="grid grid-cols-1 gap-12 py-14 lg:grid-cols-[1.4fr_2fr]">
                     <div>
-                        <a href="#top" className="inline-flex" aria-label="Home">
+                        <a href="/" className="inline-flex" aria-label="Home">
                             <LogoLockup tone="paper" markSize="h-10 w-10 rounded-lg ring-1 ring-white/10" />
                         </a>
                         <p className="mt-5 max-w-[320px] text-[0.9rem] leading-relaxed text-white/35">

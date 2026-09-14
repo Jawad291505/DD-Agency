@@ -9,12 +9,12 @@ import { REGISTER_CLIENT_URL } from '@/data/links'
 const EASE = [0.22, 1, 0.36, 1]
 
 const LINKS = [
-    { href: '#services', label: 'Services', index: '01' },
-    { href: '#journey', label: 'Journey', index: '02' },
-    { href: '#work', label: 'Work', index: '03' },
+    { href: '/#services', label: 'Services', index: '01' },
+    { href: '/#journey', label: 'Journey', index: '02' },
+    { href: '/work', label: 'Work', index: '03' },
 
-    { href: '#owner', label: 'Team', index: '04' },
-    { href: '#contact', label: 'Contact', index: '05' },
+    { href: '/owner', label: 'Team', index: '04' },
+    { href: '/#contact', label: 'Contact', index: '05' },
 ]
 
 export default function Navbar() {
@@ -38,12 +38,15 @@ export default function Navbar() {
     }, [])
 
     useEffect(() => {
-        const sections = LINKS.map((l) => document.querySelector(l.href)).filter(Boolean)
+        const hashLinks = LINKS.filter((l) => l.href.includes('#'))
+        const sections = hashLinks
+            .map((l) => document.querySelector(`#${l.href.split('#')[1]}`))
+            .filter(Boolean)
         if (!sections.length) return
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (entry.isIntersecting) setActive(`#${entry.target.id}`)
+                    if (entry.isIntersecting) setActive(`/#${entry.target.id}`)
                 })
             },
             { rootMargin: '-45% 0px -50% 0px', threshold: 0 }

@@ -29,7 +29,7 @@ export default function Home() {
                 <Results />
                 <Coverage />
                 <TechEcosystem />
-    
+                <Testimonials />
 
                 <Contact />
             </main>
