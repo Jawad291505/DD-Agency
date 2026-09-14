@@ -1,6 +1,6 @@
 // Curated imagery for a fully-remote digital studio.
 // Deliberately abstract / craft / product-led — no office or team-space shots,
-// so nothing reads as a physical Diversify Digital HQ.
+// so nothing reads as a physical Diversify Digital Global HQ.
 // Unsplash source URLs with auto format (webp/avif) + sizing for performance.
 const u = (id, w = 1200) =>
     `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80&w=${w}`

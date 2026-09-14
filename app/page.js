@@ -3,19 +3,21 @@ import Hero from '@/components/sections/Hero'
 import BrandStory from '@/components/sections/BrandStory'
 import Services from '@/components/sections/Services'
 import GrowthJourney from '@/components/sections/GrowthJourney'
-import Work from '@/components/sections/Work'
 import Results from '@/components/sections/Results'
 import Coverage from '@/components/sections/Coverage'
+import TechEcosystem from '@/components/sections/TechEcosystem'
 import Testimonials from '@/components/sections/Testimonials'
-import Owner from '@/components/sections/Owner'
+
 import Contact from '@/components/sections/Contact'
 import Footer from '@/components/layout/Footer'
 import FloatingCTA from '@/components/ui/FloatingCTA'
 import ScrollProgress from '@/components/effects/ScrollProgress'
+import Preloader from '@/components/effects/Preloader'
 
 export default function Home() {
     return (
         <>
+            <Preloader />
             <Navbar />
             <ScrollProgress />
             <main>
@@ -23,11 +25,12 @@ export default function Home() {
                 <BrandStory />
                 <Services />
                 <GrowthJourney />
-                <Work />
+
                 <Results />
                 <Coverage />
+                <TechEcosystem />
                 <Testimonials />
-                <Owner />
+
                 <Contact />
             </main>
             <Footer />

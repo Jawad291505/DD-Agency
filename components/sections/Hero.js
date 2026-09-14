@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion'
 import Magnetic from '@/components/ui/Magnetic'
 import { REGISTER_CLIENT_URL } from '@/data/links'
+import LAND_RINGS from '@/data/land'
 import { onAppReady } from '@/lib/ready'
 import { isScrolling } from '@/lib/scrolling'
 
@@ -164,6 +165,223 @@ function ParticleCanvas() {
     return <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden="true" />
 }
 
+function GlobeCanvas({ reduce }) {
+    const canvasRef = useRef(null)
+    const rafRef = useRef(null)
+    const mouseRef = useRef({ x: 0, y: 0 })
+    const tiltRef = useRef({ x: 0, y: 0 })
+    const visibleRef = useRef(true)
+
+    useEffect(() => {
+        if (reduce) return
+        const canvas = canvasRef.current
+        if (!canvas) return
+        const ctx = canvas.getContext('2d')
+
+        const isMobile = window.innerWidth < 768
+        const size = isMobile ? 260 : 340
+        const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio, 2)
+        canvas.width = size * dpr
+        canvas.height = size * dpr
+        canvas.style.width = size + 'px'
+        canvas.style.height = size + 'px'
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+        const cx = size / 2
+        const cy = size / 2
+        const R = size * 0.36
+
+        // Pause when off-screen to save battery / GPU
+        const observer = new IntersectionObserver(
+            ([entry]) => { visibleRef.current = entry.isIntersecting },
+            { threshold: 0 }
+        )
+        observer.observe(canvas)
+
+        const onMove = (e) => {
+            const rect = canvas.getBoundingClientRect()
+            mouseRef.current = {
+                x: ((e.clientX - rect.left) / rect.width - 0.5) * 2,
+                y: ((e.clientY - rect.top) / rect.height - 0.5) * 2,
+            }
+        }
+        const onLeave = () => { mouseRef.current = { x: 0, y: 0 } }
+        canvas.addEventListener('mousemove', onMove, { passive: true })
+        canvas.addEventListener('mouseleave', onLeave, { passive: true })
+
+        // Convert land [lng,lat] degrees → radians once at init
+        const landRads = LAND_RINGS.map((ring) =>
+            ring.map(([lng, lat]) => [lat * Math.PI / 180, lng * Math.PI / 180])
+        )
+
+        // On mobile, reduce land detail — skip small rings
+        const minRingSize = isMobile ? 8 : 0
+        const filteredLand = minRingSize > 0
+            ? landRads.filter((ring) => ring.length >= minRingSize)
+            : landRads
+
+        // Graticule lines — fewer on mobile
+        const gratStep = isMobile ? 45 : 30
+        const gratLats = []
+        for (let d = -60; d <= 60; d += gratStep) gratLats.push(d * Math.PI / 180)
+        const gratLons = []
+        for (let d = -180; d < 180; d += gratStep) gratLons.push(d * Math.PI / 180)
+
+        const project = (lat, lon, rotY, rotX) => {
+            const cosLat = Math.cos(lat)
+            const sinLat = Math.sin(lat)
+            const x = cosLat * Math.sin(lon + rotY)
+            const y = sinLat
+            const z = cosLat * Math.cos(lon + rotY)
+            const cosRX = Math.cos(rotX)
+            const sinRX = Math.sin(rotX)
+            return {
+                x: cx + x * R,
+                y: cy + (y * cosRX - z * sinRX) * R,
+                z: y * sinRX + z * cosRX,
+            }
+        }
+
+        const orbitText = 'DIVERSIFY DIGITAL GLOBAL  \u00B7  '
+        const orbitTextFull = orbitText + orbitText
+
+        // Fewer graticule steps on mobile
+        const gratSteps = isMobile ? 48 : 72
+
+        const draw = () => {
+            // Skip when off-screen or while touch-scrolling
+            if (!visibleRef.current || isScrolling()) {
+                rafRef.current = requestAnimationFrame(draw)
+                return
+            }
+
+            const time = performance.now() * 0.001
+            tiltRef.current.x += (mouseRef.current.y * 0.25 - tiltRef.current.x) * 0.04
+            tiltRef.current.y += (mouseRef.current.x * 0.4 - tiltRef.current.y) * 0.04
+
+            const rotY = time * 0.2 + tiltRef.current.y
+            const rotX = -0.3 + tiltRef.current.x
+
+            ctx.clearRect(0, 0, size, size)
+
+            // Outer atmospheric glow
+            const glow = ctx.createRadialGradient(cx, cy, R * 0.7, cx, cy, R * 1.5)
+            glow.addColorStop(0, 'rgba(124,58,237,0.07)')
+            glow.addColorStop(0.7, 'rgba(124,58,237,0.03)')
+            glow.addColorStop(1, 'rgba(124,58,237,0)')
+            ctx.fillStyle = glow
+            ctx.beginPath(); ctx.arc(cx, cy, R * 1.5, 0, Math.PI * 2); ctx.fill()
+
+            // Graticule — latitude lines
+            ctx.lineWidth = 0.4
+            ctx.strokeStyle = 'rgba(167,139,250,0.08)'
+            gratLats.forEach((lat) => {
+                ctx.beginPath()
+                let started = false
+                for (let j = 0; j <= gratSteps; j++) {
+                    const lon = (j / gratSteps) * Math.PI * 2 - Math.PI
+                    const p = project(lat, lon, rotY, rotX)
+                    if (p.z < -0.02) { started = false; continue }
+                    if (!started) { ctx.moveTo(p.x, p.y); started = true }
+                    else ctx.lineTo(p.x, p.y)
+                }
+                ctx.stroke()
+            })
+
+            // Graticule — longitude lines
+            ctx.strokeStyle = 'rgba(167,139,250,0.06)'
+            gratLons.forEach((lon) => {
+                ctx.beginPath()
+                let started = false
+                for (let j = 0; j <= gratSteps; j++) {
+                    const lat = -Math.PI / 2 + (j / gratSteps) * Math.PI
+                    const p = project(lat, lon, rotY, rotX)
+                    if (p.z < -0.02) { started = false; continue }
+                    if (!started) { ctx.moveTo(p.x, p.y); started = true }
+                    else ctx.lineTo(p.x, p.y)
+                }
+                ctx.stroke()
+            })
+
+            // Land masses — clip to globe then draw filled polygons
+            ctx.save()
+            ctx.beginPath()
+            ctx.arc(cx, cy, R + 0.5, 0, Math.PI * 2)
+            ctx.clip()
+
+            filteredLand.forEach((ring) => {
+                // Quick back-face cull: sample first point's z
+                const sample = project(ring[0][0], ring[0][1], rotY, rotX)
+                if (sample.z < -0.3) return // entire ring likely on back side
+
+                ctx.beginPath()
+                let anyVisible = false
+                for (let i = 0; i < ring.length; i++) {
+                    const p = project(ring[i][0], ring[i][1], rotY, rotX)
+                    if (p.z > -0.1) anyVisible = true
+                    if (i === 0) ctx.moveTo(p.x, p.y)
+                    else ctx.lineTo(p.x, p.y)
+                }
+                if (!anyVisible) return
+                ctx.closePath()
+                ctx.fillStyle = 'rgba(167,139,250,0.18)'
+                ctx.fill()
+                ctx.strokeStyle = 'rgba(167,139,250,0.3)'
+                ctx.lineWidth = 0.6
+                ctx.stroke()
+            })
+            ctx.restore()
+
+            // Outer ring (atmosphere edge)
+            ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2)
+            ctx.strokeStyle = 'rgba(167,139,250,0.15)'
+            ctx.lineWidth = 1; ctx.stroke()
+
+            // Orbiting text
+            const orbitR = R + (isMobile ? 20 : 26)
+            const textAngleOffset = time * 0.3
+            ctx.save()
+            ctx.font = `600 ${isMobile ? 9.5 : 11.5}px ui-monospace, SFMono-Regular, monospace`
+            ctx.fillStyle = 'rgba(255,255,255,0.9)'
+            ctx.textAlign = 'center'
+            ctx.textBaseline = 'middle'
+
+            const totalChars = orbitTextFull.length
+            for (let i = 0; i < totalChars; i++) {
+                const charAngle = textAngleOffset + (i / totalChars) * Math.PI * 2
+                const tx = cx + Math.cos(charAngle) * orbitR
+                const ty = cy + Math.sin(charAngle) * orbitR
+                ctx.save()
+                ctx.translate(tx, ty)
+                ctx.rotate(charAngle + Math.PI / 2)
+                ctx.fillText(orbitTextFull[i], 0, 0)
+                ctx.restore()
+            }
+            ctx.restore()
+
+            rafRef.current = requestAnimationFrame(draw)
+        }
+
+        rafRef.current = requestAnimationFrame(draw)
+        return () => {
+            cancelAnimationFrame(rafRef.current)
+            observer.disconnect()
+            canvas.removeEventListener('mousemove', onMove)
+            canvas.removeEventListener('mouseleave', onLeave)
+        }
+    }, [reduce])
+
+    if (reduce) return <div className="h-[220px] w-[220px]" />
+
+    return (
+        <canvas
+            ref={canvasRef}
+            className="cursor-grab active:cursor-grabbing"
+            aria-hidden="true"
+        />
+    )
+}
+
 export default function Hero() {
     const reduce = useReducedMotion()
     const [word, setWord] = useState(0)
@@ -238,7 +456,7 @@ export default function Hero() {
                 <div className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-3 lg:flex xl:right-10">
                     <span className="h-14 w-px bg-gradient-to-b from-transparent via-violet-400/30 to-transparent" />
                     <span className="font-mono text-[0.6rem] uppercase tracking-[0.32em] text-white/25 [writing-mode:vertical-rl]">
-                        Diversify Digital
+                        Diversify Digital Global
                     </span>
                 </div>
             </div>
@@ -255,7 +473,7 @@ export default function Hero() {
                     </span>
                 </motion.div>
 
-                <h1 className="mt-6 sm:mt-8 display text-[clamp(2.4rem,7.5vw,7.5rem)] leading-[0.88] tracking-[-0.03em]">
+                <h1 className="mt-4 sm:mt-5 display text-[clamp(2.4rem,7.5vw,7.5rem)] leading-[0.88] tracking-[-0.03em]">
                     <span className="block overflow-hidden pb-[0.15em] -mb-[0.15em]">
                         <motion.span custom={0} variants={line} initial="hidden" animate="show" className="block text-white text-glow-soft">Make your</motion.span>
                     </span>
@@ -269,7 +487,7 @@ export default function Hero() {
                     </span>
                 </h1>
 
-                <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
+                <div className="mt-5 sm:mt-6 grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-end">
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.7 }}>
                         <p className="max-w-[520px] text-[0.95rem] sm:text-[1.08rem] leading-relaxed text-white/70">
                             We&apos;re a full-service digital marketing and IT partner — SEO, paid media, web &amp; app
@@ -285,18 +503,18 @@ export default function Hero() {
                         </div>
                     </motion.div>
 
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, ease: EASE, delay: 1 }} className="grid grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm md:flex md:divide-x-0 md:border-0 md:bg-transparent md:backdrop-blur-none md:gap-8 md:justify-end md:rounded-none">
-                        {[{ v: '80+', l: 'Brands launched' }, { v: '3.4×', l: 'Avg. traffic lift' }, { v: '9yr', l: 'Building' }].map((s) => (
-                            <div key={s.l} className="px-3 py-4 text-center md:p-0 md:text-left">
-                                <span className="block font-serif text-[clamp(1.5rem,5vw,2.2rem)] leading-none text-white">{s.v}</span>
-                                <span className="mt-1.5 block font-mono text-[0.5rem] sm:text-[0.6rem] uppercase tracking-wide text-white/50">{s.l}</span>
-                            </div>
-                        ))}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1.2, ease: EASE, delay: 1 }}
+                        className="flex items-center justify-center md:justify-end"
+                    >
+                        <GlobeCanvas reduce={reduce} />
                     </motion.div>
                 </div>
 
                 <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.85 }}
-                    className="mt-10 sm:mt-12 flex flex-wrap items-center gap-3 sm:gap-4">
+                    className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
                     <Magnetic strength={0.4}>
                         <a href={REGISTER_CLIENT_URL} data-cursor-label="Let's talk" className="btn btn-primary">Start your project</a>
                     </Magnetic>

@@ -66,7 +66,7 @@ export default function Navbar() {
                     }`}
             >
                 <div className="container flex h-[72px] items-center justify-between">
-                    <a href="#top" className="group inline-flex items-center" aria-label="Diversify Digital home" onClick={() => setOpen(false)}>
+                    <a href="/" className="group inline-flex items-center" aria-label="Diversify Digital Global home" onClick={() => setOpen(false)}>
                         <LogoLockup
                             tone="paper"
                             markSize="h-9 w-9 rounded-lg ring-1 ring-white/10 transition-transform duration-500 group-hover:scale-105"

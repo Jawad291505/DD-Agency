@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { REGISTER_CLIENT_URL } from '@/data/links'
-import { isScrolling } from '@/lib/scrolling'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -12,6 +11,7 @@ const SERVICES = [
         id: 'seo', phase: 'ATTENTION', no: '01', title: 'SEO', headline: 'Get found where it matters',
         desc: 'Rank for what buyers actually search — technical foundations, content and authority that move you up and keep you there.',
         color: '#a78bfa',
+        image: '/assets/services/seo.png',
         subs: [
             { name: 'Technical SEO', detail: 'Site speed, crawlability, indexing and structured data that give search engines no reason to skip you' },
             { name: 'Content Strategy', detail: 'Topic clusters, keyword mapping and editorial calendars built around real buyer intent' },
@@ -23,6 +23,7 @@ const SERVICES = [
         id: 'ads', phase: 'DISCOVERY', no: '02', title: 'Google & Meta Ads', headline: 'Ads built for intent — not just reach',
         desc: 'Paid campaigns built on intent, not guesswork. Every dollar tracked back to real pipeline — not vanity clicks.',
         color: '#8b5cf6',
+        image: '/assets/services/ads.png',
         subs: [
             { name: 'Search & Shopping Ads', detail: 'Capture demand at the exact moment someone\'s ready to buy' },
             { name: 'Meta Campaigns', detail: 'Reach, retarget, and convert across Facebook & Instagram' },
@@ -34,6 +35,7 @@ const SERVICES = [
         id: 'web', phase: 'EXPERIENCE', no: '03', title: 'Web & App Development', headline: 'Build the thing people land on',
         desc: 'Fast, considered, conversion-ready builds — from marketing sites to full digital products — so every visitor you earn actually sticks around.',
         color: '#7c3aed',
+        image: '/assets/services/web.png',
         subs: [
             { name: 'Web Development', detail: 'Marketing sites, e-commerce stores, custom builds engineered for speed and conversion' },
             { name: 'App Development', detail: 'Native and cross-platform apps built for real users, not just app-store screenshots' },
@@ -45,6 +47,7 @@ const SERVICES = [
         id: 'brand', phase: 'IDENTITY', no: '04', title: 'Branding & Creative', headline: 'Don\'t just look good. Be memorable.',
         desc: 'A brand isn\'t a logo file — it\'s every impression people form of you. We build identities that hold their shape across every screen, page, and platform.',
         color: '#6d28d9',
+        image: '/assets/services/brand.png',
         subs: [
             { name: 'Brand Identity', detail: 'Logo, design system, brand guidelines' },
             { name: 'Graphic Design', detail: 'Campaign creative, social assets, print collateral' },
@@ -56,6 +59,7 @@ const SERVICES = [
         id: 'social', phase: 'ENGAGEMENT', no: '05', title: 'Social Media', headline: 'Social that actually works',
         desc: 'Followers are easy. A real audience isn\'t. We build consistent social presence, on-brand, and built to convert — not just rack up likes.',
         color: '#c084fc',
+        image: '/assets/services/social.png',
         subs: [
             { name: 'Content Calendars', detail: 'Planned, not improvised' },
             { name: 'Community Management', detail: 'Actual conversations, not silence' },
@@ -67,6 +71,7 @@ const SERVICES = [
         id: 'strategy', phase: 'GROWTH', no: '06', title: 'Growth Strategy', headline: 'One roadmap. No guesswork.',
         desc: 'Disconnected tactics don\'t compound. A plan does. We build the roadmap that ties every channel to one goal — and we run it.',
         color: '#a855f7',
+        image: '/assets/services/strategy.png',
         subs: [
             { name: 'Growth Audits', detail: 'Where you\'re leaking opportunity' },
             { name: 'Road mapping', detail: 'Quarter-by-quarter priorities, sequenced by impact' },
@@ -75,109 +80,6 @@ const SERVICES = [
         ],
     },
 ]
-
-function ServiceVisual({ service, isActive }) {
-    const canvasRef = useRef(null)
-    const rafRef = useRef(null)
-    const visibleRef = useRef(false)
-
-    useEffect(() => {
-        if (!isActive) {
-            if (rafRef.current) cancelAnimationFrame(rafRef.current)
-            return
-        }
-        const canvas = canvasRef.current
-        if (!canvas) return
-        const ctx = canvas.getContext('2d')
-        const dpr = Math.min(window.devicePixelRatio, 2)
-        const size = 300
-        canvas.width = size * dpr
-        canvas.height = size * dpr
-        ctx.scale(dpr, dpr)
-
-        const nodes = Array.from({ length: 20 }, (_, i) => ({
-            angle: (i / 20) * Math.PI * 2,
-            radius: 60 + Math.random() * 60,
-            speed: 0.002 + Math.random() * 0.004,
-            size: 2 + Math.random() * 3,
-            phase: Math.random() * Math.PI * 2,
-        }))
-
-        // Use IntersectionObserver to pause when offscreen
-        const observer = new IntersectionObserver(
-            ([entry]) => { visibleRef.current = entry.isIntersecting },
-            { threshold: 0 }
-        )
-        observer.observe(canvas)
-
-        let time = 0
-        const draw = () => {
-            if (!visibleRef.current || isScrolling()) {
-                rafRef.current = requestAnimationFrame(draw)
-                return
-            }
-            ctx.clearRect(0, 0, size, size)
-            const cx = size / 2, cy = size / 2
-            time += 0.016
-            const pulse = 0.5 + 0.5 * Math.sin(time * 2)
-
-            const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 140)
-            grd.addColorStop(0, service.color + '18')
-            grd.addColorStop(1, 'transparent')
-            ctx.fillStyle = grd
-            ctx.fillRect(0, 0, size, size)
-
-            ctx.beginPath()
-            ctx.arc(cx, cy, 8 + pulse * 4, 0, Math.PI * 2)
-            ctx.fillStyle = service.color + '50'
-            ctx.fill()
-            ctx.beginPath()
-            ctx.arc(cx, cy, 4, 0, Math.PI * 2)
-            ctx.fillStyle = service.color
-            ctx.fill()
-
-            nodes.forEach((n) => {
-                n.angle += n.speed
-                const x = cx + Math.cos(n.angle + n.phase) * n.radius
-                const y = cy + Math.sin(n.angle + n.phase) * n.radius * 0.7
-                ctx.beginPath()
-                ctx.moveTo(cx, cy)
-                ctx.lineTo(x, y)
-                ctx.strokeStyle = service.color + '20'
-                ctx.lineWidth = 0.5
-                ctx.stroke()
-                ctx.beginPath()
-                ctx.arc(x, y, n.size, 0, Math.PI * 2)
-                ctx.fillStyle = service.color + '70'
-                ctx.fill()
-            })
-
-                ;[40, 80, 120].forEach((r, i) => {
-                    ctx.beginPath()
-                    ctx.arc(cx, cy, r, 0, Math.PI * 2)
-                    ctx.strokeStyle = service.color + (i === 0 ? '25' : '12')
-                    ctx.lineWidth = 0.5
-                    ctx.stroke()
-                })
-
-            rafRef.current = requestAnimationFrame(draw)
-        }
-        rafRef.current = requestAnimationFrame(draw)
-        return () => {
-            cancelAnimationFrame(rafRef.current)
-            observer.disconnect()
-        }
-    }, [isActive, service])
-
-    return (
-        <div className="relative flex items-center justify-center">
-            <canvas ref={canvasRef} className="h-[220px] w-[220px] opacity-70 sm:h-[300px] sm:w-[300px]" style={{ width: 300, height: 300 }} />
-            <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-white/25">{service.phase}</span>
-            </div>
-        </div>
-    )
-}
 
 export default function Services() {
     const [active, setActive] = useState(0)
@@ -225,7 +127,7 @@ export default function Services() {
                         <h2 className="mt-6 display text-[clamp(2.2rem,5vw,4rem)] leading-[1.02] text-white">
                             Digital Marketing services
                             <br />
-                            <span className="italic text-gradient-violet">at Diversify Digital.</span>
+                            <span className="italic text-gradient-violet">at Diversify Digital Global.</span>
                         </h2>
                     </div>
                     <p className="max-w-[400px] text-[1rem] text-white/65 md:text-right">
@@ -267,30 +169,36 @@ export default function Services() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={reduce ? { opacity: 0 } : { opacity: 0, y: -20 }}
                                 transition={{ duration: 0.5, ease: EASE }}
-                                className="rounded-3xl border border-white/[0.08] bg-white/[0.03] p-6 sm:p-8 md:p-10 backdrop-blur-sm"
+                                className="rounded-3xl border border-white/[0.08] bg-white/[0.03] p-8 sm:p-10 md:p-12 backdrop-blur-sm"
                             >
-                                <div className="flex flex-col items-center gap-6 sm:gap-8 md:flex-row">
-                                    {!reduce && <ServiceVisual service={current} isActive={true} />}
-                                    <div className="flex-1">
-                                        <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-violet-300/70">{current.phase}</span>
-                                        <h3 className="mt-3 display text-[clamp(1.6rem,3vw,2.4rem)] leading-tight text-white">{current.headline}</h3>
-                                        <p className="mt-4 text-[0.98rem] leading-relaxed text-white/65">{current.desc}</p>
+                                <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-violet-300/70">{current.phase}</span>
+                                <h3 className="mt-4 display text-[clamp(1.6rem,3vw,2.4rem)] leading-tight text-white">{current.headline}</h3>
+                                <p className="mt-5 text-[0.98rem] leading-[1.7] text-white/65">{current.desc}</p>
 
-                                        {/* Sub-services grid */}
-                                        <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                                            {current.subs.map((sub, si) => (
-                                                <div key={sub.name} className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-3.5 py-3 transition-colors duration-300 hover:border-violet-500/20 hover:bg-violet-500/[0.04]">
-                                                    <span className="block text-[0.85rem] font-medium text-white/80">{sub.name}</span>
-                                                    <span className="mt-0.5 block text-[0.75rem] leading-snug text-white/40">{sub.detail}</span>
-                                                </div>
-                                            ))}
+                                {/* Sub-services grid */}
+                                <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                    {current.subs.map((sub) => (
+                                        <div key={sub.name} className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3.5 transition-colors duration-300 hover:border-violet-500/20 hover:bg-violet-500/[0.04]">
+                                            <span className="block text-[0.85rem] font-medium text-white/80">{sub.name}</span>
+                                            <span className="mt-1 block text-[0.78rem] leading-relaxed text-white/40">{sub.detail}</span>
                                         </div>
+                                    ))}
+                                </div>
 
-                                        <a href={REGISTER_CLIENT_URL} className="link-underline mt-6 inline-flex text-violet-300">
-                                            Discuss {current.title.toLowerCase()}
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-                                        </a>
-                                    </div>
+                                <a href={REGISTER_CLIENT_URL} className="link-underline mt-8 inline-flex text-violet-300">
+                                    Discuss {current.title.toLowerCase()}
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+                                </a>
+
+                                {/* Service image below text */}
+                                <div className="mt-8 flex items-center justify-center">
+                                    <img
+                                        src={current.image}
+                                        alt={current.title}
+                                        loading="lazy"
+                                        draggable={false}
+                                        className="h-[200px] w-[200px] object-contain sm:h-[260px] sm:w-[260px]"
+                                    />
                                 </div>
                             </motion.div>
                         </AnimatePresence>
@@ -305,13 +213,13 @@ export default function Services() {
                     </div>
                 </div>
 
-                {/* Why Choose Diversify Digital */}
+                {/* Why Choose Diversify Digital Global */}
                 <div className="mt-24 border-t border-white/[0.06] pt-16">
                     <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.4fr]">
                         <div>
                             <span className="label label-line text-violet-300/80">The difference</span>
                             <h3 className="mt-6 display text-[clamp(1.8rem,4vw,3rem)] leading-[1.08] text-white">
-                                Why Choose Diversify Digital for{' '}
+                                Why Choose Diversify Digital Global for{' '}
                                 <span className="italic text-gradient-violet">Digital Marketing Services?</span>
                             </h3>
                         </div>

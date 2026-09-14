@@ -2,7 +2,7 @@
   "name": "DiversifyDigital",
   "version": "1.0.0",
   "private": true,
-  "description": "Diversify Digital",
+  "description": "Diversify Digital Global",
   "scripts": {
     "dev": "next dev -p 4000",
     "build": "next build",

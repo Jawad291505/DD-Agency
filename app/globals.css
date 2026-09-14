@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* =====================================================================
-   Diversify Digital — Cinematic Scroll Experience
+   Diversify Digital Global — Cinematic Scroll Experience
    Dark-first, violet-accented, scroll-driven narrative.
    ===================================================================== */
 
@@ -270,6 +270,16 @@
 
     to {
         transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+@keyframes hero-marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
     }
 }
 

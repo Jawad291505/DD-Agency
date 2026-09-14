@@ -52,7 +52,7 @@ export default function Owner() {
                         <div className="relative mx-auto aspect-[4/5] w-full max-w-[440px] overflow-hidden rounded-3xl border border-white/[0.08]">
                             <img
                                 src={IMAGES.owner}
-                                alt="Waqar Butt — Founder & Owner of Diversify Digital"
+                                alt="Waqar Butt — Founder & Owner of Diversify Digital Global"
                                 loading="lazy"
                                 className="h-full w-full object-cover"
                             />
@@ -73,10 +73,10 @@ export default function Owner() {
                         <h2 className="display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.95] tracking-[-0.02em] text-white">
                             The vision behind
                             <br />
-                            <span className="italic text-gradient-violet">Diversify Digital.</span>
+                            <span className="italic text-gradient-violet">Diversify Digital Global.</span>
                         </h2>
                         <p className="mt-6 max-w-[520px] text-[1.02rem] leading-relaxed text-white/70">
-                            Waqar Butt founded Diversify Digital on a simple belief — ambitious brands
+                            Waqar Butt founded Diversify Digital Global on a simple belief — ambitious brands
                             deserve a partner who treats their growth like their own. Not a vendor, not
                             an order-taker, but a team invested in the outcome.
                         </p>

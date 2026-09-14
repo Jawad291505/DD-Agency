@@ -115,12 +115,12 @@ export default function Footer() {
                 {/* Oversized watermark */}
                 <div aria-hidden="true" className="overflow-hidden border-t border-white/[0.04] pt-8">
                     <p className="display select-none whitespace-nowrap text-center text-[clamp(1.6rem,9vw,8rem)] leading-none tracking-[-0.04em] text-white/[0.03]">
-                        Diversify Digital
+                        Diversify Digital Global
                     </p>
                 </div>
 
                 <div className="flex flex-col items-center justify-between gap-3 border-t border-white/[0.04] py-6 text-center font-mono text-[0.7rem] text-white/20 sm:flex-row sm:text-left">
-                    <span>&copy; {year} Diversify Digital</span>
+                    <span>&copy; {year} Diversify Digital Global</span>
                     <span>Strategy &middot; Growth &middot; Technology &middot; Creative</span>
                 </div>
             </div>

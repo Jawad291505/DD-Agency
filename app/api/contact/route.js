@@ -17,7 +17,7 @@ export async function POST(request) {
         })
 
         await transporter.sendMail({
-            from: `"Diversify Digital Contact" <${process.env.SMTP_USER}>`,
+            from: `"Diversify Digital Global Contact" <${process.env.SMTP_USER}>`,
             to: 'syedjawadshah00@gmail.com',
             replyTo: email,
             subject: `New Contact: ${name}${company ? ` from ${company}` : ''}`,

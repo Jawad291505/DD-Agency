@@ -5,7 +5,7 @@ export const LOGO_SRC = '/.well-known/appspecific/logo.png'
 export default function Logo({ className = '', imgClassName = '' }) {
     return (
         <span className={`inline-flex items-center ${className}`}>
-            <img src={LOGO_SRC} alt="Diversify Digital" className={imgClassName || 'h-full w-auto'} draggable={false} />
+            <img src={LOGO_SRC} alt="Diversify Digital Global" className={imgClassName || 'h-full w-auto'} draggable={false} />
         </span>
     )
 }

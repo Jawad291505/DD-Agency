@@ -307,7 +307,7 @@ function GlobeCanvas() {
             ref={canvasRef}
             className="h-[280px] w-[280px] sm:h-[360px] sm:w-[360px] lg:h-[500px] lg:w-[500px]"
             style={{ width: 500, height: 500 }}
-            aria-label="Interactive globe showing Diversify Digital's global coverage areas"
+            aria-label="Interactive globe showing Diversify Digital Global's global coverage areas"
             role="img"
         />
     )
@@ -338,7 +338,7 @@ export default function Coverage() {
                         Growth Partners
                     </h2>
                     <p className="mx-auto mt-6 max-w-lg text-[1rem] leading-relaxed text-white/60">
-                        Diversify Digital works with brands ready to scale — wherever they&apos;re based.
+                        Diversify Digital Global works with brands ready to scale — wherever they&apos;re based.
                     </p>
                 </Reveal>
 

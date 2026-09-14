@@ -205,7 +205,7 @@ export default function GrowthJourney() {
             ref={sectionRef}
             id="journey"
             className="relative bg-[#100b20]"
-            style={{ height: isMobile ? '250vh' : '400vh' }}
+            style={{ height: isMobile ? '450vh' : '700vh' }}
         >
             <div className="sticky top-0 h-screen overflow-hidden">
                 <div className="absolute inset-0">

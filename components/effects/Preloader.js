@@ -110,7 +110,7 @@ export default function Preloader() {
                                     <motion.img
                                         key="logo"
                                         src="/.well-known/appspecific/logo.png"
-                                        alt="Diversify Digital"
+                                        alt="Diversify Digital Global"
                                         draggable={false}
                                         initial={{ opacity: 0, scale: 0.4, rotate: -6 }}
                                         animate={{ opacity: 1, scale: 1, rotate: 0 }}

@@ -112,7 +112,7 @@ export default function Results() {
                             <span className="italic text-gradient-violet">How Results Are Built</span>
                         </h3>
                         <p className="mx-auto mt-4 max-w-lg text-[0.95rem] text-white/55">
-                            Diversify Digital follows a clear, data-driven process to deliver steady growth, visibility, and measurable results.
+                            Diversify Digital Global follows a clear, data-driven process to deliver steady growth, visibility, and measurable results.
                         </p>
                     </div>
                     <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-3">
