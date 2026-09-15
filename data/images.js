@@ -44,4 +44,12 @@ export const IMAGES = {
 
     // Founder portrait — local asset
     owner: '/assets/owner/waqar.webp',
+
+    // Case study — client dashboard screenshots (results proof)
+    caseStudy1: '/case-study/case-study-1.jpeg',
+    caseStudy2: '/case-study/case-study-2.jpeg',
+    caseStudy3: '/case-study/case-study-3.jpeg',
+    caseStudy4: '/case-study/case-study-4.jpeg',
+    caseStudy5: '/case-study/case-study-5.jpeg',
+    caseStudy6: '/case-study/case-study-6.jpeg',
 }

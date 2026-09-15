@@ -11,7 +11,7 @@ const SERVICES = [
         id: 'seo', phase: 'ATTENTION', no: '01', title: 'SEO', headline: 'Get found where it matters',
         desc: 'Rank for what buyers actually search — technical foundations, content and authority that move you up and keep you there.',
         color: '#a78bfa',
-        image: '/assets/services/seo.png',
+        image: '/services/seo.webp',
         subs: [
             { name: 'Technical SEO', detail: 'Site speed, crawlability, indexing and structured data that give search engines no reason to skip you' },
             { name: 'Content Strategy', detail: 'Topic clusters, keyword mapping and editorial calendars built around real buyer intent' },
@@ -23,7 +23,7 @@ const SERVICES = [
         id: 'ads', phase: 'DISCOVERY', no: '02', title: 'Google & Meta Ads', headline: 'Ads built for intent — not just reach',
         desc: 'Paid campaigns built on intent, not guesswork. Every dollar tracked back to real pipeline — not vanity clicks.',
         color: '#8b5cf6',
-        image: '/assets/services/ads.png',
+        image: '/services/googleads.webp',
         subs: [
             { name: 'Search & Shopping Ads', detail: 'Capture demand at the exact moment someone\'s ready to buy' },
             { name: 'Meta Campaigns', detail: 'Reach, retarget, and convert across Facebook & Instagram' },
@@ -35,7 +35,7 @@ const SERVICES = [
         id: 'web', phase: 'EXPERIENCE', no: '03', title: 'Web & App Development', headline: 'Build the thing people land on',
         desc: 'Fast, considered, conversion-ready builds — from marketing sites to full digital products — so every visitor you earn actually sticks around.',
         color: '#7c3aed',
-        image: '/assets/services/web.png',
+        image: '/services/development.webp',
         subs: [
             { name: 'Web Development', detail: 'Marketing sites, e-commerce stores, custom builds engineered for speed and conversion' },
             { name: 'App Development', detail: 'Native and cross-platform apps built for real users, not just app-store screenshots' },
@@ -47,7 +47,7 @@ const SERVICES = [
         id: 'brand', phase: 'IDENTITY', no: '04', title: 'Branding & Creative', headline: 'Don\'t just look good. Be memorable.',
         desc: 'A brand isn\'t a logo file — it\'s every impression people form of you. We build identities that hold their shape across every screen, page, and platform.',
         color: '#6d28d9',
-        image: '/assets/services/brand.png',
+        image: '/services/branding.webp',
         subs: [
             { name: 'Brand Identity', detail: 'Logo, design system, brand guidelines' },
             { name: 'Graphic Design', detail: 'Campaign creative, social assets, print collateral' },
@@ -59,7 +59,7 @@ const SERVICES = [
         id: 'social', phase: 'ENGAGEMENT', no: '05', title: 'Social Media', headline: 'Social that actually works',
         desc: 'Followers are easy. A real audience isn\'t. We build consistent social presence, on-brand, and built to convert — not just rack up likes.',
         color: '#c084fc',
-        image: '/assets/services/social.png',
+        image: '/services/socialmedia.webp',
         subs: [
             { name: 'Content Calendars', detail: 'Planned, not improvised' },
             { name: 'Community Management', detail: 'Actual conversations, not silence' },
@@ -71,7 +71,7 @@ const SERVICES = [
         id: 'strategy', phase: 'GROWTH', no: '06', title: 'Growth Strategy', headline: 'One roadmap. No guesswork.',
         desc: 'Disconnected tactics don\'t compound. A plan does. We build the roadmap that ties every channel to one goal — and we run it.',
         color: '#a855f7',
-        image: '/assets/services/strategy.png',
+        image: '/services/growthstrategy.webp',
         subs: [
             { name: 'Growth Audits', detail: 'Where you\'re leaking opportunity' },
             { name: 'Road mapping', detail: 'Quarter-by-quarter priorities, sequenced by impact' },

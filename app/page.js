@@ -3,7 +3,7 @@ import Hero from '@/components/sections/Hero'
 import BrandStory from '@/components/sections/BrandStory'
 import Services from '@/components/sections/Services'
 import GrowthJourney from '@/components/sections/GrowthJourney'
-import Results from '@/components/sections/Results'
+
 import Coverage from '@/components/sections/Coverage'
 import TechEcosystem from '@/components/sections/TechEcosystem'
 import Testimonials from '@/components/sections/Testimonials'
@@ -26,7 +26,7 @@ export default function Home() {
                 <Services />
                 <GrowthJourney />
 
-                <Results />
+  
                 <Coverage />
                 <TechEcosystem />
                 <Testimonials />

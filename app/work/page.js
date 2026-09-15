@@ -40,6 +40,7 @@ const PROJECTS = [
         image: IMAGES.trendwood,
         location: 'Pakistan',
         scope: 'Ads · Shopify · Design · SEO · Social',
+        caseStudyHref: '/case-study',
     },
     {
         title: 'Fitoo',
@@ -320,6 +321,16 @@ function ProjectCard({ project, innerRef }) {
                         <span className="font-serif text-[0.8rem] text-violet-300">{project.scope}</span>
                     </span>
                 </div>
+                {project.caseStudyHref && (
+                    <a
+                        href={project.caseStudyHref}
+                        data-cursor-label="View"
+                        className="mt-5 inline-flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-violet-300/80 transition-colors hover:text-violet-300"
+                    >
+                        View case study
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                )}
             </div>
         </div>
     )
