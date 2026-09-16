@@ -4,12 +4,12 @@ import { useRef, useEffect, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
 const STAGES = [
-    { no: '01', phase: 'Attention', headline: 'A signal goes out', desc: 'Your brand enters the digital landscape. First impressions form in milliseconds — we make sure yours lands.' },
-    { no: '02', phase: 'Discovery', headline: 'Intent takes over', desc: 'A signal becomes a search. We make sure you\'re the answer they find first.' },
-    { no: '03', phase: 'Experience', headline: 'They land. It has to hold.', desc: 'The site, the app, the page — this is where interest either converts or walks away.' },
-    { no: '04', phase: 'Identity', headline: 'They start to remember you', desc: 'Consistent brand and creative turn a one-time visitor into someone who knows your name.' },
-    { no: '05', phase: 'Engagement', headline: 'The relationship builds', desc: 'Social and content keep the conversation going long after the first click.' },
-    { no: '06', phase: 'Growth', headline: 'It all compounds', desc: 'Every stage feeds the next. The engine keeps running — and the numbers keep climbing.' },
+    { no: '01', phase: 'Discovery', headline: 'We understand the problem first', desc: 'Before a single line of code, we map your goals, users and constraints. The clearer the brief, the stronger the build.' },
+    { no: '02', phase: 'Architecture', headline: 'The right foundation matters', desc: 'Tech stack, infrastructure and data models chosen for what you need now and where you\'re headed next.' },
+    { no: '03', phase: 'Engineering', headline: 'We build it — properly', desc: 'Clean code, tested features, iterative delivery. You see progress every sprint, not just at the end.' },
+    { no: '04', phase: 'Launch', headline: 'Go live with confidence', desc: 'CI/CD pipelines, monitoring, load testing — everything in place so launch day is calm, not chaotic.' },
+    { no: '05', phase: 'Visibility', headline: 'Now people need to find it', desc: 'SEO, paid acquisition and content put your product in front of the right audience at the right time.' },
+    { no: '06', phase: 'Growth', headline: 'It all compounds', desc: 'Data flows back into product decisions. The engine keeps running — and the numbers keep climbing.' },
 ]
 
 /**

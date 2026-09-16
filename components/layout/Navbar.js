@@ -12,8 +12,8 @@ const LINKS = [
     { href: '/#services', label: 'Services', index: '01' },
     { href: '/#journey', label: 'Journey', index: '02' },
     { href: '/work', label: 'Work', index: '03' },
-            { href: '/case-study', label: 'Case Studies', index: '04' },
-    { href: '/owner', label: 'Team', index: '05' },
+    { href: '/case-study', label: 'Case Studies', index: '04' },
+    { href: '/team', label: 'Team', index: '05' },
     { href: '/#contact', label: 'Contact', index: '06' },
 ]
 

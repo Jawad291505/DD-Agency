@@ -27,16 +27,16 @@ const jetbrains = JetBrains_Mono({
 })
 
 const SITE_URL = 'https://diversify.digital'
-const TITLE = 'Diversify Digital Global — Digital Marketing That Moves Brands'
+const TITLE = 'Diversify Digital Global — Software Engineering, Cloud & Digital Growth'
 const DESCRIPTION =
-    'Diversify Digital Global helps ambitious brands grow through SEO, web development, digital solutions and Meta advertising.'
+    'Diversify Digital Global builds and scales software — web platforms, mobile apps, cloud infrastructure and AI products — backed by SEO and digital marketing.'
 
 export const metadata = {
     metadataBase: new URL(SITE_URL),
     title: { default: TITLE, template: '%s · Diversify Digital Global' },
     description: DESCRIPTION,
     applicationName: 'Diversify Digital Global',
-    keywords: ['SEO services', 'web development', 'digital marketing agency', 'Meta ads', 'digital solutions'],
+    keywords: ['software development', 'web development', 'app development', 'cloud infrastructure', 'AI solutions', 'SEO services', 'digital marketing agency'],
     authors: [{ name: 'Diversify Digital Global' }],
     creator: 'Diversify Digital Global',
     publisher: 'Diversify Digital Global',
@@ -66,6 +66,8 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable}`}>
             <head>
+                <link rel="preconnect" href="https://images.unsplash.com" />
+                <link rel="dns-prefetch" href="https://images.unsplash.com" />
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
             </head>
             <body>

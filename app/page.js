@@ -6,7 +6,7 @@ import GrowthJourney from '@/components/sections/GrowthJourney'
 
 import Coverage from '@/components/sections/Coverage'
 import TechEcosystem from '@/components/sections/TechEcosystem'
-import Testimonials from '@/components/sections/Testimonials'
+
 
 import Contact from '@/components/sections/Contact'
 import Footer from '@/components/layout/Footer'
@@ -26,10 +26,10 @@ export default function Home() {
                 <Services />
                 <GrowthJourney />
 
-  
+
                 <Coverage />
                 <TechEcosystem />
-                <Testimonials />
+
 
                 <Contact />
             </main>

@@ -139,9 +139,8 @@ export default function CaseStudyPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10% 0px" }}
                 transition={{ duration: 0.8, ease: EASE }}
-                className={`grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16 ${
-                  i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
-                }`}
+                className={`grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16 ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
+                  }`}
               >
                 {/* Screenshot */}
                 <div className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] shadow-[0_20px_60px_-20px_rgba(91,33,182,0.35)]">
@@ -149,6 +148,7 @@ export default function CaseStudyPage() {
                     src={p.image}
                     alt={p.title}
                     loading="lazy"
+                    decoding="async"
                     className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                   />
                   <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[0.06]" />

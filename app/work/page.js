@@ -20,13 +20,13 @@ const PROJECTS = [
     {
         title: 'Agora',
         category: 'App Development · Design',
-        summary: 'A civic-engagement app built from the ground up for the Italian market — full app development paired with polished graphic design to make democratic participation effortless.',
+        summary: 'A civic-engagement app built from the ground up for the Italian market — full-stack app development paired with polished UI/UX design to make democratic participation effortless.',
         image: IMAGES.agora,
         location: 'Italy',
-        scope: 'App Development · Graphic Design',
+        scope: 'App Development · UI/UX Design',
     },
     {
-        title: 'Eye Insights',
+        title: 'Eye Interactions',
         category: 'Ad Campaigns · Marketing',
         summary: 'Performance ad campaigns, content planning and full-funnel marketing strategy for a UK-based insights company — turning attention into measurable demand.',
         image: IMAGES.eyeInsight,
@@ -35,25 +35,25 @@ const PROJECTS = [
     },
     {
         title: 'Trendwood',
-        category: 'Meta Ads · Shopify · SEO · Social',
-        summary: 'Full-stack digital support for a Pakistan-based furniture brand — Meta ad campaigns, Shopify store management, graphic design, social media marketing, SEO and ongoing web maintenance.',
+        category: 'E-commerce · Shopify · SEO',
+        summary: 'Full-stack digital support for a Pakistan-based furniture brand — Shopify platform development, Meta ad campaigns, graphic design, SEO and ongoing web maintenance.',
         image: IMAGES.trendwood,
         location: 'Pakistan',
-        scope: 'Ads · Shopify · Design · SEO · Social',
+        scope: 'Shopify Dev · Ads · Design · SEO',
         caseStudyHref: '/case-study',
     },
     {
         title: 'Fitoo',
-        category: 'Web · Ads · SEO · Design',
-        summary: 'End-to-end online presence for a fitness brand — custom website, search engine optimisation, graphic design and ad campaigns across channels.',
+        category: 'Web Development · SEO · Ads',
+        summary: 'End-to-end online presence for a fitness brand — custom-built website, search engine optimisation, graphic design and ad campaigns across channels.',
         image: IMAGES.fitoo,
         location: 'Global',
-        scope: 'Web · SEO · Design · Ad Campaigns',
+        scope: 'Web Dev · SEO · Design · Ads',
     },
     {
         title: 'Fit360',
         category: 'Web Development',
-        summary: 'A clean, performance-focused website built for a fitness brand — designed to convert visitors and showcase their offering.',
+        summary: 'A performance-focused web application built for a fitness brand — engineered to convert visitors and showcase their offering with speed and clarity.',
         image: IMAGES.fit360,
         location: 'Global',
         scope: 'Web Development',
@@ -61,7 +61,7 @@ const PROJECTS = [
     {
         title: 'Al Imran Milk Shop',
         category: 'Web Development',
-        summary: 'A purpose-built website for a local dairy shop — giving them a digital storefront that stands out in a crowded market.',
+        summary: 'A purpose-built web application for a local dairy shop — giving them a digital storefront that stands out in a crowded market.',
         image: IMAGES.alImran,
         location: 'Pakistan',
         scope: 'Web Development',
@@ -295,6 +295,7 @@ function ProjectCard({ project, innerRef }) {
                     src={project.image}
                     alt={project.title}
                     loading="lazy"
+                    decoding="async"
                     data-cursor-label="View"
                     className="h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
                 />

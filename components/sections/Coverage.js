@@ -338,7 +338,7 @@ export default function Coverage() {
                         Growth Partners
                     </h2>
                     <p className="mx-auto mt-6 max-w-lg text-[1rem] leading-relaxed text-white/60">
-                        Diversify Digital Global works with brands ready to scale — wherever they&apos;re based.
+                        Diversify Digital Global works with businesses ready to build and scale — wherever they&apos;re based.
                     </p>
                 </Reveal>
 

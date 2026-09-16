@@ -6,14 +6,15 @@ import Magnetic from '@/components/ui/Magnetic'
 import { isScrolling } from '@/lib/scrolling'
 
 const SERVICE_OPTIONS = [
-    'SEO', 'Google Ads', 'Meta Ads', 'Social Media Marketing',
-    'Web Development', 'App Development', 'Branding', 'Graphic Design',
-    'Content Creation', 'Not sure yet',
+    'Web Development', 'App Development', 'Cloud & DevOps', 'AI & Automation',
+    'SEO', 'Google Ads', 'Meta Ads', 'Branding & Design',
+    'Not sure yet',
 ]
 
 const DETAILS = [
-    ['Email', 'hello@diversify.digital', 'mailto:hello@diversify.digital'],
-    ['Phone', '+1 (555) 012-3480', 'tel:+15550123480'],
+    ['Email', 'diversifydigitalglobal@gmail.com', 'mailto:diversifydigitalglobal@gmail.com'],
+    ['Phone', '+92 320 4330801', 'https://wa.me/923204330801'],
+    ['Phone', '+92 327 0738599', 'https://wa.me/923270738599'],
     ['Where we work', 'Fully remote — partnering with brands worldwide', null],
 ]
 
@@ -151,6 +152,7 @@ export default function Contact() {
         <section id="contact" className="relative overflow-hidden bg-[#100b20] py-[clamp(6rem,12vw,10rem)]">
             {/* Seamless transition gradients */}
             <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#100b20] to-transparent z-[2]" />
             {/* Background */}
             <div className="absolute inset-0">
                 {!reduce && <ContactCanvas />}
@@ -168,7 +170,7 @@ export default function Contact() {
                         <span className="italic text-gradient-violet">grow?</span>
                     </h2>
                     <p className="mx-auto mt-6 max-w-lg text-[1rem] leading-relaxed text-white/55">
-                        Tell us about your brand and where you want to take it. We&apos;ll come back
+                        Tell us what you&apos;re building and where you want to take it. We&apos;ll come back
                         within one business day with a clear next step.
                     </p>
                 </div>
@@ -177,13 +179,13 @@ export default function Contact() {
                     {/* Details */}
                     <div className="lg:col-span-5">
                         <div className="flex flex-col gap-6">
-                            {DETAILS.map(([label, value, href]) => (
-                                <div key={label} className="border-t border-white/[0.06] pt-5">
+                            {DETAILS.map(([label, value, href], i) => (
+                                <div key={`${label}-${i}`} className="border-t border-white/[0.06] pt-5">
                                     <p className="font-mono text-[0.65rem] uppercase tracking-wide text-violet-400/50">
                                         {label}
                                     </p>
                                     {href ? (
-                                        <a href={href} className="mt-2 block font-serif text-lg text-white/70 transition-colors hover:text-violet-300">
+                                        <a href={href} {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="mt-2 block font-serif text-lg text-white/70 transition-colors hover:text-violet-300">
                                             {value}
                                         </a>
                                     ) : (

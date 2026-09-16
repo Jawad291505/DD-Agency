@@ -5,7 +5,7 @@ export const LOGO_SRC = '/.well-known/appspecific/logo.png'
 export default function Logo({ className = '', imgClassName = '' }) {
     return (
         <span className={`inline-flex items-center ${className}`}>
-            <img src={LOGO_SRC} alt="Diversify Digital Global" className={imgClassName || 'h-full w-auto'} draggable={false} />
+            <img src={LOGO_SRC} alt="Diversify Digital Global" className={imgClassName || 'h-full w-auto'} draggable={false} decoding="async" />
         </span>
     )
 }
@@ -20,6 +20,7 @@ export function LogoLockup({ className = '', markSize = 'h-9 w-9', text = true, 
                 aria-hidden="true"
                 className={`${markSize} shrink-0 object-contain`}
                 draggable={false}
+                decoding="async"
             />
             {text && (
                 <span className={`font-serif text-[1.35rem] font-normal leading-none tracking-[-0.02em] ${wordColor}`}>

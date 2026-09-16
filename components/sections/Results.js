@@ -42,7 +42,7 @@ export default function Results() {
     return (
         <section
             ref={sectionRef}
-            className="relative overflow-hidden bg-[#100b20] py-[clamp(6rem,14vw,12rem)]"
+            className="relative overflow-hidden bg-[#100b20] py-[clamp(6rem,12vw,10rem)]"
         >
             {/* Seamless transition gradients */}
             <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />

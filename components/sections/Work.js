@@ -107,6 +107,7 @@ function ProjectCard({ project, index }) {
                         src={project.image}
                         alt={project.title}
                         loading="lazy"
+                        decoding="async"
                         data-cursor-label="View"
                         className="h-full w-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                     />
@@ -149,7 +150,7 @@ export default function Work() {
     return (
         <section id="work" className="relative overflow-hidden bg-[#100b20] py-[clamp(5rem,10vw,9rem)]">
             {/* Seamless transition gradients */}
-            <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
+            <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#100b20] to-transparent z-[2]" />
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#100b20] to-transparent z-[2]" />
 
             <div className="absolute inset-0 grain" />

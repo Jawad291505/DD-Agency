@@ -3,9 +3,9 @@ export const dynamic = 'force-static'
 
 export default function manifest() {
     return {
-        name: 'Diversify Digital Global — Digital Marketing',
+        name: 'Diversify Digital Global — IT & Digital Solutions',
         short_name: 'Diversify',
-        description: 'SEO, web development, digital solutions and Meta ads for ambitious brands.',
+        description: 'Software engineering, cloud infrastructure, AI and digital marketing for ambitious businesses.',
         start_url: '/',
         display: 'standalone',
         background_color: '#F5F2FB',

@@ -8,7 +8,43 @@ const EASE = [0.22, 1, 0.36, 1]
 
 const SERVICES = [
     {
-        id: 'seo', phase: 'ATTENTION', no: '01', title: 'SEO', headline: 'Get found where it matters',
+        id: 'web', phase: 'ENGINEERING', no: '01', title: 'Web & App Development', headline: 'Software that performs from day one',
+        desc: 'Custom web platforms, e-commerce stores and mobile apps — engineered for speed, scalability and conversion. We build what your business actually needs, not a template with your logo on it.',
+        color: '#7c3aed',
+        image: '/services/development.webp',
+        subs: [
+            { name: 'Web Development', detail: 'Marketing sites, SaaS platforms, e-commerce stores and custom builds engineered for speed and conversion' },
+            { name: 'App Development', detail: 'Native and cross-platform apps built for real users — iOS, Android and progressive web apps' },
+            { name: 'Performance Engineering', detail: 'Page speed, accessibility, Core Web Vitals and load optimisation tuned so nothing slows growth down' },
+            { name: 'Ongoing Maintenance', detail: 'We don\'t disappear at launch. Updates, monitoring, and support keep things running long after go-live' },
+        ],
+    },
+    {
+        id: 'cloud', phase: 'INFRASTRUCTURE', no: '02', title: 'Cloud & DevOps', headline: 'Infrastructure that scales with you',
+        desc: 'From zero-downtime deployments to auto-scaling architecture — we set up and manage the cloud so your engineering team ships faster and sleeps better.',
+        color: '#6d28d9',
+        image: '/services/development.webp',
+        subs: [
+            { name: 'Cloud Architecture', detail: 'AWS, Google Cloud, Azure — designed for cost-efficiency, reliability and room to grow' },
+            { name: 'CI/CD Pipelines', detail: 'Automated build, test and deploy workflows that remove bottlenecks from your release cycle' },
+            { name: 'Containerisation', detail: 'Docker and Kubernetes setups that keep environments consistent from laptop to production' },
+            { name: 'Monitoring & Security', detail: 'Uptime monitoring, log management, vulnerability scanning and incident response' },
+        ],
+    },
+    {
+        id: 'ai', phase: 'INTELLIGENCE', no: '03', title: 'AI & Automation', headline: 'Put AI to work inside your product',
+        desc: 'We integrate large language models, computer vision and predictive analytics into real workflows — not demos. Practical AI that saves time, cuts cost and opens new revenue.',
+        color: '#a855f7',
+        image: '/services/growthstrategy.webp',
+        subs: [
+            { name: 'LLM Integration', detail: 'OpenAI, Anthropic, open-source models — wired into your product or internal tools' },
+            { name: 'Workflow Automation', detail: 'Repetitive processes replaced with intelligent pipelines that learn and improve' },
+            { name: 'Data Pipelines', detail: 'ETL, real-time processing and analytics infrastructure built for clean, actionable data' },
+            { name: 'Custom Model Training', detail: 'Fine-tuned models trained on your domain data for higher accuracy where it matters' },
+        ],
+    },
+    {
+        id: 'seo', phase: 'VISIBILITY', no: '04', title: 'SEO & Content', headline: 'Get found where it matters',
         desc: 'Rank for what buyers actually search — technical foundations, content and authority that move you up and keep you there.',
         color: '#a78bfa',
         image: '/services/seo.webp',
@@ -16,11 +52,11 @@ const SERVICES = [
             { name: 'Technical SEO', detail: 'Site speed, crawlability, indexing and structured data that give search engines no reason to skip you' },
             { name: 'Content Strategy', detail: 'Topic clusters, keyword mapping and editorial calendars built around real buyer intent' },
             { name: 'Link Building', detail: 'Authority and trust signals from real sources, not spammy shortcuts that put your rankings at risk' },
-            { name: 'Local SEO', detail: 'Google Business optimization, citations and map pack visibility for brands that live and win locally' },
+            { name: 'Local SEO', detail: 'Google Business optimisation, citations and map pack visibility for brands that win locally' },
         ],
     },
     {
-        id: 'ads', phase: 'DISCOVERY', no: '02', title: 'Google & Meta Ads', headline: 'Ads built for intent — not just reach',
+        id: 'ads', phase: 'ACQUISITION', no: '05', title: 'Paid Advertising', headline: 'Ads built for intent — not just reach',
         desc: 'Paid campaigns built on intent, not guesswork. Every dollar tracked back to real pipeline — not vanity clicks.',
         color: '#8b5cf6',
         image: '/services/googleads.webp',
@@ -28,55 +64,19 @@ const SERVICES = [
             { name: 'Search & Shopping Ads', detail: 'Capture demand at the exact moment someone\'s ready to buy' },
             { name: 'Meta Campaigns', detail: 'Reach, retarget, and convert across Facebook & Instagram' },
             { name: 'Conversion Tracking', detail: 'Full-funnel attribution, no black boxes, no guesswork' },
-            { name: 'Creative Testing', detail: 'Continuous iteration on the ads, copy, and creative that actually convert' },
+            { name: 'Creative Testing', detail: 'Continuous iteration on ads, copy and creative that actually convert' },
         ],
     },
     {
-        id: 'web', phase: 'EXPERIENCE', no: '03', title: 'Web & App Development', headline: 'Build the thing people land on',
-        desc: 'Fast, considered, conversion-ready builds — from marketing sites to full digital products — so every visitor you earn actually sticks around.',
-        color: '#7c3aed',
-        image: '/services/development.webp',
-        subs: [
-            { name: 'Web Development', detail: 'Marketing sites, e-commerce stores, custom builds engineered for speed and conversion' },
-            { name: 'App Development', detail: 'Native and cross-platform apps built for real users, not just app-store screenshots' },
-            { name: 'Performance Engineering', detail: 'Page speed, accessibility, and Core Web Vitals tuned so nothing slows growth down' },
-            { name: 'Ongoing Maintenance', detail: 'We don\'t disappear at launch. Updates, monitoring, and support keep things running long after go-live' },
-        ],
-    },
-    {
-        id: 'brand', phase: 'IDENTITY', no: '04', title: 'Branding & Creative', headline: 'Don\'t just look good. Be memorable.',
-        desc: 'A brand isn\'t a logo file — it\'s every impression people form of you. We build identities that hold their shape across every screen, page, and platform.',
-        color: '#6d28d9',
+        id: 'brand', phase: 'IDENTITY', no: '06', title: 'Branding & Creative', headline: 'Don\'t just look good. Be memorable.',
+        desc: 'A brand isn\'t a logo file — it\'s every impression people form of you. We build identities that hold their shape across every screen, page and platform.',
+        color: '#c084fc',
         image: '/services/branding.webp',
         subs: [
             { name: 'Brand Identity', detail: 'Logo, design system, brand guidelines' },
             { name: 'Graphic Design', detail: 'Campaign creative, social assets, print collateral' },
             { name: 'Messaging & Voice', detail: 'What you say, how you say it, and why it sticks' },
             { name: 'Video & Photography', detail: 'Real, in-house production — no stock footage' },
-        ],
-    },
-    {
-        id: 'social', phase: 'ENGAGEMENT', no: '05', title: 'Social Media', headline: 'Social that actually works',
-        desc: 'Followers are easy. A real audience isn\'t. We build consistent social presence, on-brand, and built to convert — not just rack up likes.',
-        color: '#c084fc',
-        image: '/services/socialmedia.webp',
-        subs: [
-            { name: 'Content Calendars', detail: 'Planned, not improvised' },
-            { name: 'Community Management', detail: 'Actual conversations, not silence' },
-            { name: 'Platform Strategy', detail: 'Focused effort where your audience actually is' },
-            { name: 'Performance Reporting', detail: 'Data that tells you what to do next' },
-        ],
-    },
-    {
-        id: 'strategy', phase: 'GROWTH', no: '06', title: 'Growth Strategy', headline: 'One roadmap. No guesswork.',
-        desc: 'Disconnected tactics don\'t compound. A plan does. We build the roadmap that ties every channel to one goal — and we run it.',
-        color: '#a855f7',
-        image: '/services/growthstrategy.webp',
-        subs: [
-            { name: 'Growth Audits', detail: 'Where you\'re leaking opportunity' },
-            { name: 'Road mapping', detail: 'Quarter-by-quarter priorities, sequenced by impact' },
-            { name: 'Cross-Channel Strategy', detail: 'SEO, paid, brand, and product, working toward the same numbers' },
-            { name: 'Reporting & Iteration', detail: 'Real numbers, reviewed on a real cadence, with changes made when the data calls for it' },
         ],
     },
 ]
@@ -125,14 +125,14 @@ export default function Services() {
                     <div>
                         <span className="label label-line text-violet-300/80">What we do</span>
                         <h2 className="mt-6 display text-[clamp(2.2rem,5vw,4rem)] leading-[1.02] text-white">
-                            Digital Marketing services
+                            Everything your brand needs
                             <br />
-                            <span className="italic text-gradient-violet">at Diversify Digital Global.</span>
+                            <span className="italic text-gradient-violet">to grow.</span>
                         </h2>
                     </div>
                     <p className="max-w-[400px] text-[1rem] text-white/65 md:text-right">
-                        Every service we offer plays a role in one connected growth system. Nothing works in isolation —
-                        each stage builds on the last.
+                        Software, infrastructure and marketing working as one system. Every service plays a role in your growth —
+                        nothing operates in isolation.
                     </p>
                 </div>
 
@@ -196,6 +196,7 @@ export default function Services() {
                                         src={current.image}
                                         alt={current.title}
                                         loading="lazy"
+                                        decoding="async"
                                         draggable={false}
                                         className="h-[200px] w-[200px] object-contain sm:h-[260px] sm:w-[260px]"
                                     />
@@ -219,17 +220,17 @@ export default function Services() {
                         <div>
                             <span className="label label-line text-violet-300/80">The difference</span>
                             <h3 className="mt-6 display text-[clamp(1.8rem,4vw,3rem)] leading-[1.08] text-white">
-                                Why Choose Diversify Digital Global for{' '}
-                                <span className="italic text-gradient-violet">Digital Marketing Services?</span>
+                                What Makes Diversify Digital Global{' '}
+                                <span className="italic text-gradient-violet">the Right Choice?</span>
                             </h3>
                         </div>
                         <div className="flex flex-col gap-4">
                             {[
-                                { title: 'Strategy before tactics', desc: 'Every channel ties back to a real roadmap, not a checklist' },
-                                { title: 'Built for the AI-era search', desc: 'Optimized for both traditional rankings and AI-driven discovery' },
-                                { title: 'Technical foundation that supports growth', desc: 'Speed, structure, and clean code, done right' },
-                                { title: 'Conversion is part of the plan', desc: 'Built to turn visitors into leads, not just clicks' },
-                                { title: 'Measurement that connects to revenue', desc: 'Tracked against pipeline and revenue, not vanity metrics' },
+                                { title: 'Engineering-first approach', desc: 'Clean architecture, tested code and scalable infrastructure — not just pages that look nice' },
+                                { title: 'Full product lifecycle', desc: 'From first wireframe to production deployment and ongoing maintenance under one roof' },
+                                { title: 'Built for the AI era', desc: 'We integrate AI into products and workflows, not just slide decks' },
+                                { title: 'Technical foundation that supports growth', desc: 'Speed, structure, security and clean code — done right from day one' },
+                                { title: 'Marketing that ties back to revenue', desc: 'SEO, paid media and creative tracked against pipeline, not vanity metrics' },
                                 { title: 'Transparent reporting', desc: 'Clear numbers, on a cadence you can count on' },
                             ].map((item, i) => (
                                 <div key={item.title} className="flex items-start gap-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-5 py-4 transition-colors duration-300 hover:border-violet-500/15 hover:bg-violet-500/[0.03]">
@@ -245,6 +246,32 @@ export default function Services() {
                                 </div>
                             ))}
                         </div>
+                    </div>
+                </div>
+                {/* Our Process */}
+                <div className="mt-24 border-t border-white/[0.06] pt-16">
+                    <div className="mx-auto max-w-3xl text-center">
+                        <span className="label label-line mx-auto text-violet-300/80">How we work</span>
+                        <h3 className="mt-6 display text-[clamp(1.8rem,4vw,3rem)] leading-[1.08] text-white">
+                            Precision Engineering:{' '}
+                            <span className="italic text-gradient-violet">How We Turn Strategy into Growth</span>
+                        </h3>
+                        <p className="mx-auto mt-4 max-w-lg text-[0.95rem] text-white/55">
+                            Diversify Digital Global follows a clear, data-driven process to deliver reliable results — from first audit to compounding growth.
+                        </p>
+                    </div>
+                    <div className="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
+                        {[
+                            { step: '01', title: 'Research & Architecture', desc: 'Understand your market, users and technical landscape before writing a single line of code or launching a single campaign.' },
+                            { step: '02', title: 'Build & Optimise', desc: 'Engineer the product, set up infrastructure, optimise for search — building the foundation that everything else runs on.' },
+                            { step: '03', title: 'Launch & Scale', desc: 'Go live, drive acquisition, measure everything and feed learnings back into the next iteration. Growth that compounds.' },
+                        ].map((s) => (
+                            <div key={s.step} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-colors duration-300 hover:border-violet-500/15 hover:bg-violet-500/[0.03]">
+                                <span className="font-mono text-[0.7rem] text-violet-300/70">Step {s.step}</span>
+                                <h4 className="mt-3 font-serif text-[1.1rem] text-white/85">{s.title}</h4>
+                                <p className="mt-2 text-[0.85rem] leading-relaxed text-white/45">{s.desc}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

@@ -54,6 +54,7 @@ export default function Owner() {
                                 src={IMAGES.owner}
                                 alt="Waqar Butt — Founder & Owner of Diversify Digital Global"
                                 loading="lazy"
+                                decoding="async"
                                 className="h-full w-full object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-[#100b20]/70 via-transparent to-transparent" />

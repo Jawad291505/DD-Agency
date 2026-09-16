@@ -178,8 +178,8 @@ export default function TechEcosystem() {
                         <span className="italic text-gradient-violet">work with.</span>
                     </h2>
                     <p className="mx-auto mt-6 max-w-lg text-[1rem] leading-relaxed text-white/60">
-                        A modern, full-spectrum stack — from frontend frameworks to AI platforms,
-                        cloud infrastructure to growth analytics.
+                        A modern, full-spectrum stack — from frontend frameworks and cloud infrastructure
+                        to AI platforms and growth analytics.
                     </p>
                 </Reveal>
             </div>

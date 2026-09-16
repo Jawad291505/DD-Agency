@@ -31,7 +31,7 @@ export const IMAGES = {
     portrait2: u('1507003211169-0a1dd7228f2d', 600),
     portrait3: u('1573497019940-1c28c88b4f3e', 600),
 
-    ubaid: '/assets/owner/ubaid.webp',
+    ubaid: '/assets/owner/Ubaid.webp',
     jamal: '/assets/owner/jamal.webp',
     jawad: '/assets/owner/Jawad.webp',
     waleed: '/assets/owner/Waled.webp',
