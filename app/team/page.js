@@ -33,7 +33,7 @@ const TEAM = [
         role: "Human resource Manager",
         image: IMAGES.waleed,
     },
-    { name: "Irum Butt", role: "Legal Advisor", image: IMAGES.irum },
+    { name: "Irum Shujah", role: "Legal Advisor", image: IMAGES.irum },
 ];
 
 /* ── Page ───────────────────────────────────────────────────────────── */
