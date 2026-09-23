@@ -45,6 +45,11 @@ export const metadata = {
     twitter: { card: 'summary_large_image', title: TITLE, description: DESCRIPTION, creator: '@diversifydigital' },
     robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
     category: 'business',
+    icons: {
+        icon: '/.well-known/appspecific/logo.png',
+        shortcut: '/.well-known/appspecific/logo.png',
+        apple: '/.well-known/appspecific/logo.png',
+    },
 }
 
 export const viewport = {
