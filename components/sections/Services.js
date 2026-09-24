@@ -20,19 +20,7 @@ const SERVICES = [
         ],
     },
     {
-        id: 'cloud', phase: 'INFRASTRUCTURE', no: '02', title: 'Cloud & DevOps', headline: 'Infrastructure that scales with you',
-        desc: 'From zero-downtime deployments to auto-scaling architecture — we set up and manage the cloud so your engineering team ships faster and sleeps better.',
-        color: '#6d28d9',
-        image: '/services/development.webp',
-        subs: [
-            { name: 'Cloud Architecture', detail: 'AWS, Google Cloud, Azure — designed for cost-efficiency, reliability and room to grow' },
-            { name: 'CI/CD Pipelines', detail: 'Automated build, test and deploy workflows that remove bottlenecks from your release cycle' },
-            { name: 'Containerisation', detail: 'Docker and Kubernetes setups that keep environments consistent from laptop to production' },
-            { name: 'Monitoring & Security', detail: 'Uptime monitoring, log management, vulnerability scanning and incident response' },
-        ],
-    },
-    {
-        id: 'ai', phase: 'INTELLIGENCE', no: '03', title: 'AI & Automation', headline: 'Put AI to work inside your product',
+        id: 'ai', phase: 'INTELLIGENCE', no: '02', title: 'AI & Automation', headline: 'Put AI to work inside your product',
         desc: 'We integrate large language models, computer vision and predictive analytics into real workflows — not demos. Practical AI that saves time, cuts cost and opens new revenue.',
         color: '#a855f7',
         image: '/services/growthstrategy.webp',
@@ -44,7 +32,7 @@ const SERVICES = [
         ],
     },
     {
-        id: 'seo', phase: 'VISIBILITY', no: '04', title: 'SEO & Content', headline: 'Get found where it matters',
+        id: 'seo', phase: 'VISIBILITY', no: '03', title: 'SEO & Content', headline: 'Get found where it matters',
         desc: 'Rank for what buyers actually search — technical foundations, content and authority that move you up and keep you there.',
         color: '#a78bfa',
         image: '/services/seo.webp',
@@ -53,6 +41,18 @@ const SERVICES = [
             { name: 'Content Strategy', detail: 'Topic clusters, keyword mapping and editorial calendars built around real buyer intent' },
             { name: 'Link Building', detail: 'Authority and trust signals from real sources, not spammy shortcuts that put your rankings at risk' },
             { name: 'Local SEO', detail: 'Google Business optimisation, citations and map pack visibility for brands that win locally' },
+        ],
+    },
+    {
+        id: 'social', phase: 'COMMUNITY', no: '04', title: 'Social Media Marketing', headline: 'Turn followers into customers',
+        desc: 'Strategy, content and community management across every platform that matters — building an audience that engages, trusts and buys.',
+        color: '#6d28d9',
+        image: '/services/socialmedia.webp',
+        subs: [
+            { name: 'Social Strategy', detail: 'Platform-by-platform plans built around your audience, goals and brand voice' },
+            { name: 'Content Creation', detail: 'Reels, carousels, stories and posts designed to stop the scroll and drive action' },
+            { name: 'Community Management', detail: 'Timely replies, moderation and relationship-building that keep your audience engaged' },
+            { name: 'Analytics & Growth', detail: 'Clear reporting on reach, engagement and conversions so every post earns its place' },
         ],
     },
     {
@@ -83,31 +83,23 @@ const SERVICES = [
 
 export default function Services() {
     const [active, setActive] = useState(0)
+    const [hovered, setHovered] = useState(false)
+    const [visible, setVisible] = useState(false)
     const reduce = useReducedMotion()
     const current = SERVICES[active]
-    const pausedRef = useRef(false)
     const sectionRef = useRef(null)
-    const visibleRef = useRef(false)
 
-    // Auto-rotate every 2s, pause on hover or when offscreen / reduced motion
     useEffect(() => {
-        if (reduce) return
-
         const el = sectionRef.current
         if (!el) return
-        const obs = new IntersectionObserver(
-            ([e]) => { visibleRef.current = e.isIntersecting },
-            { threshold: 0.1 }
-        )
+        const obs = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.2 })
         obs.observe(el)
+        return () => obs.disconnect()
+    }, [])
 
-        const id = setInterval(() => {
-            if (pausedRef.current || !visibleRef.current) return
-            setActive((prev) => (prev + 1) % SERVICES.length)
-        }, 2000)
-
-        return () => { clearInterval(id); obs.disconnect() }
-    }, [reduce])
+    // Rotation is driven by the progress bar CSS animation ending (6s), paused on hover / offscreen
+    const next = () => setActive((prev) => (prev + 1) % SERVICES.length)
+    const playing = !reduce && visible && !hovered
 
     return (
         <section id="services" ref={sectionRef} className="relative overflow-hidden bg-[#100b20] py-[clamp(5rem,10vw,9rem)]">
@@ -136,81 +128,101 @@ export default function Services() {
                     </p>
                 </div>
 
-                <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.2fr]">
-                    <div
-                        className="flex flex-col border-t border-white/[0.08]"
-                        onMouseEnter={() => { pausedRef.current = true }}
-                        onMouseLeave={() => { pausedRef.current = false }}
-                    >
+                <style>{`@keyframes svc-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}`}</style>
+                <div
+                    className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12"
+                    onMouseEnter={() => setHovered(true)}
+                    onMouseLeave={() => setHovered(false)}
+                >
+                    {/* Service selector */}
+                    <div className="flex flex-col border-t border-white/[0.08]">
                         {SERVICES.map((s, i) => {
                             const isActive = active === i
                             return (
                                 <button
                                     key={s.id}
                                     onClick={() => setActive(i)}
-                                    className={`group flex items-center gap-4 border-b border-white/[0.08] py-5 text-left transition-all duration-500 ${isActive ? '' : 'hover:bg-white/[0.02]'}`}
+                                    aria-pressed={isActive}
+                                    className={`group relative flex items-center gap-5 border-b border-white/[0.08] px-2 py-6 text-left transition-colors duration-500 ${isActive ? 'bg-white/[0.03]' : 'hover:bg-white/[0.02]'}`}
                                 >
-                                    <span className={`font-mono text-[0.65rem] transition-colors duration-300 ${isActive ? 'text-violet-300' : 'text-white/25'}`}>{s.no}</span>
+                                    <span className={`font-mono text-[0.75rem] transition-colors duration-500 ${isActive ? 'text-violet-300' : 'text-white/25'}`}>{s.no}</span>
                                     <span className="flex-1">
-                                        <span className={`block font-serif text-[clamp(1.1rem,2vw,1.4rem)] transition-colors duration-300 ${isActive ? 'text-white' : 'text-white/50 group-hover:text-white/70'}`}>{s.title}</span>
-                                        <span className={`block font-mono text-[0.6rem] uppercase tracking-wide transition-colors duration-300 ${isActive ? 'text-violet-300/70' : 'text-white/20'}`}>{s.phase}</span>
+                                        <span className={`block font-serif text-[clamp(1.25rem,2.2vw,1.7rem)] transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/45 group-hover:text-white/70'}`}>{s.title}</span>
+                                        <span className={`mt-1 block font-mono text-[0.65rem] uppercase tracking-[0.18em] transition-colors duration-500 ${isActive ? 'text-violet-300/80' : 'text-white/20'}`}>{s.phase}</span>
                                     </span>
-                                    <span className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${isActive ? 'bg-violet-400 shadow-[0_0_10px_rgba(167,139,250,0.7)]' : 'bg-white/15'}`} />
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" className={`transition-all duration-500 ${isActive ? 'translate-x-0 text-violet-300 opacity-100' : '-translate-x-2 text-white opacity-0 group-hover:opacity-40'}`}><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+                                    {isActive && (
+                                        <span className="absolute bottom-[-1px] left-0 right-0 h-px overflow-hidden bg-white/[0.06]">
+                                            <span
+                                                key={`bar-${active}`}
+                                                onAnimationEnd={next}
+                                                className="block h-full origin-left bg-gradient-to-r from-violet-500 to-violet-300"
+                                                style={reduce ? { transform: 'scaleX(1)' } : {
+                                                    animation: 'svc-progress 6s linear forwards',
+                                                    animationPlayState: playing ? 'running' : 'paused',
+                                                }}
+                                            />
+                                        </span>
+                                    )}
                                 </button>
                             )
                         })}
                     </div>
 
+                    {/* Showcase */}
                     <div className="relative">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={current.id}
-                                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: reduce ? 0 : 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                exit={reduce ? { opacity: 0 } : { opacity: 0, y: -20 }}
-                                transition={{ duration: 0.5, ease: EASE }}
-                                className="rounded-3xl border border-white/[0.08] bg-white/[0.03] p-8 sm:p-10 md:p-12 backdrop-blur-sm"
+                                exit={{ opacity: 0, y: reduce ? 0 : -12 }}
+                                transition={{ duration: 0.6, ease: EASE }}
+                                className="overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm"
                             >
-                                <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-violet-300/70">{current.phase}</span>
-                                <h3 className="mt-4 display text-[clamp(1.6rem,3vw,2.4rem)] leading-tight text-white">{current.headline}</h3>
-                                <p className="mt-5 text-[0.98rem] leading-[1.7] text-white/65">{current.desc}</p>
-
-                                {/* Sub-services grid */}
-                                <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                                    {current.subs.map((sub) => (
-                                        <div key={sub.name} className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3.5 transition-colors duration-300 hover:border-violet-500/20 hover:bg-violet-500/[0.04]">
-                                            <span className="block text-[0.85rem] font-medium text-white/80">{sub.name}</span>
-                                            <span className="mt-1 block text-[0.78rem] leading-relaxed text-white/40">{sub.detail}</span>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <a href={REGISTER_CLIENT_URL} className="link-underline mt-8 inline-flex text-violet-300">
-                                    Discuss {current.title.toLowerCase()}
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-                                </a>
-
-                                {/* Service image below text */}
-                                <div className="mt-8 flex items-center justify-center">
-                                    <img
+                                {/* Hero visual */}
+                                <div className="relative flex h-[300px] items-center justify-center overflow-hidden sm:h-[400px] lg:h-[460px]">
+                                    <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 50% 55%, ${current.color}66 0%, ${current.color}1f 45%, transparent 72%)` }} />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#100b20]/90 via-transparent to-transparent" />
+                                    <span aria-hidden className="pointer-events-none absolute -right-2 -top-6 select-none font-serif text-[9rem] leading-none text-white/[0.04] sm:text-[12rem]">{current.no}</span>
+                                    <motion.img
                                         src={current.image}
                                         alt={current.title}
-                                        loading="lazy"
-                                        decoding="async"
                                         draggable={false}
-                                        className="h-[200px] w-[200px] object-contain sm:h-[260px] sm:w-[260px]"
+                                        initial={{ scale: reduce ? 1 : 0.94, opacity: 0 }}
+                                        animate={{ scale: 1, opacity: 1 }}
+                                        transition={{ duration: 0.8, ease: EASE }}
+                                        className="relative h-[85%] w-[85%] object-contain drop-shadow-[0_30px_60px_rgba(124,58,237,0.45)]"
                                     />
+                                    <span className="absolute left-6 top-6 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-violet-200/80">{current.no} / 0{SERVICES.length} · {current.phase}</span>
+                                </div>
+
+                                <div className="p-8 sm:p-10">
+                                    <h3 className="display text-[clamp(1.7rem,3vw,2.5rem)] leading-tight text-white">{current.headline}</h3>
+                                    <p className="mt-4 text-[1rem] leading-[1.75] text-white/65">{current.desc}</p>
+
+                                    <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                        {current.subs.map((sub, i) => (
+                                            <motion.div
+                                                key={sub.name}
+                                                initial={{ opacity: 0, y: reduce ? 0 : 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.5, ease: EASE, delay: reduce ? 0 : 0.2 + i * 0.07 }}
+                                                className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3.5 transition-colors duration-300 hover:border-violet-500/25 hover:bg-violet-500/[0.05]"
+                                            >
+                                                <span className="block text-[0.9rem] font-medium text-white/85">{sub.name}</span>
+                                                <span className="mt-1 block text-[0.8rem] leading-relaxed text-white/45">{sub.detail}</span>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+
+                                    <a href={REGISTER_CLIENT_URL} className="link-underline mt-8 inline-flex text-violet-300">
+                                        Discuss {current.title.toLowerCase()}
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+                                    </a>
                                 </div>
                             </motion.div>
                         </AnimatePresence>
-
-                        <div className="mt-6 flex justify-center gap-2">
-                            {SERVICES.map((_, i) => (
-                                <button key={i} onClick={() => setActive(i)} aria-label={`Service ${i + 1}`}
-                                    className={`h-1 rounded-full transition-all duration-500 ${i === active ? 'w-8 bg-violet-400' : 'w-1 bg-white/20 hover:bg-white/30'}`}
-                                />
-                            ))}
-                        </div>
                     </div>
                 </div>
 
