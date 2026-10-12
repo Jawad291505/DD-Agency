@@ -26,7 +26,7 @@ const jetbrains = JetBrains_Mono({
     weight: ['400', '500'],
 })
 
-const SITE_URL = 'https://diversify.digital'
+const SITE_URL = 'https://www.diversifydigitalglobal.online'
 const TITLE = 'Diversify Digital Global — Software Engineering, Cloud & Digital Growth'
 const DESCRIPTION =
     'Diversify Digital Global builds and scales software — web platforms, mobile apps, cloud infrastructure and AI products — backed by SEO and digital marketing.'

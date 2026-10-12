@@ -14,6 +14,6 @@ export default function robots() {
                 disallow: ['/assets/owner/Jawad.webp'],
             },
         ],
-        sitemap: 'https://diversify.digital/sitemap.xml',
+        sitemap: 'https://www.diversifydigitalglobal.online/sitemap.xml',
     }
 }
