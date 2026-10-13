@@ -3,11 +3,11 @@ export const dynamic = 'force-static'
 
 const SITE_URL = 'https://www.diversifydigitalglobal.online'
 
-// /team is intentionally left out — it is noindex and disallowed in robots.js.
 const ROUTES = [
     { path: '', priority: 1 },
     { path: '/work', priority: 0.8 },
     { path: '/case-study', priority: 0.8 },
+    { path: '/team', priority: 0.6 },
 ]
 
 export default function sitemap() {
