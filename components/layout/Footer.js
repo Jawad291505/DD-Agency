@@ -16,6 +16,7 @@ const COLUMNS = [
         links: [
             { label: 'Team', href: '/team' },
             { label: 'Work', href: '/work' },
+            { label: 'Blog', href: '/blog' },
             { label: 'Journey', href: '/#journey' },
             { label: 'Clients', href: '/#testimonials' },
             { label: 'Contact', href: '/#contact' },

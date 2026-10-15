@@ -13,8 +13,9 @@ const LINKS = [
     { href: '/#journey', label: 'Journey', index: '02' },
     { href: '/work', label: 'Work', index: '03' },
     { href: '/case-study', label: 'Case Studies', index: '04' },
-    { href: '/team', label: 'Team', index: '05' },
-    { href: '/#contact', label: 'Contact', index: '06' },
+    { href: '/blog', label: 'Blog', index: '05' },
+    { href: '/team', label: 'Team', index: '06' },
+    { href: '/#contact', label: 'Contact', index: '07' },
 ]
 
 export default function Navbar() {
