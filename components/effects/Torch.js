@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import { useReducedMotion } from 'framer-motion'
 
 /**
@@ -15,10 +16,13 @@ export default function Torch() {
     const cursorRef = useRef(null)
     const ambientRef = useRef(null)
     const reduce = useReducedMotion()
+    // Blog pages are for reading — no glow over the text.
+    const pathname = usePathname()
+    const disabled = reduce || pathname === '/blog' || pathname?.startsWith('/blog/')
 
     // Desktop only: combined cursor torch + ambient in ONE rAF loop
     useEffect(() => {
-        if (reduce) return
+        if (disabled) return
         if (typeof window === 'undefined') return
 
         const isFinePointer = window.matchMedia('(pointer: fine)').matches
@@ -79,9 +83,9 @@ export default function Torch() {
             window.removeEventListener('mousemove', onMove)
             document.removeEventListener('visibilitychange', onVisibility)
         }
-    }, [reduce])
+    }, [disabled])
 
-    if (reduce) return null
+    if (disabled) return null
 
     return (
         <>
