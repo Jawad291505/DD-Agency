@@ -58,23 +58,12 @@ export const viewport = {
     initialScale: 1,
 }
 
-const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Diversify Digital Global',
-    url: SITE_URL,
-    description: DESCRIPTION,
-    sameAs: [],
-}
-
 export default function RootLayout({ children }) {
     return (
         <html lang="en" className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable}`}>
             <head>
                 <link rel="preconnect" href="https://images.unsplash.com" />
-                <link rel="dns-prefetch" href="https://images.unsplash.com" />
-                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-            </head>
+                <link rel="dns-prefetch" href="https://images.unsplash.com" />            </head>
             <body>
                 <Torch />
                 <Cursor />
